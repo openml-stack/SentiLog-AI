@@ -1,140 +1,111 @@
-# ✨SentiLog AI Project Code of Conduct✨
+# ✨ Contributor Covenant Code of Conduct — GSSoC ✨
 
-SentiLog AI is dedicated to providing a positive, respectful, and inclusive environment for all contributors, maintainers, and users. We have established this Code of Conduct to outline our expectations for behavior within our community. This code applies to all interactions within the project, including discussions, contributions, code reviews, issues, and community events.
+---
 
-## 🌟Our Pledge
+## 🌟 Our Pledge
 
-We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
+We, as members, contributors, and leaders of **GirlScript Summer of Code (GSSoC)**, pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
 
-We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community focused on advancing sentiment analysis technology and mental health awareness.
+We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.
 
-## 🚦Our Standards
+---
 
-Examples of behavior that contributes to a positive environment for our community include:
+## 🚦 Our Standards
 
-* 💖**Demonstrating empathy and kindness** toward other people
-* 🤝**Being respectful** of differing opinions, viewpoints, and experiences
-* 📝**Giving and gracefully accepting** constructive feedback on code, documentation, and ideas
-* 🌱**Accepting responsibility** and apologizing to those affected by our mistakes, and learning from the experience
-* 🎯**Focusing on what is best** not just for us as individuals, but for the overall community and project goals
-* 🧠**Supporting mental health awareness** and treating discussions about emotions and sentiment with sensitivity
-* 🔍**Providing helpful code reviews** that focus on improvement rather than criticism
-* 📚**Sharing knowledge** and helping newcomers understand the project structure and goals
+Examples of behavior that contributes to a positive environment include:
+
+- 💖 Demonstrating empathy and kindness toward others  
+- 🤝 Being respectful of differing opinions, viewpoints, and experiences  
+- 📝 Giving and gracefully accepting constructive feedback  
+- 🌱 Accepting responsibility and apologizing to those affected by our mistakes, and learning from the experience  
+- 🎯 Focusing on what is best for the overall community  
 
 Examples of unacceptable behavior include:
 
-* 🚫**The use of sexualized language or imagery**, and sexual attention or advances of any kind
-* 🛑**Trolling, insulting or derogatory comments**, and personal or political attacks
-* ⚠️**Public or private harassment** in any form
-* 🔒**Publishing others' private information**, such as a physical or email address, without their explicit permission
-* 💔**Making light of mental health issues** or using mental health terminology inappropriately
-* 🗑️**Submitting malicious code** or intentionally introducing vulnerabilities
-* 📱**Spamming issues or pull requests** without meaningful contribution
-* ❌**Other conduct** which could reasonably be considered inappropriate in a professional setting
+- 🚫 Use of sexualized language or imagery, and unwelcome sexual attention or advances  
+- 🛑 Trolling, insulting or derogatory comments, and personal or political attacks  
+- ⚠️ Public or private harassment  
+- 🔒 Publishing others' private information (such as a physical or email address) without explicit permission  
+- ❌ Other conduct that could reasonably be considered inappropriate in a professional setting  
 
+---
 
-## 👨‍⚖️Enforcement Responsibilities
+## 👨‍⚖️ Enforcement Responsibilities
 
-Community leaders and maintainers are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful.
+**GSSoC Program Organizers, Project Admins, and Moderators** are responsible for clarifying and enforcing our standards of acceptable behavior. They may take appropriate and fair corrective action in response to any behavior they deem inappropriate, threatening, offensive, or harmful.
 
-Community leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, pull requests, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate.
+They have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned with this Code of Conduct and will provide reasons for moderation when appropriate.
 
-## 🌐Scope
+---
 
-This Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public spaces. Examples of representing our community include:
+## 🌐 Scope
 
-* Using the official project email address
-* Posting via official social media accounts
-* Acting as an appointed representative at online or offline events
-* Contributing to the SentiLog AI codebase across all three components (client/, server/, ml-api/)
-* Participating in project discussions, issues, and pull request reviews
+This Code of Conduct applies across all GSSoC community spaces — including GitHub repositories, communication platforms (like Discord), events, and social media — as well as any interactions where individuals are officially representing GSSoC in public or private spaces.
 
+---
 
-## 💻Technical Conduct Guidelines
+## 📋 Pull Request Guidelines
 
-In addition to general community standards, we expect:
+All contributions must align with this Code of Conduct. PRs containing inappropriate behavior, language, or content may be rejected. Further enforcement may follow as outlined below.
 
-* **Quality Contributions**: Submit well-tested, documented code that aligns with project goals
-* **Respectful Code Reviews**: Focus on code improvement, not personal criticism
-* **Accurate Documentation**: Provide clear, helpful documentation and commit messages
-* **Security Awareness**: Report security vulnerabilities responsibly and privately
-* **Attribution**: Properly credit sources and respect intellectual property rights
-* **Performance Consideration**: Be mindful of computational resources, especially in ML model development
+---
 
+## 🛡️ Enforcement
 
-## 📋Pull Request and Issue Guidelines
+Instances of abusive, harassing, or otherwise unacceptable behavior can be reported confidentially to the GSSoC team at:
 
-All contributions, including pull requests and issues, must align with this Code of Conduct:
+📧 **gssoc@girlscript.tech**
 
-* **Constructive Communication**: Use respectful language in all PR descriptions, comments, and issue reports
-* **Meaningful Contributions**: Ensure your contributions add value to the project
-* **Proper Documentation**: Include clear descriptions of changes and their impact
-* **Testing Requirements**: Submit tested code with appropriate test coverage
-* **Mental Health Sensitivity**: When working with sentiment analysis features, approach the subject matter with appropriate care and sensitivity
+All complaints will be reviewed and investigated promptly and fairly. The team is committed to protecting the privacy and safety of the reporter.
 
+---
 
-## 🛡️Enforcement
+## 📖 Enforcement Guidelines
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders responsible for enforcement at [openml.stack@gmail.com]. All complaints will be reviewed and investigated promptly and fairly.
+GSSoC community leaders will follow these guidelines when determining the consequences for violations:
 
-All community leaders are obligated to respect the privacy and security of the reporter of any incident.
+### 1. ✏️ Correction
 
-## 📖Enforcement Guidelines
+**Impact**: Inappropriate language or behavior considered unprofessional or unwelcome.
 
-Community leaders will follow these Community Impact Guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:
+**Consequence**: Private warning and clarification of the violation. A public apology may be requested.
 
-### 1. ✏️Correction
+---
 
-**Community Impact**: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community.
+### 2. ⚠️ Warning
 
-**Consequence**: A private, written warning from community leaders, providing clarity around the nature of the violation and an explanation of why the behavior was inappropriate. A public apology may be requested.
+**Impact**: A clear violation through a single incident or repeated behavior.
 
-### 2. ⚠️Warning
+**Consequence**: Official warning. Avoid further interaction with affected parties for a specific time. Repeated violations may lead to a temporary or permanent ban.
 
-**Community Impact**: A violation through a single incident or series of actions.
+---
 
-**Consequence**: A warning with consequences for continued behavior. No interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, for a specified period of time. This includes avoiding interactions in community spaces as well as external channels like social media. Violating these terms may lead to a temporary or permanent ban.
+### 3. ⏳ Temporary Ban
 
-### 3. ⏳Temporary Ban
+**Impact**: Serious or sustained inappropriate behavior.
 
-**Community Impact**: A serious violation of community standards, including sustained inappropriate behavior.
+**Consequence**: Temporary ban from participation in the community. No public or private interactions allowed during the ban period.
 
-**Consequence**: A temporary ban from any sort of interaction or public communication with the community for a specified period of time. No public or private interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, is allowed during this period. Violating these terms may lead to a permanent ban.
+---
 
-### 4. 🚫Permanent Ban
+### 4. 🚫 Permanent Ban
 
-**Community Impact**: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement of classes of individuals.
+**Impact**: Repeated violations or egregious behavior such as harassment or hate speech.
 
-**Consequence**: A permanent ban from any sort of public interaction within the community.
+**Consequence**: Permanent ban from all community spaces.
 
-## 🧠Mental Health and Sensitivity
+---
 
-Given SentiLog AI's focus on sentiment analysis and mood journaling, we emphasize:
+## 📜 Attribution
 
-* **Respectful Discussion**: Treat conversations about mental health, emotions, and personal experiences with care
-* **Professional Approach**: Maintain a professional and supportive tone when discussing sensitive topics
-* **Privacy Awareness**: Respect the privacy of users who may share personal mood or emotional data
-* **Responsible Development**: Consider the ethical implications of sentiment analysis technology
+This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org/version/2/0/code_of_conduct.html), version 2.0.
 
+Enforcement guidelines inspired by [Mozilla’s code of conduct enforcement ladder](https://github.com/mozilla/diversity).
 
-## 🤝Community Support
+---
 
-We encourage community members to:
+## 🌟 Conclusion
 
-* **Help newcomers** understand the project structure and contribution process
-* **Share knowledge** about React, Node.js, Python, and machine learning
-* **Provide mentorship** to less experienced contributors
-* **Foster innovation** in sentiment analysis and mental health technology
+By committing to this Code of Conduct, we build a welcoming, inclusive, and respectful space for everyone involved in GSSoC. Let's ensure our community reflects the values we stand for — support, growth, and empowerment through open source.
 
-
-## 📜Attribution
-
-This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org), version 2.0, available at https://www.contributor-covenant.org/version/2/0/code_of_conduct.html.
-
-Community Impact Guidelines were inspired by [Mozilla's code of conduct enforcement ladder](https://github.com/mozilla/diversity).
-
-For answers to common questions about this code of conduct, see the FAQ at https://www.contributor-covenant.org/faq. Translations are available at https://www.contributor-covenant.org/translations.
-
-**Together, let's build a supportive community that advances the future of sentiment analysis and mental health technology!** 🚀✨
-
-
+Together, let’s make GSSoC a safe and collaborative experience for all 💫
