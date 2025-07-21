@@ -1,9 +1,9 @@
 # SentiLog AI
 
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/your-org/SentiLogAI/pulls)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/your-org/SentiLogAI/ci.yml?branch=main)](https://github.com/your-org/SentiLogAI/actions)
-[![Open Issues](https://img.shields.io/github/issues/your-org/SentiLogAI)](https://github.com/your-org/SentiLogAI/issues)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/openml-stack/SentiLog-AI/pulls)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/openml-stack/SentiLog-AI/ci.yml?branch=main)](https://github.com/openml-stack/SentiLog-AI/actions)
+[![Open Issues](https://img.shields.io/github/issues/your-org/SentiLog-AI)](https://github.com/openml-stack/SentiLog-AI/issues)
 
 ---
 
@@ -131,9 +131,8 @@ MIT © [Your Name or Org]
 
 ## 🙌 Community
 
-- [Open Issues](https://github.com/your-org/SentiLogAI/issues)
-- [Pull Requests](https://github.com/your-org/SentiLogAI/pulls)
-- [Discussions](https://github.com/your-org/SentiLogAI/discussions)
+- [Open Issues](https://github.com/openml-stack/SentiLog-AI/issues)
+- [Pull Requests](https://github.com/openml-stack/SentiLog-AI/pulls)
 
 ---
 
