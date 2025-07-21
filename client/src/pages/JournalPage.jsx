@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import TextInput from "../components/TextInput";
 import SentimentCard from "../components/SentimentCard";
+import api from "../axios";
 
 const JournalPage = () => {
   const [text, setText] = useState("");
@@ -14,14 +15,8 @@ const JournalPage = () => {
     setError(null);
     setResult(null);
     try {
-      const res = await fetch("http://localhost:5000/api/journal/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
-      });
-      if (!res.ok) throw new Error("API error");
-      const data = await res.json();
-      setResult(data);
+      const res = await api.post("/api/journal/analyze", { text });
+      setResult(res.data);
     } catch (err) {
       setError("Failed to analyze sentiment");
     } finally {
