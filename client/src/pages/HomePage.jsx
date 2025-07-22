@@ -10,7 +10,6 @@ import Footer from "../components/Footer";
 const HomePage = () => (
   <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen flex flex-col">
     <Navbar />
-    <div className="border-2 border-red-500"></div>
     <main className="flex-1">
       <HeroSection />
       <FeatureCards />
