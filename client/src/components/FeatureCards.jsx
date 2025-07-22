@@ -5,7 +5,7 @@ const features = [
   {
     key: "news",
     title: "Analyze News",
-    desc: "Get sentiment + emotion from articles",
+    desc: "Identify bias (left, right, neutral) and sentiment (positive, negative) in news articles",
     link: "/news",
     icon: (
       <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="5" y="8" width="30" height="24" rx="4" fill="#60a5fa" fillOpacity="0.15"/><rect x="9" y="12" width="22" height="4" rx="2" fill="#60a5fa"/><rect x="9" y="18" width="14" height="2.5" rx="1.25" fill="#a78bfa"/><rect x="9" y="22" width="10" height="2.5" rx="1.25" fill="#a78bfa"/></svg>
