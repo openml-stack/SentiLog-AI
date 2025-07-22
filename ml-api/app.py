@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from transformers import pipeline
+from vader_service import VaderService
+
 
 app = Flask(__name__)
 CORS(app)
@@ -32,6 +34,19 @@ def predict():
         'sentiment': sentiment,
         'emotion': emotion
     })
+
+vader_service = VaderService()
+
+@app.route('/vader/analyze', methods=['POST'])
+def vader_analyze():
+    data = request.get_json()
+    text = data.get('text', '')
+    if not text:
+        return jsonify({'error': 'No text provided'}), 400
+
+    sentiment = vader_service.analyze(text)
+    return jsonify({'sentiment': sentiment})
+
 
 if __name__ == '__main__':
     app.run(port=5001, debug=True) 
