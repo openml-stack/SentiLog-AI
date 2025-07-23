@@ -20,7 +20,10 @@
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
+    "mammoth": "^1.9.1",
     "mongoose": "^8.16.1",
+    "multer": "^2.0.2",
+    "pdf-parse": "^1.1.1",
     "tailwind": "^4.0.0",
     "zod": "^4.0.5"
   }
