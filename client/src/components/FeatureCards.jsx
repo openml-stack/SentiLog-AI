@@ -43,7 +43,7 @@ const features = [
     animation: (
       <svg width="60" height="20" viewBox="0 0 60 20" fill="none" className="mt-2 ">
         <polyline points="0,18 15,10 30,15 45,5 60,12" stroke="#a78bfa" strokeWidth="2" fill="none" className="animate-bounce" />
-        <circle cx="45" cy="10" r="3" fill="#60a5fa" className="animate-bounce" />
+        <circle cx="45" cy="10  " r="3" fill="#60a5fa" className="animate-bounce" />
       </svg>
     )
   }
