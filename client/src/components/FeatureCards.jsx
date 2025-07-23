@@ -10,9 +10,13 @@ const features = [
     icon: (
       <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="5" y="8" width="30" height="24" rx="4" fill="#60a5fa" fillOpacity="0.15"/><rect x="9" y="12" width="22" height="4" rx="2" fill="#60a5fa"/><rect x="9" y="18" width="14" height="2.5" rx="1.25" fill="#a78bfa"/><rect x="9" y="22" width="10" height="2.5" rx="1.25" fill="#a78bfa"/></svg>
     ),
+    
     animation: (
-      <div className="w-full h-2 bg-gradient-to-r from-blue-400 to-pink-400 rounded-full animate-pulse mt-2" />
-    )
+  <div className="flex items-center justify-center mt-2">
+    <span className="text-2xl animate-bounce">📰</span> {/* Newspaper emoji */}
+  </div>
+  )
+
   },
   {
     key: "journal",
