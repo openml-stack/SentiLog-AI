@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
-// Dashboard stays in navLinks, not in logged-in-only area
 const navLinks = [
   { to: '/', label: 'Home' },
+  { to: '/analyze', label: 'Analyze' },    
   { to: '/journal', label: 'Journal' },
   { to: '/news', label: 'News' },
   { to: '/dashboard', label: 'Dashboard' },
@@ -12,7 +12,11 @@ const navLinks = [
 
 const Logo = () => (
   <span className="flex items-center gap-2 text-2xl font-extrabold tracking-tight bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent select-none">
-    {/* ...Logo SVG... */}
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className="inline-block align-middle">
+      <circle cx="16" cy="16" r="14" fill="#a78bfa" fillOpacity="0.18" />
+      <path d="M16 8v8l6 3" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="16" cy="16" r="2.5" fill="#60a5fa" />
+    </svg>
     SentiLog <span className="animate-pulse">AI</span>
   </span>
 );
@@ -49,7 +53,9 @@ const Navbar = () => {
       <div className="flex items-center gap-2">
         <Logo />
       </div>
+
       <div className="hidden md:flex items-center gap-8">
+        {/* Main nav links including Dashboard visible always */}
         <div className="flex gap-6">
           {navLinks.map((link) => (
             <NavLink
@@ -65,6 +71,8 @@ const Navbar = () => {
             </NavLink>
           ))}
         </div>
+
+        {/* Auth buttons: show Signup/Login when logged out, Logout when logged in */}
         <div className="flex gap-4 items-center">
           {!token && !registered && (
             <NavLink
@@ -74,6 +82,7 @@ const Navbar = () => {
               Signup
             </NavLink>
           )}
+
           {!token && registered && (
             <NavLink
               to="/login"
@@ -82,6 +91,7 @@ const Navbar = () => {
               Login
             </NavLink>
           )}
+
           {token && (
             <button
               onClick={logout}
@@ -93,6 +103,7 @@ const Navbar = () => {
         </div>
       </div>
 
+      {/* Mobile menu toggle button */}
       <button
         className="md:hidden text-2xl focus:outline-none"
         onClick={() => setOpen((o) => !o)}
@@ -100,6 +111,8 @@ const Navbar = () => {
       >
         {open ? '✖️' : '☰'}
       </button>
+
+      {/* Mobile menu */}
       {open && (
         <div className="absolute top-full left-0 w-full bg-white/90 backdrop-blur-xl shadow-lg flex flex-col items-center md:hidden animate-fade-in border-b border-blue-100 z-50">
           {navLinks.map((link) => (
@@ -116,6 +129,7 @@ const Navbar = () => {
               {link.label}
             </NavLink>
           ))}
+
           {!token && !registered && (
             <NavLink
               to="/signup"
@@ -125,6 +139,7 @@ const Navbar = () => {
               Signup
             </NavLink>
           )}
+
           {!token && registered && (
             <NavLink
               to="/login"
@@ -134,6 +149,7 @@ const Navbar = () => {
               Login
             </NavLink>
           )}
+
           {token && (
             <button
               onClick={() => {

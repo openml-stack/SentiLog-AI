@@ -7,6 +7,8 @@ import Dashboard from './pages/Dashboard';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
+import AnalyzePage from './pages/AnalyzePage'; 
+
 function App() {
   return (
     <Router>
@@ -14,6 +16,7 @@ function App() {
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/analyze' element={<AnalyzePage />} />
         <Route path='/journal' element={<JournalPage />} />
         <Route path='/news' element={<NewsPage />} />
         <Route path='/login' element={<LoginPage />} />
