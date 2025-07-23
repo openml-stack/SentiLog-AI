@@ -15,8 +15,22 @@ const TinyEditor = ({ text, setText }) => {
           toolbar: "bold italic forecolor fontsizeselect",
           branding: false,
           height: 250,
-          content_style:
-            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+          skin: window.matchMedia('(prefers-color-scheme: dark)').matches ? "oxide-dark" : "oxide",
+          content_css: window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "default",
+          content_style: `
+            body {
+              font-family:Helvetica,Arial,sans-serif;
+              font-size:14px;
+              color: ${window.matchMedia('(prefers-color-scheme: dark)').matches ? "#ffffff" : "#000000"};
+              background-color: ${window.matchMedia('(prefers-color-scheme: dark)').matches ? "#1e1e2f" : "#ffffff"};
+            }
+
+            .tox-toolbar__primary {
+              background-color: rgba(255,255,255,0.05) ;
+              border-radius: 0.5rem;
+               border: 1px solid rgba(255,255,255,0.08) ;
+            }
+          `,
         }}
         onEditorChange={(content) => setText(content)}
       />

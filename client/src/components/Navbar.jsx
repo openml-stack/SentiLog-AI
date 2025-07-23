@@ -19,7 +19,7 @@ const Logo = () => (
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   return (
-    <nav className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl shadow-lg flex items-center justify-between px-4 py-3 md:px-10 border-b border-blue-100">
+    <nav className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl shadow-lg flex items-center justify-between px-4 py-3 md:px-10 border-b border-blue-100 dark:bg-white/5 dark:backdrop-blur-md dark:border-b dark:border-white/10">
       <div className="flex items-center gap-2">
         <Logo />
       </div>

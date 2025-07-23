@@ -17,7 +17,6 @@ const JournalPage = () => {
     setLoading(true);
     setError(null);
     setResult(null);
-     console.log("Sending Journal Content:", text);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     toast.success("Journal added successfully!");
     try {
@@ -31,10 +30,12 @@ const JournalPage = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-screen flex flex-col relative overflow-hidden ">
+
+    // <div className="dark">
+       <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-[#11121a] dark:via-[#14142b] dark:to-[#212154] min-h-screen flex flex-col relative overflow-hidden ">
       {/* Enhanced Background Pattern */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-200 to-purple-200 rounded-full opacity-20 blur-3xl"></div>
+      <div className="absolute inset-0 overflow-hidden pointer-events-none dark:hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-200 to-purple-200 rounded-full opacity-20 blur-3xl "></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-pink-200 to-yellow-200 rounded-full opacity-20 blur-3xl"></div>
         <div className="absolute top-1/4 left-1/4 w-60 h-60 bg-gradient-to-br from-indigo-200 to-cyan-200 rounded-full opacity-10 blur-2xl"></div>
       </div>
@@ -53,16 +54,16 @@ const JournalPage = () => {
         </section>
 
         {/* Main Journal Section - Demo Style */}
-        <section className="min-h-screen flex items-center justify-center py-12 px-4 relative">
+        <section className="min-h-screen flex items-center justify-center py-12 px-4 relative ">
           {/* Decorative Elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute inset-0 overflow-hidden pointer-events-none ">
             <div className="absolute top-32 right-20 w-4 h-4 bg-blue-400 rounded-full opacity-60"></div>
             <div className="absolute bottom-40 left-16 w-6 h-6 bg-purple-400 rounded-full opacity-40"></div>
             <div className="absolute bottom-20 right-32 w-5 h-5 bg-pink-400 rounded-full opacity-50"></div>
           </div>
           
           <div className="w-full max-w-3xl relative z-10">
-            <div className="bg-gradient-to-br from-blue-100/60 via-purple-50/60 to-pink-100/60 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 shadow-2xl border border-white/30">
+            <div className="bg-gradient-to-br from-blue-100/60 via-purple-50/60 to-pink-100/60 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 shadow-2xl border border-white/30 dark:from-white/5 dark:via-white/10 dark:to-white/5 dark:bg-gradient-to-br ">
               {/* Header with Loading Icon */}
               <div className="text-left mb-8">
                 <div className="flex items-center mb-6">
@@ -86,10 +87,10 @@ const JournalPage = () => {
                 )}
                   </div>
                   <div>
-                    <h1 className="text-3xl md:text-3xl font-bold text-gray-800 mb-1">
+                    <h1 className="text-3xl md:text-3xl font-bold text-gray-800 mb-1 dark:text-gray-600">
                       How are you feeling today?
                     </h1>
-                    <p className="text-gray-600 text-lg">
+                    <p className="text-gray-600 text-lg dark:text-gray-400">
                       Share your thoughts and let AI understand your emotions
                     </p>
                   </div>
@@ -98,7 +99,6 @@ const JournalPage = () => {
               
               <form onSubmit={handleSubmit} className="space-y-3">
                 <div className="relative">
-
                   <TinyEditor text={text} setText={setText} />
                 </div>
                 
@@ -188,7 +188,7 @@ const JournalPage = () => {
                   </div>
                 ) : !loading && (
                   <p className="text-gray-500 italic text-lg">
-                    Sentiment and emotion will appear here.
+                    Your journal's emotional insights will appear here
                   </p>
                 )}
               </div>
@@ -199,12 +199,12 @@ const JournalPage = () => {
         {/* Tips Section */}
 <section className="py-16 px-4">
   <div className="max-w-6xl mx-auto">
-    <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">
+    <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center dark:text-gray-200">
       Journaling Tips
     </h2>
     <div className="grid md:grid-cols-3 gap-8">
       {/* Tip 1 */}
-      <div className="bg-white rounded-3xl p-8 shadow-xl border border-blue-100 hover:shadow-2xl transition duration-300">
+      <div className="bg-white rounded-3xl p-8 shadow-xl border border-blue-100 hover:shadow-2xl transition duration-300 dark:bg-gradient-to-br dark:from-indigo-500/30 dark:via-blue-500/20 dark:to-purple-600/30">
         <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center mb-6 shadow-inner">
           <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v18m9-9H3" />
@@ -215,7 +215,7 @@ const JournalPage = () => {
       </div>
 
       {/* Tip 2 */}
-      <div className="bg-white rounded-3xl p-8 shadow-xl border border-green-100 hover:shadow-2xl transition duration-300">
+      <div className="bg-white rounded-3xl p-8 shadow-xl border border-green-100 hover:shadow-2xl transition duration-300 dark:bg-gradient-to-br dark:from-pink-500/30 dark:via-rose-400/20 dark:to-orange-300/30">
         <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-100 to-teal-100 flex items-center justify-center mb-6 shadow-inner">
           <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -226,7 +226,7 @@ const JournalPage = () => {
       </div>
 
       {/* Tip 3 */}
-      <div className="bg-white rounded-3xl p-8 shadow-xl border border-purple-100 hover:shadow-2xl transition duration-300">
+      <div className="bg-white rounded-3xl p-8 shadow-xl border border-purple-100 hover:shadow-2xl transition duration-300 dark:bg-gradient-to-br dark:from-purple-700/30 dark:via-purple-400/20 dark:to-pink-500/20">
         <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center mb-6 shadow-inner">
           <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -241,6 +241,7 @@ const JournalPage = () => {
       </main>
       <Footer />
     </div>
+    // </div>
   );
 };
 
