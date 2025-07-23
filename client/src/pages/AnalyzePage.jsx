@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Upload, FileText, File, AlertCircle, CheckCircle, BarChart3, TrendingUp, TrendingDown, Minus, Download, Eye } from 'lucide-react';
+import api from "../axios";
 
 const AnalyzePage = () => {
   const [dragActive, setDragActive] = useState(false);
@@ -50,28 +51,21 @@ const AnalyzePage = () => {
     formData.append('file', file);
 
     try {
-      const res = await fetch('http://localhost:5000/api/analyze', {
-        method: 'POST',
-        body: formData
-      });
+  const res = await api.post('/api/analyze', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
 
-      const data = await res.json();
+  const data = res.data;
+  setExtractedText(data.extractedText);
+  setSentimentResult(data.sentiment || data.detailedAnalysis);
 
-      if (res.ok) {
-        setExtractedText(data.extractedText);
-        setSentimentResult(data.sentiment);
-        
-        // Scroll to results after a short delay
-        setTimeout(() => {
-          resultRef.current?.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      } else {
-        setError(data.error || 'Something went wrong');
-      }
-    } catch (err) {
-      setError(err.message || 'Failed to analyze file. Please check if the server is running.');
-    }
-
+  setTimeout(() => {
+    resultRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, 100);
+} catch (err) {
+  const message = err.response?.data?.error || err.message || 'Failed to analyze file.';
+  setError(message);
+}
     setIsExtracting(false);
   };
 
