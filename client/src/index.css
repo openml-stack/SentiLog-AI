@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, #root {
+html,
+body,
+#root {
   width: 100%;
   min-height: 100vh;
   margin: 0;
@@ -75,5 +77,33 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+/* Card Border Animation */
+.card-border-animate {
+  pointer-events: none;
+  border-radius: 1rem;
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 0;
+  padding: 3px;
+  background: linear-gradient(130deg, #60a5fa, #a78bfa, #f472b6, #60a5fa);
+  background-size: 400% 400%;
+  animation: shine-border 5s linear infinite;
+
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: destination-out;
+}
+
+@keyframes shine-border {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
   }
 }
