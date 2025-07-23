@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import TextInput from "../components/TextInput";
 import SentimentCard from "../components/SentimentCard";
 import api from "../axios";
-import TinyEditor from "../components/TinyMCE";
+import QuillEditor from "../components/ReactQuill";
 import toast,{Toaster} from 'react-hot-toast'
 const JournalPage = () => {
   const [text, setText] = useState("");
@@ -31,7 +31,7 @@ const JournalPage = () => {
 
   return (
 
-    // <div className="dark">
+    <div className="dark">
        <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-[#11121a] dark:via-[#14142b] dark:to-[#212154] min-h-screen flex flex-col relative overflow-hidden ">
       {/* Enhanced Background Pattern */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none dark:hidden">
@@ -99,7 +99,7 @@ const JournalPage = () => {
               
               <form onSubmit={handleSubmit} className="space-y-3">
                 <div className="relative">
-                  <TinyEditor text={text} setText={setText} />
+                  <QuillEditor value={text} onChange={setText} />
                 </div>
                 
                 <div className="flex justify-center">
@@ -241,7 +241,7 @@ const JournalPage = () => {
       </main>
       <Footer />
     </div>
-    // </div>
+   </div>
   );
 };
 
