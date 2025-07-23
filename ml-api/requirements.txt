@@ -1,0 +1,5 @@
+flask
+flask-cors
+vaderSentiment
+transformers
+torch

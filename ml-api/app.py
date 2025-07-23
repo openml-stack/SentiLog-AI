@@ -5,7 +5,7 @@ from transformers import pipeline
 from vader_service import VaderService
 
 app = Flask(__name__)
-CORS(app)
+CORS(app,resources={r"/*": {"origins": "*"}})
 
 # Load models once at startup
 analyzer = SentimentIntensityAnalyzer()

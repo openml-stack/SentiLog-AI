@@ -39,13 +39,14 @@ const Navbar = () => {
           </NavLink>
         ))}
       </div>
-      <button
-        className="md:hidden text-2xl focus:outline-none"
-        onClick={() => setOpen(o => !o)}
-        aria-label="Toggle menu"
-      >
+     <button
+        className="md:hidden text-2xl px-4 py-2 rounded-full bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 text-gray-800 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out focus:outline-none"
+         onClick={() => setOpen(o => !o)}
+         aria-label="Toggle menu"
+        >
         {open ? "✖️" : "☰"}
       </button>
+
       {open && (
         <div className="absolute top-full left-0 w-full bg-white/80 backdrop-blur-xl shadow-lg flex flex-col items-center md:hidden animate-fade-in border-b border-blue-100 z-50">
           {navLinks.map(link => (

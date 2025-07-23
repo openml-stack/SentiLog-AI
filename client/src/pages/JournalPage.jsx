@@ -4,7 +4,8 @@ import Footer from "../components/Footer";
 import TextInput from "../components/TextInput";
 import SentimentCard from "../components/SentimentCard";
 import api from "../axios";
-
+import TinyEditor from "../components/TinyMCE";
+import toast,{Toaster} from 'react-hot-toast'
 const JournalPage = () => {
   const [text, setText] = useState("");
   const [result, setResult] = useState(null);
@@ -16,8 +17,11 @@ const JournalPage = () => {
     setLoading(true);
     setError(null);
     setResult(null);
+     console.log("Sending Journal Content:", text);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    toast.success("Journal added successfully!");
     try {
-      const res = await api.post("/api/journal/analyze", { text });
+      const res = await api.post("http://127.0.0.1:5001/predict", { text });
       setResult(res.data);
     } catch (err) {
       setError("Failed to analyze sentiment");
@@ -27,7 +31,7 @@ const JournalPage = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-screen flex flex-col relative overflow-hidden">
+    <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-screen flex flex-col relative overflow-hidden ">
       {/* Enhanced Background Pattern */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-200 to-purple-200 rounded-full opacity-20 blur-3xl"></div>
@@ -62,14 +66,24 @@ const JournalPage = () => {
               {/* Header with Loading Icon */}
               <div className="text-left mb-8">
                 <div className="flex items-center mb-6">
-                  <div className="w-16 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg">
-                    {loading ? (
-                      <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    ) : (
-                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                      </svg>
-                    )}
+                  <div className="w-14 h-8 md:w-16 md:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mr-3 shadow-lg">
+                      {loading ? (
+                     <div className="w-5 h-5 md:w-6 md:h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                       ) : (
+                      <svg
+                      className="w-6 h-6 md:w-8 md:h-8 text-white"
+                     fill="none"
+                     stroke="currentColor"
+                     viewBox="0 0 24 24"
+                      >
+                    <path
+                     strokeLinecap="round"
+                     strokeLinejoin="round"
+                     strokeWidth="2"
+                     d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                        />
+                    </svg>
+                )}
                   </div>
                   <div>
                     <h1 className="text-3xl md:text-3xl font-bold text-gray-800 mb-1">
@@ -84,17 +98,8 @@ const JournalPage = () => {
               
               <form onSubmit={handleSubmit} className="space-y-3">
                 <div className="relative">
-                  <textarea
-            className="border-2 border-pink-200 p-3 rounded-xl w-full min-h-[80px] resize-y focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white/80 text-gray-800 placeholder-pink-300 font-medium shadow"
-            value={text}
-            onChange={e => setText(e.target.value)}
-            placeholder="Paste some text or article here..."
-          />
-                  <div className="absolute bottom-4 right-6 w-6 h-6 bg-gray-300 rounded-sm flex items-center justify-center">
-                    <svg className="w-3 h-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                    </svg>
-                  </div>
+
+                  <TinyEditor text={text} setText={setText} />
                 </div>
                 
                 <div className="flex justify-center">
@@ -116,14 +121,14 @@ const JournalPage = () => {
                           <svg className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                           </svg>
-                          Analyze Sentiment
+                          Add Journal
                         </>
                       )}
                     </span>
                   </button>
                 </div>
               </form>
-
+              <Toaster position="top-right" reverseOrder={false} />
               {/* Results Placeholder/Area */}
               <div className="mt-8 min-h-[80px] flex items-center justify-center">
                 {loading && (
@@ -151,15 +156,15 @@ const JournalPage = () => {
                     <div className="flex flex-wrap gap-4 justify-center items-center">
                       {/* Sentiment Result */}
                       <div className={`inline-flex items-center px-6 py-3 rounded-full font-bold text-white shadow-lg transform hover:scale-105 transition-all duration-300 ${
-                        result.sentiment === 'positive' ? 'bg-gradient-to-r from-green-400 to-green-600' :
-                        result.sentiment === 'negative' ? 'bg-gradient-to-r from-red-400 to-red-600' :
-                        result.sentiment === 'neutral' ? 'bg-gradient-to-r from-yellow-400 to-yellow-600' :
+                        result.sentiment === 'POSITIVE' ? 'bg-gradient-to-r from-green-400 to-green-600' :
+                        result.sentiment === 'NEGATIVE' ? 'bg-gradient-to-r from-red-400 to-red-600' :
+                        result.sentiment === 'NEUTRAL' ? 'bg-gradient-to-r from-yellow-400 to-yellow-600' :
                         'bg-gradient-to-r from-gray-400 to-gray-600'
                       }`}>
                         <div className={`w-3 h-3 rounded-full mr-3 ${
-                          result.sentiment === 'positive' ? 'bg-green-200' :
-                          result.sentiment === 'negative' ? 'bg-red-200' :
-                          result.sentiment === 'neutral' ? 'bg-yellow-200' :
+                          result.sentiment === 'POSITIVE' ? 'bg-green-200' :
+                          result.sentiment === 'NEGATIVE' ? 'bg-red-200' :
+                          result.sentiment === 'NEUTRAL' ? 'bg-yellow-200' :
                           'bg-gray-200'
                         }`}></div>
                         Sentiment: {result.sentiment?.charAt(0).toUpperCase() + result.sentiment?.slice(1)}
@@ -177,7 +182,7 @@ const JournalPage = () => {
                     </div>
                     
                     {/* Original SentimentCard */}
-                    <div className="mt-6">
+                    <div className="mt-6 flex items-center justify-center">
                       <SentimentCard sentiment={result.sentiment} emotion={result.emotion} />
                     </div>
                   </div>
