@@ -41,9 +41,9 @@ const features = [
       <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="8" y="10" width="24" height="20" rx="4" fill="#60a5fa" fillOpacity="0.10"/><rect x="13" y="23" width="3" height="7" rx="1.5" fill="#a78bfa"/><rect x="18.5" y="18" width="3" height="12" rx="1.5" fill="#60a5fa"/><rect x="24" y="14" width="3" height="16" rx="1.5" fill="#a78bfa"/></svg>
     ),
     animation: (
-      <svg width="60" height="20" viewBox="0 0 60 20" fill="none" className="mt-2">
-        <polyline points="0,18 15,10 30,15 45,5 60,12" stroke="#a78bfa" strokeWidth="2" fill="none" className="animate-dash" />
-        <circle cx="45" cy="5" r="3" fill="#60a5fa" className="animate-pulse" />
+      <svg width="60" height="20" viewBox="0 0 60 20" fill="none" className="mt-2 ">
+        <polyline points="0,18 15,10 30,15 45,5 60,12" stroke="#a78bfa" strokeWidth="2" fill="none" className="animate-bounce" />
+        <circle cx="45" cy="10" r="3" fill="#60a5fa" className="animate-bounce" />
       </svg>
     )
   }
