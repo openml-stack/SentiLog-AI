@@ -12,14 +12,6 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 function App() {
-  // const [isLoading, setIsLoading] = useState(false);
-
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 1000);
-  // }, [isLoading]);
 
   // AOS Animations
 
