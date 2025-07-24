@@ -20,7 +20,7 @@ const JournalPage = () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     toast.success("Journal added successfully!");
     try {
-      const res = await api.post("/api/journal/analyze", { text });
+      const res = await api.post("/api/analyze", { text });
       setResult(res.data);
     } catch (err) {
       setError("Failed to analyze sentiment");
