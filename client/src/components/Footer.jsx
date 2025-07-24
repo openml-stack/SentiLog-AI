@@ -5,6 +5,7 @@ const Footer = () => (
     data-aos="fade-up"
     className="bg-white/70 backdrop-blur-xl border-t border-blue-100 py-8 mt-12 text-center text-gray-600 text-sm relative"
   >
+
     <div className="flex justify-center items-center gap-2 mb-2">
       <svg
         width="28"

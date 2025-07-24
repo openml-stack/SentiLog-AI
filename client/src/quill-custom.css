@@ -1,0 +1,84 @@
+.quill-wrapper {
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--quill-border-color);
+  background: var(--quill-bg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Toolbar */
+.ql-toolbar {
+  background: var(--quill-toolbar-bg);
+  border: none !important;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+}
+
+.ql-toolbar .ql-formats {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 10px; 
+}
+
+/* Toolbar Buttons */
+.ql-toolbar button {
+  background: transparent !important;
+  border: none !important;
+  color: var(--quill-text-color) !important;
+  font-size: 18px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.ql-toolbar button:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Editor */
+.ql-container {
+  border: none !important;
+  background: var(--quill-bg);
+}
+
+.ql-editor {
+  min-height: 180px;
+  padding: 16px 20px; /* Increased top padding for cursor placement */
+  font-size: 1rem;
+  color: var(--quill-text-color);
+  line-height: 1.6;
+}
+
+/* Placeholder */
+.ql-editor.ql-blank::before {
+  color: var(--quill-placeholder);
+  font-style: italic;
+  left: 20px; /* Align with text */
+  top: 16px;  /* Proper vertical alignment */
+}
+
+/* Light Theme */
+:root {
+  --quill-bg: #ffffff;
+  --quill-toolbar-bg: #ffffff;
+  --quill-border-color: #e5e7eb;
+  --quill-text-color: #111827;
+  --quill-placeholder: #9ca3af;
+}
+
+/* Dark Theme */
+.dark {
+  --quill-bg: #1a1a1a;
+  --quill-toolbar-bg: #1a1a1a;
+  --quill-border-color: #2c2c2c;
+  --quill-text-color: #f3f4f6;
+  --quill-placeholder: #6b7280;
+}
+
+.dark .ql-toolbar button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}

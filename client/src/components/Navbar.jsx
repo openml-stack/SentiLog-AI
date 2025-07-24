@@ -1,5 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+
+
+import React, { useState, useEffect } from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { motion } from "motion/react";
+
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -65,7 +69,11 @@ const Navbar = () => {
   return (
     <nav
       data-aos="fade-down"
-      className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl shadow-lg flex items-center justify-between px-4 py-3 md:px-10 border-b border-blue-100"
+
+      className={`sticky top-0 z-50 flex items-center justify-between px-4 py-3 md:px-10 border-b border-blue-100 dark:bg-white/5 dark:backdrop-blur-md dark:border-b dark:border-white/10 backdrop-blur-xl shadow-lg ${
+        isAuthPage ? 'bg-white' : 'bg-white/70'
+      }`}
+
     >
       <div className="flex items-center gap-2">
         <Logo />
@@ -120,17 +128,26 @@ const Navbar = () => {
       </div>
 
       {/* Mobile menu toggle button */}
-      <button
-        className="md:hidden text-2xl focus:outline-none"
-        onClick={() => setOpen((o) => !o)}
-        aria-label="Toggle menu"
-      >
+
+
+     <button
+        className="md:hidden text-2xl px-4 py-2 rounded-full bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 text-gray-800 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out focus:outline-none"
+         onClick={() => setOpen((o) => !o)}
+         aria-label="Toggle menu"
+        >
+
         {open ? "✖️" : "☰"}
       </button>
 
       {/* Mobile menu */}
       {open && (
-        <div className="absolute top-full left-0 w-full bg-white/80 backdrop-blur-xl shadow-lg flex flex-col items-center md:hidden animate-fade-in border-b border-blue-100 z-50">
+
+        <motion.div
+        initial={{opacity:0, y:-4, scale:0.98}}
+        animate={{opacity:1, y:0, scale:1}}
+        transition={{duration: 0.3, ease:"easeInOut"}}
+        className="absolute top-full left-0 w-full bg-white/90 backdrop-blur-xl shadow-lg flex flex-col items-center md:hidden animate-fade-in border-b border-blue-100 z-50">
+
           {navLinks.map((link) => (
             <NavLink
               key={link.to}
@@ -177,7 +194,7 @@ const Navbar = () => {
               Logout
             </button>
           )}
-        </div>
+        </motion.div>
       )}
     </nav>
   );
