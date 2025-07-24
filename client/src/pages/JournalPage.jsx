@@ -39,7 +39,6 @@ const JournalPage = () => {
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-pink-200 to-yellow-200 rounded-full opacity-20 blur-3xl"></div>
         <div className="absolute top-1/4 left-1/4 w-60 h-60 bg-gradient-to-br from-indigo-200 to-cyan-200 rounded-full opacity-10 blur-2xl"></div>
       </div>
-      <Navbar />
       <main className="flex-1">
         {/* Hero Section */}
         <section className="py-12 px-4">
