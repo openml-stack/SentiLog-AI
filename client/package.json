@@ -12,6 +12,7 @@
     "axios": "^1.10.0",
     "lucide-react": "^0.525.0",
     "mammoth": "^1.9.1",
+    "motion": "^12.23.9",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^6.23.0"

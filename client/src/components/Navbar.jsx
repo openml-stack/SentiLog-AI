@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { motion } from "motion/react";
 
 const navLinks = [
   { to: '/', label: 'Home' },
@@ -114,7 +115,11 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       {open && (
-        <div className="absolute top-full left-0 w-full bg-white/90 backdrop-blur-xl shadow-lg flex flex-col items-center md:hidden animate-fade-in border-b border-blue-100 z-50">
+        <motion.div
+        initial={{opacity:0, y:-4, scale:0.98}}
+        animate={{opacity:1, y:0, scale:1}}
+        transition={{duration: 0.3, ease:"easeInOut"}}
+        className="absolute top-full left-0 w-full bg-white/90 backdrop-blur-xl shadow-lg flex flex-col items-center md:hidden animate-fade-in border-b border-blue-100 z-50">
           {navLinks.map((link) => (
             <NavLink
               key={link.to}
@@ -161,7 +166,7 @@ const Navbar = () => {
               Logout
             </button>
           )}
-        </div>
+        </motion.div>
       )}
     </nav>
   );
