@@ -1,7 +1,7 @@
 import React from "react";
 
 const Footer = () => (
-  <footer className="bg-white/70 backdrop-blur-xl border-t border-blue-100 py-8 mt-12 text-center text-gray-600 text-sm relative">
+  <footer className="bg-white/70 backdrop-blur-xl border-t border-blue-100 py-8 mt-12 text-center text-gray-600 text-sm relative dark:bg-white/5 dark:backdrop-blur-md dark:border-b dark:border-white/10">
     <div className="flex justify-center items-center gap-2 mb-2">
       <svg width="28" height="28" viewBox="0 0 32 32" fill="none" className="inline-block align-middle"><circle cx="16" cy="16" r="14" fill="#a78bfa" fillOpacity="0.18"/><path d="M16 8v8l6 3" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/><circle cx="16" cy="16" r="2.5" fill="#60a5fa"/></svg>
       <span className="font-bold text-blue-700 text-base tracking-tight">SentiLog AI</span>

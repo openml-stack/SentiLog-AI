@@ -47,7 +47,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`sticky top-0 z-50 flex items-center justify-between px-4 py-3 md:px-10 border-b border-blue-100 backdrop-blur-xl shadow-lg ${
+      className={`sticky top-0 z-50 flex items-center justify-between px-4 py-3 md:px-10 border-b border-blue-100 dark:bg-white/5 dark:backdrop-blur-md dark:border-b dark:border-white/10 backdrop-blur-xl shadow-lg ${
         isAuthPage ? 'bg-white' : 'bg-white/70'
       }`}
     >
@@ -105,12 +105,13 @@ const Navbar = () => {
       </div>
 
       {/* Mobile menu toggle button */}
-      <button
-        className="md:hidden text-2xl focus:outline-none"
-        onClick={() => setOpen((o) => !o)}
-        aria-label="Toggle menu"
-      >
-        {open ? '✖️' : '☰'}
+
+     <button
+        className="md:hidden text-2xl px-4 py-2 rounded-full bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 text-gray-800 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out focus:outline-none"
+         onClick={() => setOpen((o) => !o)}
+         aria-label="Toggle menu"
+        >
+        {open ? "✖️" : "☰"}
       </button>
 
       {/* Mobile menu */}
