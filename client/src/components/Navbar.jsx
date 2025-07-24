@@ -104,15 +104,10 @@ const Navbar = () => {
       </div>
 
       {/* Mobile menu toggle button */}
-      <button
-        className="md:hidden text-2xl focus:outline-none px-4 py-2 rounded-full bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 text-gray-800 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
-        onClick={() => setOpen((o) => !o)}
-        aria-label="Toggle menu"
-      >
-        {open ? '✖️' : '☰'}
+
      <button
         className="md:hidden text-2xl px-4 py-2 rounded-full bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 text-gray-800 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out focus:outline-none"
-         onClick={() => setOpen(o => !o)}
+         onClick={() => setOpen((o) => !o)}
          aria-label="Toggle menu"
         >
         {open ? "✖️" : "☰"}
