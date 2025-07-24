@@ -31,7 +31,7 @@ const JournalPage = () => {
 
   return (
 
-    <div className="dark">
+    // <div className="dark">
        <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-[#11121a] dark:via-[#14142b] dark:to-[#212154] min-h-screen flex flex-col relative overflow-hidden ">
       {/* Enhanced Background Pattern */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none dark:hidden">
@@ -240,7 +240,7 @@ const JournalPage = () => {
       </main>
       <Footer />
     </div>
-   </div>
+  //  </div>
   );
 };
 
