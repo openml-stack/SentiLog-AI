@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Upload, FileText, File, AlertCircle, CheckCircle, BarChart3, TrendingUp, TrendingDown, Minus, Download, Eye } from 'lucide-react';
 import api from "../axios";
+import Navbar from "../components/Navbar.jsx"
 
 const AnalyzePage = () => {
   const [dragActive, setDragActive] = useState(false);
@@ -68,6 +69,41 @@ const AnalyzePage = () => {
 }
     setIsExtracting(false);
   };
+  const themeColors = {
+  light: {
+    '--bg': '#ffffff',
+    '--card-bg': '#f9fafb',
+    '--border': '#e5e7eb',
+    '--heading': '#111827',
+    '--body-text': '#374151',
+    '--button': '#6366f1',
+    '--button-hover': '#4f46e5',
+    '--gradient-from': '#6366f1',
+    '--gradient-to': '#d946ef',
+    '--input-bg': '#ffffff',
+    '--input-border': '#d1d5db',
+    '--icon': '#6b7280',
+    '--link': '#3b82f6',
+    '--link-hover': '#1d4ed8',
+  },
+  dark: {
+    '--bg': '#0b1120',
+    '--card-bg': '#111827',
+    '--border': '#1f2937',
+    '--heading': '#f3f4f6',
+    '--body-text': '#d1d5db',
+    '--button': '#6366f1',
+    '--button-hover': '#4f46e5',
+    '--gradient-from': '#6366f1',
+    '--gradient-to': '#d946ef',
+    '--input-bg': '#1a2332',
+    '--input-border': '#334155',
+    '--icon': '#94a3b8',
+    '--link': '#60a5fa',
+    '--link-hover': '#3b82f6',
+  }
+};
+
 
   const downloadResults = () => {
     if (!sentimentResult || !uploadedFile) return;
@@ -118,8 +154,10 @@ const AnalyzePage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <Navbar/>
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Header */}
+        
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
             Advanced Document Sentiment Analysis

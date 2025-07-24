@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-
+import { ThemeContext } from '../context/ThemeContext';
+import { themeColors } from "./themeColours";
 const features = [
   {
     key: "news",
@@ -8,10 +9,20 @@ const features = [
     desc: "Identify bias (left, right, neutral) and sentiment (positive, negative) in news articles",
     link: "/news",
     icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="5" y="8" width="30" height="24" rx="4" fill="#60a5fa" fillOpacity="0.15"/><rect x="9" y="12" width="22" height="4" rx="2" fill="#60a5fa"/><rect x="9" y="18" width="14" height="2.5" rx="1.25" fill="#a78bfa"/><rect x="9" y="22" width="10" height="2.5" rx="1.25" fill="#a78bfa"/></svg>
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <rect x="5" y="8" width="30" height="24" rx="4" fill="currentColor" fillOpacity="0.15" style={{ color: 'var(--button)' }}/>
+        <rect x="9" y="12" width="22" height="4" rx="2" fill="currentColor" style={{ color: 'var(--button)' }}/>
+        <rect x="9" y="18" width="14" height="2.5" rx="1.25" fill="currentColor" style={{ color: 'var(--link)' }}/>
+        <rect x="9" y="22" width="10" height="2.5" rx="1.25" fill="currentColor" style={{ color: 'var(--link)' }}/>
+      </svg>
     ),
     animation: (
-      <div className="w-full h-2 bg-gradient-to-r from-blue-400 to-pink-400 rounded-full animate-pulse mt-2" />
+      <div 
+        className="w-full h-2 rounded-full animate-pulse mt-2" 
+        style={{ 
+          background: `linear-gradient(to right, var(--button), var(--gradient-to))` 
+        }}
+      />
     )
   },
   {
@@ -20,7 +31,12 @@ const features = [
     desc: "Journal your thoughts and detect mood",
     link: "/journal",
     icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="8" y="10" width="24" height="20" rx="4" fill="#a78bfa" fillOpacity="0.15"/><rect x="12" y="14" width="16" height="12" rx="3" fill="#a78bfa"/><circle cx="20" cy="20" r="3" fill="#60a5fa"/><rect x="17" y="25" width="6" height="2" rx="1" fill="#60a5fa"/></svg>
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <rect x="8" y="10" width="24" height="20" rx="4" fill="currentColor" fillOpacity="0.15" style={{ color: 'var(--link)' }}/>
+        <rect x="12" y="14" width="16" height="12" rx="3" fill="currentColor" style={{ color: 'var(--link)' }}/>
+        <circle cx="20" cy="20" r="3" fill="currentColor" style={{ color: 'var(--button)' }}/>
+        <rect x="17" y="25" width="6" height="2" rx="1" fill="currentColor" style={{ color: 'var(--button)' }}/>
+      </svg>
     ),
     animation: (
       <div className="flex items-center justify-center mt-2">
@@ -34,54 +50,139 @@ const features = [
     desc: "See how your mood and news trends align",
     link: "/dashboard",
     icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="8" y="10" width="24" height="20" rx="4" fill="#60a5fa" fillOpacity="0.10"/><rect x="13" y="23" width="3" height="7" rx="1.5" fill="#a78bfa"/><rect x="18.5" y="18" width="3" height="12" rx="1.5" fill="#60a5fa"/><rect x="24" y="14" width="3" height="16" rx="1.5" fill="#a78bfa"/></svg>
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <rect x="8" y="10" width="24" height="20" rx="4" fill="currentColor" fillOpacity="0.10" style={{ color: 'var(--button)' }}/>
+        <rect x="13" y="23" width="3" height="7" rx="1.5" fill="currentColor" style={{ color: 'var(--link)' }}/>
+        <rect x="18.5" y="18" width="3" height="12" rx="1.5" fill="currentColor" style={{ color: 'var(--button)' }}/>
+        <rect x="24" y="14" width="3" height="16" rx="1.5" fill="currentColor" style={{ color: 'var(--link)' }}/>
+      </svg>
     ),
     animation: (
       <svg width="60" height="20" viewBox="0 0 60 20" fill="none" className="mt-2">
-        <polyline points="0,18 15,10 30,15 45,5 60,12" stroke="#a78bfa" strokeWidth="2" fill="none" className="animate-dash" />
-        <circle cx="45" cy="5" r="3" fill="#60a5fa" className="animate-pulse" />
+        <polyline 
+          points="0,18 15,10 30,15 45,5 60,12" 
+          stroke="currentColor" 
+          strokeWidth="2" 
+          fill="none" 
+          className="animate-dash" 
+          style={{ color: 'var(--link)' }}
+        />
+        <circle 
+          cx="45" 
+          cy="5" 
+          r="3" 
+          fill="currentColor" 
+          className="animate-pulse" 
+          style={{ color: 'var(--button)' }}
+        />
       </svg>
     )
   }
 ];
 
+// Define theme colors as JavaScript objects - FALLBACK APPROACH
+
 const FeatureCards = () => {
   const [hovered, setHovered] = useState(null);
+  const { theme } = useContext(ThemeContext);
+  const [currentColors, setCurrentColors] = useState(themeColors[theme]);
+
+  // Method 1: Force CSS variable updates via JavaScript
+  const updateCSSVariables = (themeType) => {
+    const root = document.documentElement;
+    const colors = themeColors[themeType];
+    
+    Object.entries(colors).forEach(([property, value]) => {
+      root.style.setProperty(property, value);
+    });
+    
+    console.log('🔧 Manually updated CSS variables for theme:', themeType);
+  };
+
+  useEffect(() => {
+    console.log('Theme changed to:', theme);
+    
+    // Update our local state
+    setCurrentColors(themeColors[theme]);
+    
+    // Force update CSS variables manually
+    updateCSSVariables(theme);
+    
+    // Also try forcing a reflow
+    setTimeout(() => {
+      const root = document.documentElement;
+      const computedStyles = getComputedStyle(root);
+      const bgColor = computedStyles.getPropertyValue('--bg').trim();
+      console.log('CSS Variables after manual update:', {
+        '--bg': bgColor,
+        manuallySet: root.style.getPropertyValue('--bg')
+      });
+    }, 0);
+  }, [theme]);
+
   return (
-    <section className="max-w-7xl mx-auto px-4 py-12">
+    <section 
+      className="max-w-7xl mx-auto px-4 py-12"
+      style={{ 
+        // Use both CSS variables AND fallback values
+        backgroundColor: `var(--bg, ${currentColors['--bg']})`,
+        color: `var(--body-text, ${currentColors['--body-text']})`,
+        transition: 'background-color 0.3s ease, color 0.3s ease'
+      }}
+    >
       <div className="flex flex-col md:flex-row gap-6 justify-center">
         {features.map((f) => (
           <Link
             to={f.link}
             key={f.key}
-            className={`flex-1 bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-8 text-center border border-pink-100 hover:scale-105 hover:shadow-2xl transition-transform cursor-pointer relative group overflow-hidden`}
+            className="flex-1 backdrop-blur-lg rounded-2xl shadow-xl p-8 text-center border hover:scale-105 hover:shadow-2xl transition-all duration-300 cursor-pointer relative group overflow-hidden"
             onMouseEnter={() => setHovered(f.key)}
             onMouseLeave={() => setHovered(null)}
+            style={{
+              // Use both CSS variables AND fallback values
+              backgroundColor: `var(--card-bg, ${currentColors['--card-bg']})`,
+              borderColor: `var(--border, ${currentColors['--border']})`,
+              color: `var(--body-text, ${currentColors['--body-text']})`,
+              transition: 'all 0.3s ease'
+            }}
           >
             <div className="flex flex-col items-center justify-center">
               <div className="mb-2">{f.icon}</div>
-              <h3 className="text-xl font-bold mb-1 text-gray-900 tracking-tight">{f.title}</h3>
-              <p className="text-gray-600 mb-2">{f.desc}</p>
+              <h3 
+                className="text-xl font-bold mb-1 tracking-tight" 
+                style={{ 
+                  color: `var(--heading, ${currentColors['--heading']})` 
+                }}
+              >
+                {f.title}
+              </h3>
+              <p 
+                className="mb-2" 
+                style={{ 
+                  color: `var(--body-text, ${currentColors['--body-text']})`, 
+                  opacity: 0.8 
+                }}
+              >
+                {f.desc}
+              </p>
               <div className="transition-all duration-300 ease-in-out">
                 {hovered === f.key ? f.animation : null}
               </div>
             </div>
-            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-pink-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div 
+              className="absolute bottom-0 left-0 w-full h-1 opacity-0 group-hover:opacity-100 transition-opacity" 
+              style={{ 
+                background: `linear-gradient(to right, var(--gradient-from, ${currentColors['--gradient-from']}), var(--gradient-to, ${currentColors['--gradient-to']}))` 
+              }}
+            />
           </Link>
         ))}
       </div>
+      
+      {/* Test section to verify colors are working */}
+      
     </section>
   );
 };
 
 export default FeatureCards;
-
-// Add to global CSS for animated chart line:
-// .animate-dash {
-//   stroke-dasharray: 100;
-//   stroke-dashoffset: 100;
-//   animation: dashmove 1s linear forwards;
-// }
-// @keyframes dashmove {
-//   to { stroke-dashoffset: 0; }
-// } 
