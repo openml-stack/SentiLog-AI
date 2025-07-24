@@ -6,4 +6,4 @@ const authRouter = Router();
 authRouter.post('/signup', signup);
 authRouter.post('/signin', signin);
 
-module.exports = { authRouter };
+module.exports = authRouter;
