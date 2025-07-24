@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "aos": "^2.3.4",
     "axios": "^1.10.0",
     "lucide-react": "^0.525.0",
     "mammoth": "^1.9.1",
