@@ -20,7 +20,7 @@ const JournalPage = () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     toast.success("Journal added successfully!");
     try {
-      const res = await api.post("http://127.0.0.1:5001/predict", { text });
+      const res = await api.post("/api/journal/analyze", { text });
       setResult(res.data);
     } catch (err) {
       setError("Failed to analyze sentiment");
