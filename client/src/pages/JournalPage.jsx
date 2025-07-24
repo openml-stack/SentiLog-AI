@@ -5,7 +5,7 @@ import TextInput from "../components/TextInput";
 import SentimentCard from "../components/SentimentCard";
 import api from "../axios";
 import QuillEditor from "../components/ReactQuill";
-import toast,{Toaster} from 'react-hot-toast'
+import toast, { Toaster } from "react-hot-toast";
 const JournalPage = () => {
   const [text, setText] = useState("");
   const [result, setResult] = useState(null);
@@ -72,34 +72,43 @@ const JournalPage = () => {
                 <div className="text-left mb-8">
                   <div className="flex items-center mb-6">
                     <div className="w-16 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg">
-
                       {loading ? (
                         <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                       ) : (
-
                         <>
-                          <svg className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          <svg
+                            className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M13 10V3L4 14h7v7l9-11h-7z"
+                            />
                           </svg>
                           Add Journal
                         </>
                       )}
-                    </span>
-                  </button>
+                    </div>
+                  </div>
                 </div>
-              </form>
+              </div>
               <Toaster position="top-right" reverseOrder={false} />
               {/* Results Placeholder/Area */}
               <div className="mt-8 min-h-[80px] flex items-center justify-center">
                 {loading && (
-                  <div className="text-center">
+                  <div className="text-center mb-6">
                     <div className="inline-flex items-center px-6 py-3 bg-blue-100/80 rounded-full backdrop-blur-sm">
                       <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mr-3"></div>
-                      <span className="text-blue-700 font-medium">Analyzing sentiment and emotion...</span>
-
+                      <span className="text-blue-700 font-medium">
+                        Analyzing sentiment and emotion...
+                      </span>
                     </div>
                   </div>
-                </div>
+                )}
 
                 <form onSubmit={handleSubmit} className="space-y-3">
                   <div className="relative">
@@ -125,7 +134,6 @@ const JournalPage = () => {
                       </svg>
                     </div>
                   </div>
-
 
                   <div className="flex justify-center">
                     <button
@@ -173,7 +181,6 @@ const JournalPage = () => {
                         <span className="text-blue-700 font-medium">
                           Analyzing sentiment and emotion...
                         </span>
-
                       </div>
                     </div>
                   )}
@@ -197,7 +204,6 @@ const JournalPage = () => {
                         </span>
                       </div>
                     </div>
-
                   )}
 
                   {result ? (
@@ -372,7 +378,6 @@ const JournalPage = () => {
         <Footer />
       </div>
     </>
-
   );
 };
 
