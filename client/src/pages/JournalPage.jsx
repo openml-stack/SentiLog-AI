@@ -55,88 +55,64 @@ const JournalPage = () => {
           </section>
 
           {/* Main Journal Section - Demo Style */}
-          <section className="min-h-screen flex items-center justify-center py-12 px-4 relative">
+          <section
+            data-aos="fade-up"
+            className="min-h-screen flex items-center justify-center py-12 px-4 relative "
+          >
             {/* Decorative Elements */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none ">
               <div className="absolute top-32 right-20 w-4 h-4 bg-blue-400 rounded-full opacity-60"></div>
               <div className="absolute bottom-40 left-16 w-6 h-6 bg-purple-400 rounded-full opacity-40"></div>
               <div className="absolute bottom-20 right-32 w-5 h-5 bg-pink-400 rounded-full opacity-50"></div>
             </div>
 
-            <div
-              data-aos="fade-down"
-              className="w-full max-w-3xl relative z-10"
-            >
-              <div className="bg-gradient-to-br from-blue-100/60 via-purple-50/60 to-pink-100/60 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 shadow-2xl border border-white/30">
+            <div className="w-full max-w-3xl relative z-10">
+              <div className="bg-gradient-to-br from-blue-100/60 via-purple-50/60 to-pink-100/60 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 shadow-2xl border border-white/30 dark:from-white/5 dark:via-white/10 dark:to-white/5 dark:bg-gradient-to-br ">
                 {/* Header with Loading Icon */}
-                <div className="text-left mb-8">
+                <div data-aos="fade-left" className="text-left mb-8">
                   <div className="flex items-center mb-6">
-                    <div className="w-16 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg">
+                    <div className="w-14 h-8 md:w-16 md:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mr-3 shadow-lg">
                       {loading ? (
-                        <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <div className="w-5 h-5 md:w-6 md:h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                       ) : (
-                        <>
-                          <svg
-                            className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M13 10V3L4 14h7v7l9-11h-7z"
-                            />
-                          </svg>
-                          Add Journal
-                        </>
+                        <svg
+                          className="w-6 h-6 md:w-8 md:h-8 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                          />
+                        </svg>
                       )}
+                    </div>
+                    <div>
+                      <h1 className="text-3xl md:text-3xl font-bold text-gray-800 mb-1 dark:text-gray-600">
+                        How are you feeling today?
+                      </h1>
+                      <p className="text-gray-600 text-lg dark:text-gray-400">
+                        Share your thoughts and let AI understand your emotions
+                      </p>
                     </div>
                   </div>
                 </div>
-              </div>
-              <Toaster position="top-right" reverseOrder={false} />
-              {/* Results Placeholder/Area */}
-              <div className="mt-8 min-h-[80px] flex items-center justify-center">
-                {loading && (
-                  <div className="text-center mb-6">
-                    <div className="inline-flex items-center px-6 py-3 bg-blue-100/80 rounded-full backdrop-blur-sm">
-                      <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mr-3"></div>
-                      <span className="text-blue-700 font-medium">
-                        Analyzing sentiment and emotion...
-                      </span>
-                    </div>
-                  </div>
-                )}
 
-                <form onSubmit={handleSubmit} className="space-y-3">
+                <form
+                  data-aos="fade-left"
+                  onSubmit={handleSubmit}
+                  className="space-y-3"
+                >
                   <div className="relative">
-                    <textarea
-                      className="border-2 border-pink-200 p-3 rounded-xl w-full min-h-[80px] resize-y focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white/80 text-gray-800 placeholder-pink-300 font-medium shadow"
-                      value={text}
-                      onChange={(e) => setText(e.target.value)}
-                      placeholder="Paste some text or article here..."
-                    />
-                    <div className="absolute bottom-4 right-6 w-6 h-6 bg-gray-300 rounded-sm flex items-center justify-center">
-                      <svg
-                        className="w-3 h-3 text-gray-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
-                        />
-                      </svg>
-                    </div>
+                    <QuillEditor value={text} onChange={setText} />
                   </div>
 
                   <div className="flex justify-center">
                     <button
+                      data-aos="fade-down"
                       className="group relative px-12 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white font-bold rounded-2xl transition-all duration-500 transform hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none overflow-hidden"
                       type="submit"
                       disabled={loading || !text.trim()}
@@ -164,14 +140,14 @@ const JournalPage = () => {
                                 d="M13 10V3L4 14h7v7l9-11h-7z"
                               />
                             </svg>
-                            Analyze Sentiment
+                            Add Journal
                           </>
                         )}
                       </span>
                     </button>
                   </div>
                 </form>
-
+                <Toaster position="top-right" reverseOrder={false} />
                 {/* Results Placeholder/Area */}
                 <div className="mt-8 min-h-[80px] flex items-center justify-center">
                   {loading && (
@@ -212,22 +188,22 @@ const JournalPage = () => {
                         {/* Sentiment Result */}
                         <div
                           className={`inline-flex items-center px-6 py-3 rounded-full font-bold text-white shadow-lg transform hover:scale-105 transition-all duration-300 ${
-                            result.sentiment === "positive"
+                            result.sentiment === "POSITIVE"
                               ? "bg-gradient-to-r from-green-400 to-green-600"
-                              : result.sentiment === "negative"
+                              : result.sentiment === "NEGATIVE"
                               ? "bg-gradient-to-r from-red-400 to-red-600"
-                              : result.sentiment === "neutral"
+                              : result.sentiment === "NEUTRAL"
                               ? "bg-gradient-to-r from-yellow-400 to-yellow-600"
                               : "bg-gradient-to-r from-gray-400 to-gray-600"
                           }`}
                         >
                           <div
                             className={`w-3 h-3 rounded-full mr-3 ${
-                              result.sentiment === "positive"
+                              result.sentiment === "POSITIVE"
                                 ? "bg-green-200"
-                                : result.sentiment === "negative"
+                                : result.sentiment === "NEGATIVE"
                                 ? "bg-red-200"
-                                : result.sentiment === "neutral"
+                                : result.sentiment === "NEUTRAL"
                                 ? "bg-yellow-200"
                                 : "bg-gray-200"
                             }`}
@@ -259,7 +235,7 @@ const JournalPage = () => {
                       </div>
 
                       {/* Original SentimentCard */}
-                      <div className="mt-6">
+                      <div className="mt-6 flex items-center justify-center">
                         <SentimentCard
                           sentiment={result.sentiment}
                           emotion={result.emotion}
@@ -269,7 +245,7 @@ const JournalPage = () => {
                   ) : (
                     !loading && (
                       <p className="text-gray-500 italic text-lg">
-                        Sentiment and emotion will appear here.
+                        Your journal's emotional insights will appear here
                       </p>
                     )
                   )}
