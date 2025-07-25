@@ -1,13 +1,13 @@
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 
 const mockData = [
-  {day: "Mon", mood: 3, news: 2},
-  {day: "Tue", mood: 4, news: 3},
-  {day: "Wed", mood: 2, news: 4},
-  {day: "Thu", mood: 5, news: 3},
-  {day: "Fri", mood: 4, news: 5},
-  {day: "Sat", mood: 3, news: 2},
-  {day: "Sun", mood: 5, news: 4},
+  { day: "Mon", mood: 3, news: 2 },
+  { day: "Tue", mood: 4, news: 3 },
+  { day: "Wed", mood: 2, news: 4 },
+  { day: "Thu", mood: 5, news: 3 },
+  { day: "Fri", mood: 4, news: 5 },
+  { day: "Sat", mood: 3, news: 2 },
+  { day: "Sun", mood: 5, news: 4 },
 ];
 
 const AnimatedChart = () => {
@@ -52,7 +52,7 @@ const AnimatedChart = () => {
           strokeWidth="4"
           fill="none"
           className="drop-shadow-md"
-          style={{filter: "url(#glow)"}}
+          style={{ filter: "url(#glow)" }}
         />
         {/* News line */}
         <polyline
@@ -63,18 +63,13 @@ const AnimatedChart = () => {
           fill="none"
           strokeDasharray="6 6"
           className="drop-shadow-md"
-          style={{filter: "url(#glow)"}}
+          style={{ filter: "url(#glow)" }}
         />
         {/* Dots */}
-        {/* Added key prop */}
         {mockData.map((d, i) => (
-
-          <React.Fragment key={`dot-group-${i}`}>
-            <circle
           <>
             <circle
               key={`mood-dot-${i}`}
-
               cx={i * 50 + 30}
               cy={120 - d.mood * 18}
               r="6"
@@ -82,18 +77,13 @@ const AnimatedChart = () => {
               className="animate-pulse"
             />
             <circle
-
               key={`news-dot-${i}`}
-
               cx={i * 50 + 30}
               cy={120 - d.news * 18}
               r="6"
               fill="#60a5fa"
               className="animate-pulse"
             />
-
-          </React.Fragment>
-
           </>
         ))}
         {/* X axis labels */}
