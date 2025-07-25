@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ThemeContext } from '../context/ThemeContext';
 import { themeColors } from "./themeColours";
+import {Newspaper,Smile,LineChart} from "lucide-react"
+
 
 const features = [
   {
@@ -9,79 +11,35 @@ const features = [
     title: "Analyze News",
     desc: "Identify bias (left, right, neutral) and sentiment (positive, negative) in news articles",
     link: "/news",
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-        <rect x="5" y="8" width="30" height="24" rx="4" fill="currentColor" fillOpacity="0.15" style={{ color: 'var(--button)' }}/>
-        <rect x="9" y="12" width="22" height="4" rx="2" fill="currentColor" style={{ color: 'var(--button)' }}/>
-        <rect x="9" y="18" width="14" height="2.5" rx="1.25" fill="currentColor" style={{ color: 'var(--link)' }}/>
-        <rect x="9" y="22" width="10" height="2.5" rx="1.25" fill="currentColor" style={{ color: 'var(--link)' }}/>
-      </svg>
-    ),
+
+    icon: <Newspaper className="w-10 h-10 text-blue-400 transition-transform duration-300 group-hover:animate-bounce" />,
+
     aos: "fade-left",
-    animation: (
-      <div 
-        className="w-full h-2 rounded-full animate-pulse mt-2" 
-        style={{ 
-          background: `linear-gradient(to right, var(--button), var(--gradient-to))` 
-        }}
-      />
-    )
+
   },
   {
     key: "journal",
     title: "Log Your Mood",
     desc: "Journal your thoughts and detect mood",
     link: "/journal",
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-        <rect x="8" y="10" width="24" height="20" rx="4" fill="currentColor" fillOpacity="0.15" style={{ color: 'var(--link)' }}/>
-        <rect x="12" y="14" width="16" height="12" rx="3" fill="currentColor" style={{ color: 'var(--link)' }}/>
-        <circle cx="20" cy="20" r="3" fill="currentColor" style={{ color: 'var(--button)' }}/>
-        <rect x="17" y="25" width="6" height="2" rx="1" fill="currentColor" style={{ color: 'var(--button)' }}/>
-      </svg>
-    ),
-    animation: (
-      <div className="flex items-center justify-center mt-2">
-        <span className="text-2xl animate-bounce">😊</span>
-      </div>
-    ),
+
+    icon: <Smile className="w-10 h-10 text-blue-500 transition-transform duration-300 group-hover:animate-bounce"/>,
+
     aos: "fade-up",
+
   },
   {
     key: "track",
     title: "Track & Compare",
     desc: "See how your mood and news trends align",
     link: "/dashboard",
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-        <rect x="8" y="10" width="24" height="20" rx="4" fill="currentColor" fillOpacity="0.10" style={{ color: 'var(--button)' }}/>
-        <rect x="13" y="23" width="3" height="7" rx="1.5" fill="currentColor" style={{ color: 'var(--link)' }}/>
-        <rect x="18.5" y="18" width="3" height="12" rx="1.5" fill="currentColor" style={{ color: 'var(--button)' }}/>
-        <rect x="24" y="14" width="3" height="16" rx="1.5" fill="currentColor" style={{ color: 'var(--link)' }}/>
-      </svg>
-    ),
-    animation: (
-      <svg width="60" height="20" viewBox="0 0 60 20" fill="none" className="mt-2">
-        <polyline 
-          points="0,18 15,10 30,15 45,5 60,12" 
-          stroke="currentColor" 
-          strokeWidth="2" 
-          fill="none" 
-          className="animate-dash" 
-          style={{ color: 'var(--link)' }}
-        />
-        <circle 
-          cx="45" 
-          cy="5" 
-          r="3" 
-          fill="currentColor" 
-          className="animate-pulse" 
-          style={{ color: 'var(--button)' }}
-        />
-      </svg>
-    ),
+
+
+    icon: <LineChart className="w-10 h-10 text-blue-500 transition-transform duration-300 group-hover:animate-bounce"/>,
+
     aos: "fade-right",
   },
+
 ];
 
 const FeatureCards = () => {
