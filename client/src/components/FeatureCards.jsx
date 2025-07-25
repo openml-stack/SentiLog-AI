@@ -10,6 +10,7 @@ const features = [
     desc: "Identify bias (left, right, neutral) and sentiment (positive, negative) in news articles",
     link: "/news",
     icon: (
+
       <svg
         width="40"
         height="40"
@@ -17,6 +18,9 @@ const features = [
         fill="none"
         className="group-hover:animate-bounce transition-transform"
       >
+
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+
         <rect
           x="5"
           y="8"
@@ -24,6 +28,7 @@ const features = [
           height="24"
           rx="4"
           fill="#60a5fa"
+
           fillOpacity="0.2"
         />
         <rect x="9" y="12" width="22" height="4" rx="2" fill="#3b82f6" />
@@ -31,6 +36,19 @@ const features = [
         <rect x="9" y="22" width="10" height="2.5" rx="1.25" fill="#8b5cf6" />
       </svg>
     ),
+
+          fillOpacity="0.15"
+        />
+        <rect x="9" y="12" width="22" height="4" rx="2" fill="#60a5fa" />
+        <rect x="9" y="18" width="14" height="2.5" rx="1.25" fill="#a78bfa" />
+        <rect x="9" y="22" width="10" height="2.5" rx="1.25" fill="#a78bfa" />
+      </svg>
+    ),
+    aos: "fade-left",
+    animation: (
+      <div className="w-full h-2 bg-gradient-to-r from-blue-400 to-pink-400 rounded-full animate-pulse mt-2" />
+    ),
+
   },
   {
     key: "journal",
@@ -38,6 +56,7 @@ const features = [
     desc: "Journal your thoughts and detect mood",
     link: "/journal",
     icon: (
+
       <svg
         width="40"
         height="40"
@@ -45,6 +64,9 @@ const features = [
         fill="none"
         className="group-hover:animate-bounce transition-transform"
       >
+
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+
         <rect
           x="8"
           y="10"
@@ -59,6 +81,15 @@ const features = [
         <rect x="17" y="25" width="6" height="2" rx="1" fill="#60a5fa" />
       </svg>
     ),
+
+
+    animation: (
+      <div className="flex items-center justify-center mt-2">
+        <span className="text-2xl animate-bounce">😊</span>
+      </div>
+    ),
+    aos: "fade-up",
+
   },
   {
     key: "track",
@@ -66,6 +97,7 @@ const features = [
     desc: "See how your mood and news trends align",
     link: "/dashboard",
     icon: (
+
       <svg
         width="40"
         height="40"
@@ -73,6 +105,9 @@ const features = [
         fill="none"
         className="group-hover:animate-bounce transition-transform"
       >
+
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+
         <rect
           x="8"
           y="10"
@@ -85,8 +120,32 @@ const features = [
         <rect x="13" y="23" width="3" height="7" rx="1.5" fill="#a78bfa" />
         <rect x="18.5" y="18" width="3" height="12" rx="1.5" fill="#60a5fa" />
         <rect x="24" y="14" width="3" height="16" rx="1.5" fill="#a78bfa" />
+
       </svg>
     ),
+
+      </svg>
+    ),
+    animation: (
+      <svg
+        width="60"
+        height="20"
+        viewBox="0 0 60 20"
+        fill="none"
+        className="mt-2"
+      >
+        <polyline
+          points="0,18 15,10 30,15 45,5 60,12"
+          stroke="#a78bfa"
+          strokeWidth="2"
+          fill="none"
+          className="animate-dash"
+        />
+        <circle cx="45" cy="5" r="3" fill="#60a5fa" className="animate-pulse" />
+      </svg>
+    ),
+    aos: "fade-right",
+
   },
 ];
 
@@ -99,12 +158,14 @@ const FeatureCards = () => {
       <div className="flex flex-col md:flex-row gap-6 justify-center">
         {features.map((f) => (
           <Link
+            data-aos={f.aos}
             to={f.link}
             key={f.key}
             className="group relative flex-1 bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-8 text-center border border-pink-100 hover:scale-105 hover:shadow-2xl transition-transform cursor-pointer overflow-hidden"
             onMouseEnter={() => setHovered(f.key)}
             onMouseLeave={() => setHovered(null)}
           >
+
             <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute inset-0">
               <div className="card-border-animate" />
             </div>
@@ -112,6 +173,16 @@ const FeatureCards = () => {
             <div className="relative z-10 flex flex-col items-center justify-center">
               <div className="w-16 h-16 flex items-center justify-center mb-4">
                 {f.icon}
+
+            <div className="flex flex-col items-center justify-center">
+              <div className="mb-2">{f.icon}</div>
+              <h3 className="text-xl font-bold mb-1 text-gray-900 tracking-tight">
+                {f.title}
+              </h3>
+              <p className="text-gray-600 mb-2">{f.desc}</p>
+              <div className="transition-all duration-300 ease-in-out">
+                {hovered === f.key ? f.animation : null}
+
               </div>
               <h3 className="text-xl font-bold mb-1 text-gray-900 tracking-tight">
                 {f.title}

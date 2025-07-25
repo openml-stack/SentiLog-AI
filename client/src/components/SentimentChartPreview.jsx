@@ -68,8 +68,13 @@ const AnimatedChart = () => {
         {/* Dots */}
         {/* Added key prop */}
         {mockData.map((d, i) => (
+
           <React.Fragment key={`dot-group-${i}`}>
             <circle
+          <>
+            <circle
+              key={`mood-dot-${i}`}
+
               cx={i * 50 + 30}
               cy={120 - d.mood * 18}
               r="6"
@@ -77,13 +82,19 @@ const AnimatedChart = () => {
               className="animate-pulse"
             />
             <circle
+
+              key={`news-dot-${i}`}
+
               cx={i * 50 + 30}
               cy={120 - d.news * 18}
               r="6"
               fill="#60a5fa"
               className="animate-pulse"
             />
+
           </React.Fragment>
+
+          </>
         ))}
         {/* X axis labels */}
         {mockData.map((d, i) => (
@@ -113,7 +124,7 @@ const AnimatedChart = () => {
 };
 
 const SentimentChartPreview = () => (
-  <section className="max-w-3xl mx-auto px-4 py-12">
+  <section data-aos="fade-down" className="max-w-3xl mx-auto px-4 py-12">
     <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl p-10 flex flex-col items-center border border-blue-100 relative">
       {/* Preview badge */}
       <span className="absolute top-6 right-6 bg-gradient-to-r from-blue-400 to-pink-400 text-white text-xs font-bold px-4 py-1 rounded-full shadow z-20">
