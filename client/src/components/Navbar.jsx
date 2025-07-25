@@ -1,11 +1,10 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from "motion/react";
 
 
 const navLinks = [
+
   { to: "/", label: "Home" },
   { to: "/analyze", label: "Analyze" },
   { to: "/journal", label: "Journal" },
@@ -19,6 +18,7 @@ const Logo = () => (
     data-aos="fade-right"
     className="flex items-center gap-2 text-2xl font-extrabold tracking-tight bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent select-none"
   >
+
     <svg
       width="32"
       height="32"
@@ -71,13 +71,14 @@ const Navbar = () => {
       data-aos="fade-down"
 
       className={`sticky top-0 z-50 flex items-center justify-between px-4 py-3 md:px-10 border-b border-blue-100 dark:bg-white/5 dark:backdrop-blur-md dark:border-b dark:border-white/10 backdrop-blur-xl shadow-lg ${
-        isAuthPage ? 'bg-white' : 'bg-white/70'
+        isAuthPage ? "bg-white" : "bg-white/70"
       }`}
 
     >
       <div className="flex items-center gap-2">
         <Logo />
       </div>
+
       <div className="hidden md:flex gap-8">
         {navLinks.map((link) => (
           <NavLink
@@ -130,6 +131,7 @@ const Navbar = () => {
       {/* Mobile menu toggle button */}
 
 
+
      <button
         className="md:hidden text-2xl px-4 py-2 rounded-full bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 text-gray-800 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out focus:outline-none"
          onClick={() => setOpen((o) => !o)}
@@ -143,16 +145,18 @@ const Navbar = () => {
       {open && (
 
         <motion.div
+
         initial={{opacity:0, y:-4, scale:0.98}}
         animate={{opacity:1, y:0, scale:1}}
         transition={{duration: 0.3, ease:"easeInOut"}}
         className="absolute top-full left-0 w-full bg-white/90 backdrop-blur-xl shadow-lg flex flex-col items-center md:hidden animate-fade-in border-b border-blue-100 z-50">
 
+
           {navLinks.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
-              className={({ isActive }) =>
+              className={({isActive}) =>
                 `block w-full text-center py-4 font-semibold text-lg border-b border-blue-50 hover:text-blue-600 transition ${
                   isActive ? "text-blue-600" : "text-gray-700"
                 }`

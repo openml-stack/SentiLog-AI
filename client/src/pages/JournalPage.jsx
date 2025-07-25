@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import TextInput from "../components/TextInput";
 import SentimentCard from "../components/SentimentCard";
 import api from "../axios";
 import QuillEditor from "../components/ReactQuill";
-import toast, { Toaster } from "react-hot-toast";
+import toast, {Toaster} from "react-hot-toast";
 const JournalPage = () => {
   const [text, setText] = useState("");
   const [result, setResult] = useState(null);
@@ -20,7 +20,7 @@ const JournalPage = () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     toast.success("Journal added successfully!");
     try {
-      const res = await api.post("/api/analyze", { text });
+      const res = await api.post("/api/analyze", {text});
       setResult(res.data);
     } catch (err) {
       setError("Failed to analyze sentiment");
@@ -108,8 +108,8 @@ const JournalPage = () => {
                 >
                   <div className="relative">
                     <QuillEditor value={text} onChange={setText} />
-                  </div>
 
+                  </div>
                   <div className="flex justify-center">
                     <button
                       data-aos="fade-down"
@@ -253,6 +253,7 @@ const JournalPage = () => {
               </div>
             </div>
           </section>
+
 
           {/* Tips Section */}
           <section data-aos="fade-up" className="py-16 px-4">
