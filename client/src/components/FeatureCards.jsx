@@ -8,7 +8,10 @@ const features = [
     title: "Analyze News",
     desc: "Identify bias (left, right, neutral) and sentiment (positive, negative) in news articles",
     link: "/news",
+
     icon: <Newspaper className="w-10 h-10 text-blue-400 transition-transform duration-300 group-hover:animate-bounce" />,
+
+    aos: "fade-left",
 
   },
   {
@@ -16,15 +19,24 @@ const features = [
     title: "Log Your Mood",
     desc: "Journal your thoughts and detect mood",
     link: "/journal",
-    icon: <Smile className="w-10 h-10 text-blue-500 transition-transform duration-300 group-hover:animate-bounce"/>
+
+    icon: <Smile className="w-10 h-10 text-blue-500 transition-transform duration-300 group-hover:animate-bounce"/>,
+
+    aos: "fade-up",
+
   },
   {
     key: "track",
     title: "Track & Compare",
     desc: "See how your mood and news trends align",
     link: "/dashboard",
-    icon: <LineChart className="w-10 h-10 text-blue-500 transition-transform duration-300 group-hover:animate-bounce"/>
-  }
+
+    icon: <LineChart className="w-10 h-10 text-blue-500 transition-transform duration-300 group-hover:animate-bounce"/>,
+
+
+    aos: "fade-right",
+  },
+
 ];
 
 const FeatureCards = () => {
@@ -34,6 +46,7 @@ const FeatureCards = () => {
       <div className="flex flex-col md:flex-row gap-6 justify-center">
         {features.map((f) => (
           <Link
+            data-aos={f.aos}
             to={f.link}
             key={f.key}
             className={`flex-1 bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-8 text-center border border-pink-100 hover:scale-105 hover:shadow-2xl transition-transform cursor-pointer relative group overflow-hidden`}
@@ -42,7 +55,9 @@ const FeatureCards = () => {
           >
             <div className="flex flex-col items-center justify-center">
               <div className="mb-2">{f.icon}</div>
-              <h3 className="text-xl font-bold mb-1 text-gray-900 tracking-tight">{f.title}</h3>
+              <h3 className="text-xl font-bold mb-1 text-gray-900 tracking-tight">
+                {f.title}
+              </h3>
               <p className="text-gray-600 mb-2">{f.desc}</p>
               <div className="transition-all duration-300 ease-in-out">
                 {hovered === f.key ? f.animation : null}
@@ -58,12 +73,3 @@ const FeatureCards = () => {
 
 export default FeatureCards;
 
-// Add to global CSS for animated chart line:
-// .animate-dash {
-//   stroke-dasharray: 100;
-//   stroke-dashoffset: 100;
-//   animation: dashmove 1s linear forwards;
-// }
-// @keyframes dashmove {
-//   to { stroke-dashoffset: 0; }
-// } 
