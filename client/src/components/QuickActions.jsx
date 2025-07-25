@@ -3,7 +3,6 @@ import SentimentCard from "./SentimentCard";
 import { Link } from "react-router-dom";
 import api from "../axios";
 
-// Enhanced dark theme colors
 const themeColors = {
   light: {
     '--bg': '#ffffff',
@@ -42,7 +41,6 @@ const themeColors = {
   }
 };
 
-// Icon with dark theme colors
 const AIPulseIcon = () => (
   <div className="flex items-center justify-center mb-2">
     <span className="relative flex h-10 w-10">
@@ -56,7 +54,6 @@ const AIPulseIcon = () => (
   </div>
 );
 
-// Enhanced background graphic for dark theme
 const AnimatedTechBG = () => (
   <svg className="absolute inset-0 w-full h-full z-0 pointer-events-none" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
@@ -84,7 +81,6 @@ const AnimatedTechBG = () => (
     </g>
   </svg>
 );
-// Main Component
 
 const QuickActions = () => {
   const [text, setText] = useState("");
@@ -93,13 +89,10 @@ const QuickActions = () => {
   const [error, setError] = useState(null);
   const [showResult, setShowResult] = useState(false);
 
-  // Set theme CSS variables (defaulting to dark theme)
   useEffect(() => {
     const root = document.documentElement;
-    // Force dark theme or detect system preference
-    const theme = 'dark'; // You can change this to detect system preference
+    const theme = 'dark';
     const colors = themeColors[theme];
-
     Object.entries(colors).forEach(([key, value]) => {
       root.style.setProperty(key, value);
     });
@@ -122,102 +115,91 @@ const QuickActions = () => {
   };
 
   return (
-    <div className="quick-actions" style={{
-      backgroundColor: 'var(--bg)',
-      minHeight: '100vh',
-    }}>
-    <section id="live-demo-section" className="max-w-2xl mx-auto px-4 py-16">
-      <div
-        className="relative backdrop-blur-2xl rounded-3xl shadow-2xl p-10 flex flex-col gap-4 border overflow-hidden"
-        style={{
+    <div className="quick-actions" style={{ backgroundColor: 'var(--bg)', minHeight: '100vh' }}>
+      <section id="live-demo-section" className="max-w-2xl mx-auto px-4 py-16">
+        <div className="relative backdrop-blur-2xl rounded-3xl shadow-2xl p-10 flex flex-col gap-4 border overflow-hidden" style={{
           backgroundColor: 'var(--card-bg)',
           color: 'var(--body-text)',
           borderColor: 'var(--border)',
           boxShadow: '0 25px 50px -12px rgba(139, 92, 246, 0.25), 0 0 0 1px rgba(139, 92, 246, 0.05)',
-        }}
-      >
-        <AnimatedTechBG />
-        <div
-          className="absolute -top-1 -left-1 w-[calc(100%+8px)] h-[calc(100%+8px)] pointer-events-none rounded-[inherit] border-4 border-transparent bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-transparent animate-gradient-move opacity-60 z-0"
-          style={{ filter: 'blur(8px)' }}
-        ></div>
-        <div className="relative z-10">
-          <AIPulseIcon />
-          <h2 className="text-2xl font-extrabold mb-2 tracking-tight" style={{ color: 'var(--heading)' }}>
-            Live AI Sentiment Demo
-          </h2>
-          <p className="mb-4" style={{ color: 'var(--body-text)' }}>
-            Paste any text or news article and see how SentiLog AI analyzes it in real time.
-          </p>
-          <textarea
-            className="border-2 p-3 rounded-xl w-full min-h-[80px] resize-y focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-medium shadow-lg transition-all duration-200"
-            style={{
-              backgroundColor: 'var(--input-bg)',
-              color: 'var(--body-text)',
-              borderColor: 'var(--input-border)',
-            }}
-            value={text}
-            onChange={e => setText(e.target.value)}
-            placeholder="Paste some text or article here..."
-          />
-          <div className="flex gap-2 mt-4">
-            <button
-              className="px-6 py-2 text-white rounded-xl font-semibold shadow-lg hover:scale-105 focus:ring-4 focus:ring-purple-500/30 transition-all duration-200 disabled:opacity-60 disabled:hover:scale-100"
+        }}>
+          <AnimatedTechBG />
+          <div className="absolute -top-1 -left-1 w-[calc(100%+8px)] h-[calc(100%+8px)] pointer-events-none rounded-[inherit] border-4 border-transparent bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-transparent animate-gradient-move opacity-60 z-0" style={{ filter: 'blur(8px)' }}></div>
+          <div className="relative z-10">
+            <AIPulseIcon />
+            <h2 className="text-2xl font-extrabold mb-2 tracking-tight" style={{ color: 'var(--heading)' }}>
+              Live AI Sentiment Demo
+            </h2>
+            <p className="mb-4" style={{ color: 'var(--body-text)' }}>
+              Paste any text or news article and see how SentiLog AI analyzes it in real time.
+            </p>
+            <textarea
+              className="border-2 p-3 rounded-xl w-full min-h-[80px] resize-y focus:outline-none focus:ring-2 focus:ring-purple-500/50 font-medium shadow-lg transition-all duration-200"
               style={{
-                background: 'linear-gradient(135deg, var(--gradient-from), var(--gradient-to))',
-                boxShadow: '0 10px 20px rgba(139, 92, 246, 0.3)',
+                backgroundColor: 'var(--input-bg)',
+                color: 'var(--body-text)',
+                borderColor: 'var(--input-border)',
               }}
-              onClick={handleAnalyze}
-              disabled={loading || !text.trim()}
-            >
-              {loading ? (
-                <span className="flex items-center gap-2">
-                  <span className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
-                  Analyzing...
-                </span>
-              ) : (
-                "Analyze"
-              )}
-            </button>
-            <Link
-              to="/journal"
-              className="px-6 py-2 text-white rounded-xl font-semibold shadow-lg hover:scale-105 focus:ring-4 focus:ring-emerald-500/30 transition-all duration-200"
-              style={{
-                backgroundColor: 'var(--success-bg)',
-                boxShadow: '0 10px 20px rgba(5, 95, 70, 0.3)',
-              }}
-              onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--success-hover)'}
-              onMouseLeave={(e) => e.target.style.backgroundColor = 'var(--success-bg)'}
-            >
-              Log a Mood Entry
-            </Link>
-          </div>
-          {error && (
-            <div className="text-red-400 mt-2 p-3 bg-red-900/20 border border-red-500/30 rounded-lg">
-              {error}
-            </div>
-          )}
-          <div className="mt-6 min-h-[60px]">
-            {result && showResult ? (
-              <div className="animate-fade-in-up">
-                <SentimentCard sentiment={result.sentiment} emotion={result.emotion} />
-              </div>
-            ) : (
-              <div 
-                className="italic text-center p-4 rounded-lg border border-dashed" 
-                style={{ 
-                  color: 'var(--placeholder)', 
-                  borderColor: 'var(--border)',
-                  backgroundColor: 'rgba(139, 92, 246, 0.05)'
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="Paste some text or article here..."
+            />
+            <div className="flex gap-2 mt-4">
+              <button
+                className="px-6 py-2 text-white rounded-xl font-semibold shadow-lg hover:scale-105 focus:ring-4 focus:ring-purple-500/30 transition-all duration-200 disabled:opacity-60 disabled:hover:scale-100"
+                style={{
+                  background: 'linear-gradient(135deg, var(--gradient-from), var(--gradient-to))',
+                  boxShadow: '0 10px 20px rgba(139, 92, 246, 0.3)',
                 }}
+                onClick={handleAnalyze}
+                disabled={loading || !text.trim()}
               >
-                Sentiment and emotion will appear here.
+                {loading ? (
+                  <span className="flex items-center gap-2">
+                    <span className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
+                    Analyzing...
+                  </span>
+                ) : (
+                  "Analyze"
+                )}
+              </button>
+              <Link
+                to="/journal"
+                className="px-6 py-2 text-white rounded-xl font-semibold shadow-lg hover:scale-105 focus:ring-4 focus:ring-emerald-500/30 transition-all duration-200"
+                style={{
+                  backgroundColor: 'var(--success-bg)',
+                  boxShadow: '0 10px 20px rgba(5, 95, 70, 0.3)',
+                }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--success-hover)'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = 'var(--success-bg)'}
+              >
+                Log a Mood Entry
+              </Link>
+            </div>
+            {error && (
+              <div className="text-red-400 mt-2 p-3 bg-red-900/20 border border-red-500/30 rounded-lg">
+                {error}
               </div>
             )}
+            <div className="mt-6 min-h-[60px]">
+              {result && showResult ? (
+                <div className="animate-fade-in-up">
+                  <SentimentCard sentiment={result.sentiment} emotion={result.emotion} />
+                </div>
+              ) : (
+                <div className="italic text-center p-4 rounded-lg border border-dashed" style={{
+                  color: 'var(--placeholder)',
+                  borderColor: 'var(--border)',
+                  backgroundColor: 'rgba(139, 92, 246, 0.05)'
+                }}>
+                  Sentiment and emotion will appear here.
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </section></div>
+      </section>
+    </div>
   );
 };
 

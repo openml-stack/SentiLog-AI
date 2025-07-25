@@ -66,7 +66,8 @@ const AnimatedChart = () => {
         path.style.strokeDasharray = path.getTotalLength();
         path.style.strokeDashoffset = path.getTotalLength();
         setTimeout(() => {
-          path.style.transition = "stroke-dashoffset 1.2s cubic-bezier(.39,.575,.56,1)";
+          path.style.transition =
+            "stroke-dashoffset 1.2s cubic-bezier(.39,.575,.56,1)";
           path.style.strokeDashoffset = 0;
         }, 200);
       }
@@ -78,7 +79,7 @@ const AnimatedChart = () => {
 
   return (
     <div className="relative">
-      {/* Subtle Preview Watermark */}
+      {/* Watermark */}
       <span 
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-5xl font-extrabold select-none pointer-events-none z-10"
         style={{ color: 'var(--watermark)' }}
@@ -86,7 +87,6 @@ const AnimatedChart = () => {
         Preview
       </span>
       <svg width="360" height="140" viewBox="0 0 360 140" fill="none" className="mx-auto relative z-20">
-        {/* Mood line */}
         <polyline
           ref={pathMood}
           points={getPoints("mood")}
@@ -96,7 +96,6 @@ const AnimatedChart = () => {
           className="drop-shadow-md"
           style={{ filter: "url(#glow)" }}
         />
-        {/* News line */}
         <polyline
           ref={pathNews}
           points={getPoints("news")}
@@ -107,7 +106,6 @@ const AnimatedChart = () => {
           className="drop-shadow-md"
           style={{ filter: "url(#glow)" }}
         />
-        {/* Dots */}
         {mockData.map((d, i) => (
           <React.Fragment key={i}>
             <circle 
@@ -126,7 +124,6 @@ const AnimatedChart = () => {
             />
           </React.Fragment>
         ))}
-        {/* X axis labels */}
         {mockData.map((d, i) => (
           <text 
             key={d.day} 
@@ -154,10 +151,9 @@ const AnimatedChart = () => {
 };
 
 const SentimentChartPreview = () => {
-  // Set theme CSS variables (force dark theme)
   useEffect(() => {
     const root = document.documentElement;
-    const theme = 'dark'; // Change to 'light' for light theme
+    const theme = 'dark'; // Change to 'light' if needed
     const colors = themeColors[theme];
 
     Object.entries(colors).forEach(([key, value]) => {
@@ -175,7 +171,6 @@ const SentimentChartPreview = () => {
             borderColor: 'var(--border)',
           }}
         >
-          {/* Preview badge */}
           <span 
             className="absolute top-6 right-6 text-white text-xs font-bold px-4 py-1 rounded-full shadow z-20"
             style={{ background: 'var(--badge-bg)' }}

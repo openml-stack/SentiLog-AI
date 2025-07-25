@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ThemeContext } from '../context/ThemeContext';
 import { themeColors } from "./themeColours";
+
 const features = [
   {
     key: "news",
@@ -16,6 +17,7 @@ const features = [
         <rect x="9" y="22" width="10" height="2.5" rx="1.25" fill="currentColor" style={{ color: 'var(--link)' }}/>
       </svg>
     ),
+    aos: "fade-left",
     animation: (
       <div 
         className="w-full h-2 rounded-full animate-pulse mt-2" 
@@ -42,7 +44,8 @@ const features = [
       <div className="flex items-center justify-center mt-2">
         <span className="text-2xl animate-bounce">😊</span>
       </div>
-    )
+    ),
+    aos: "fade-up",
   },
   {
     key: "track",
@@ -76,55 +79,33 @@ const features = [
           style={{ color: 'var(--button)' }}
         />
       </svg>
-    )
-  }
+    ),
+    aos: "fade-right",
+  },
 ];
-
-// Define theme colors as JavaScript objects - FALLBACK APPROACH
 
 const FeatureCards = () => {
   const [hovered, setHovered] = useState(null);
   const { theme } = useContext(ThemeContext);
   const [currentColors, setCurrentColors] = useState(themeColors[theme]);
 
-  // Method 1: Force CSS variable updates via JavaScript
   const updateCSSVariables = (themeType) => {
     const root = document.documentElement;
     const colors = themeColors[themeType];
-    
     Object.entries(colors).forEach(([property, value]) => {
       root.style.setProperty(property, value);
     });
-    
-    console.log('🔧 Manually updated CSS variables for theme:', themeType);
   };
 
   useEffect(() => {
-    console.log('Theme changed to:', theme);
-    
-    // Update our local state
     setCurrentColors(themeColors[theme]);
-    
-    // Force update CSS variables manually
     updateCSSVariables(theme);
-    
-    // Also try forcing a reflow
-    setTimeout(() => {
-      const root = document.documentElement;
-      const computedStyles = getComputedStyle(root);
-      const bgColor = computedStyles.getPropertyValue('--bg').trim();
-      console.log('CSS Variables after manual update:', {
-        '--bg': bgColor,
-        manuallySet: root.style.getPropertyValue('--bg')
-      });
-    }, 0);
   }, [theme]);
 
   return (
     <section 
       className="max-w-7xl mx-auto px-4 py-12"
       style={{ 
-        // Use both CSS variables AND fallback values
         backgroundColor: `var(--bg, ${currentColors['--bg']})`,
         color: `var(--body-text, ${currentColors['--body-text']})`,
         transition: 'background-color 0.3s ease, color 0.3s ease'
@@ -133,13 +114,13 @@ const FeatureCards = () => {
       <div className="flex flex-col md:flex-row gap-6 justify-center">
         {features.map((f) => (
           <Link
+            data-aos={f.aos}
             to={f.link}
             key={f.key}
             className="flex-1 backdrop-blur-lg rounded-2xl shadow-xl p-8 text-center border hover:scale-105 hover:shadow-2xl transition-all duration-300 cursor-pointer relative group overflow-hidden"
             onMouseEnter={() => setHovered(f.key)}
             onMouseLeave={() => setHovered(null)}
             style={{
-              // Use both CSS variables AND fallback values
               backgroundColor: `var(--card-bg, ${currentColors['--card-bg']})`,
               borderColor: `var(--border, ${currentColors['--border']})`,
               color: `var(--body-text, ${currentColors['--body-text']})`,
@@ -178,9 +159,6 @@ const FeatureCards = () => {
           </Link>
         ))}
       </div>
-      
-      {/* Test section to verify colors are working */}
-      
     </section>
   );
 };

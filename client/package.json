@@ -9,12 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "aos": "^2.3.4",
     "axios": "^1.10.0",
     "lucide-react": "^0.525.0",
     "mammoth": "^1.9.1",
     "motion": "^12.23.9",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-hot-toast": "^2.5.2",
+    "react-quill-new": "^3.4.6",
     "react-router-dom": "^6.23.0"
   },
   "devDependencies": {
@@ -31,6 +34,6 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
     "tailwindcss-cli": "^0.1.2",
-    "vite": "^4.4.9"
+    "vite": "^7.0.5"
   }
 }

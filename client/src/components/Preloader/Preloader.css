@@ -1,0 +1,43 @@
+/* HTML: <div class="loader"></div> */
+.loader {
+  height: 60px;
+  aspect-ratio: 1;
+  position: relative;
+  border: 3px solid #0000;
+}
+.loader:before {
+  content: "";
+  position: absolute;
+  inset: auto 35% 0;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: linear-gradient(to right, #3b82f6, #ec4899);
+  animation: l6-0 0.5s cubic-bezier(0, 800, 1, 800) infinite;
+}
+.loader:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  outline: 3px solid rgb(55 65 81 / var(--tw-text-opacity, 1));
+  animation: l6-1 0.5s linear infinite;
+}
+@keyframes l6-0 {
+  0%,
+  2% {
+    bottom: 0%;
+  }
+  98%,
+  to {
+    bottom: 0.1%;
+  }
+}
+@keyframes l6-1 {
+  0%,
+  30% {
+    rotate: 0deg;
+  }
+  70%,
+  to {
+    rotate: 90deg;
+  }
+}

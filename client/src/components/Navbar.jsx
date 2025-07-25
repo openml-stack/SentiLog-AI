@@ -1,16 +1,16 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
-import { ThemeContext } from '../context/ThemeContext';
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { ThemeContext } from "../context/ThemeContext";
 import ThemeToggle from "./ThemeToggle";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 const navLinks = [
-  { to: '/', label: 'Home' },
-  { to: '/analyze', label: 'Analyze' },
-  { to: '/journal', label: 'Journal' },
-  { to: '/news', label: 'News' },
-  { to: '/dashboard', label: 'Dashboard' },
-  { to: '/about', label: 'About' },
+  { to: "/", label: "Home" },
+  { to: "/analyze", label: "Analyze" },
+  { to: "/journal", label: "Journal" },
+  { to: "/news", label: "News" },
+  { to: "/dashboard", label: "Dashboard" },
+  { to: "/about", label: "About" },
 ];
 
 const Logo = ({ theme, currentColors }) => (
@@ -18,22 +18,22 @@ const Logo = ({ theme, currentColors }) => (
     className="flex items-center gap-2 text-2xl font-extrabold tracking-tight select-none transition-all duration-300"
     style={{
       background: `linear-gradient(to right, var(--gradient-from, ${currentColors['--gradient-from'] || '#6366f1'}), var(--gradient-to, ${currentColors['--gradient-to'] || '#d946ef'}))`,
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
-      backgroundClip: 'text'
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+      backgroundClip: "text",
     }}
   >
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className="inline-block align-middle">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
       <circle
         cx="16"
         cy="16"
         r="14"
-        fill={theme === 'dark' ? '#8b5cf6' : '#a78bfa'}
+        fill={theme === "dark" ? "#8b5cf6" : "#a78bfa"}
         fillOpacity="0.18"
       />
       <path
         d="M16 8v8l6 3"
-        stroke={theme === 'dark' ? '#93c5fd' : '#60a5fa'}
+        stroke={theme === "dark" ? "#93c5fd" : "#60a5fa"}
         strokeWidth="2.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -42,7 +42,7 @@ const Logo = ({ theme, currentColors }) => (
         cx="16"
         cy="16"
         r="2.5"
-        fill={theme === 'dark' ? '#93c5fd' : '#60a5fa'}
+        fill={theme === "dark" ? "#93c5fd" : "#60a5fa"}
       />
     </svg>
     SentiLog <span className="animate-pulse">AI</span>
@@ -56,60 +56,61 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [token, setToken] = useState(localStorage.getItem('token'));
-  const [registered, setRegistered] = useState(localStorage.getItem('registered') === '1');
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [registered, setRegistered] = useState(
+    localStorage.getItem("registered") === "1"
+  );
 
-  const isAuthPage = ['/login', '/signup'].includes(location.pathname);
+  const isAuthPage = ["/login", "/signup"].includes(location.pathname);
 
   const themeColors = {
     light: {
-      '--bg': '#ffffff',
-      '--card-bg': '#f9fafb',
-      '--border': '#e5e7eb',
-      '--heading': '#111827',
-      '--body-text': '#374151',
-      '--button': '#6366f1',
-      '--button-hover': '#4f46e5',
-      '--gradient-from': '#6366f1',
-      '--gradient-to': '#d946ef',
-      '--input-bg': '#ffffff',
-      '--input-border': '#d1d5db',
-      '--icon': '#000000',
-      '--link': '#3b82f6',
-      '--link-hover': '#1d4ed8',
-      '--nav-bg': 'rgba(255, 255, 255, 0.7)',
-      '--nav-border': '#dbeafe',
-      '--nav-text': '#000000',
-      '--nav-text-active': '#2563eb',
-      '--nav-text-hover': '#3b82f6',
+      "--bg": "#ffffff",
+      "--card-bg": "#f9fafb",
+      "--border": "#e5e7eb",
+      "--heading": "#111827",
+      "--body-text": "#374151",
+      "--button": "#6366f1",
+      "--button-hover": "#4f46e5",
+      "--gradient-from": "#6366f1",
+      "--gradient-to": "#d946ef",
+      "--input-bg": "#ffffff",
+      "--input-border": "#d1d5db",
+      "--icon": "#000000",
+      "--link": "#3b82f6",
+      "--link-hover": "#1d4ed8",
+      "--nav-bg": "rgba(255, 255, 255, 0.7)",
+      "--nav-border": "#dbeafe",
+      "--nav-text": "#000000",
+      "--nav-text-active": "#2563eb",
+      "--nav-text-hover": "#3b82f6",
     },
     dark: {
-      '--bg': '#0b1120',
-      '--card-bg': '#111827',
-      '--border': '#1f2937',
-      '--heading': '#f3f4f6',
-      '--body-text': '#d1d5db',
-      '--button': '#6366f1',
-      '--button-hover': '#4f46e5',
-      '--gradient-from': '#6366f1',
-      '--gradient-to': '#d946ef',
-      '--input-bg': '#1a2332',
-      '--input-border': '#334155',
-      '--icon': '#000000',
-      '--link': '#60a5fa',
-      '--link-hover': '#3b82f6',
-      '--nav-bg': 'rgba(17, 24, 39, 0.8)',
-      '--nav-border': '#374151',
-      '--nav-text': '#ffffff',
-      '--nav-text-active': '#60a5fa',
-      '--nav-text-hover': '#93c5fd',
-    }
+      "--bg": "#0b1120",
+      "--card-bg": "#111827",
+      "--border": "#1f2937",
+      "--heading": "#f3f4f6",
+      "--body-text": "#d1d5db",
+      "--button": "#6366f1",
+      "--button-hover": "#4f46e5",
+      "--gradient-from": "#6366f1",
+      "--gradient-to": "#d946ef",
+      "--input-bg": "#1a2332",
+      "--input-border": "#334155",
+      "--icon": "#000000",
+      "--link": "#60a5fa",
+      "--link-hover": "#3b82f6",
+      "--nav-bg": "rgba(17, 24, 39, 0.8)",
+      "--nav-border": "#374151",
+      "--nav-text": "#ffffff",
+      "--nav-text-active": "#60a5fa",
+      "--nav-text-hover": "#93c5fd",
+    },
   };
 
   const updateCSSVariables = (themeType) => {
     const root = document.documentElement;
     const colors = themeColors[themeType];
-
     Object.entries(colors).forEach(([property, value]) => {
       root.style.setProperty(property, value);
     });
@@ -121,39 +122,39 @@ const Navbar = () => {
   }, [theme]);
 
   useEffect(() => {
-    setToken(localStorage.getItem('token'));
-    setRegistered(localStorage.getItem('registered') === '1');
+    setToken(localStorage.getItem("token"));
+    setRegistered(localStorage.getItem("registered") === "1");
   }, [location]);
 
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('registered');
+    localStorage.removeItem("token");
+    localStorage.removeItem("registered");
     setToken(null);
     setRegistered(false);
-    navigate('/');
+    navigate("/");
   };
 
   return (
     <nav
       className="sticky top-0 z-50 backdrop-blur-xl shadow-lg flex items-center justify-between px-4 py-3 md:px-10 border-b transition-all duration-300"
       style={{
-        backgroundColor: `var(--nav-bg, ${currentColors['--nav-bg']})`,
-        borderBottomColor: `var(--nav-border, ${currentColors['--nav-border']})`,
+        backgroundColor: `var(--nav-bg, ${currentColors["--nav-bg"]})`,
+        borderBottomColor: `var(--nav-border, ${currentColors["--nav-border"]})`,
       }}
     >
       <Logo theme={theme} currentColors={currentColors} />
 
       <div className="hidden md:flex items-center gap-8">
         <div className="flex gap-6">
-          {navLinks.map(link => (
+          {navLinks.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               className="font-semibold text-lg px-2 py-1 rounded transition-all duration-200"
               style={({ isActive }) => ({
                 color: isActive
-                  ? currentColors['--nav-text-active']
-                  : currentColors['--nav-text'],
+                  ? currentColors["--nav-text-active"]
+                  : currentColors["--nav-text"],
               })}
             >
               {link.label}
@@ -165,17 +166,21 @@ const Navbar = () => {
 
         <div className="flex gap-4 items-center">
           {!token && !registered && (
-            <NavLink to="/signup" className="px-4 py-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded hover:opacity-90 transition">
+            <NavLink
+              to="/signup"
+              className="px-4 py-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded hover:opacity-90 transition"
+            >
               Signup
             </NavLink>
           )}
-
           {!token && registered && (
-            <NavLink to="/login" className="px-4 py-2 text-blue-600 border border-blue-600 rounded hover:bg-blue-50 transition">
+            <NavLink
+              to="/login"
+              className="px-4 py-2 text-blue-600 border border-blue-600 rounded hover:bg-blue-50 transition"
+            >
               Login
             </NavLink>
           )}
-
           {token && (
             <button
               onClick={logout}
@@ -188,13 +193,11 @@ const Navbar = () => {
       </div>
 
       <button
-        className="md:hidden text-2xl focus:outline-none"
-        onClick={() => setOpen(!open)}
-        style={{
-          color: currentColors['--nav-text']
-        }}
+        className="md:hidden text-2xl px-4 py-2 rounded-full bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 text-gray-800 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out focus:outline-none"
+        onClick={() => setOpen((o) => !o)}
+        aria-label="Toggle menu"
       >
-        {open ? '✖️' : '☰'}
+        {open ? "✖️" : "☰"}
       </button>
 
       {open && (
@@ -204,20 +207,20 @@ const Navbar = () => {
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="absolute top-full left-0 w-full backdrop-blur-xl shadow-lg flex flex-col items-center md:hidden animate-fade-in border-b z-50"
           style={{
-            backgroundColor: currentColors['--nav-bg'],
-            borderBottomColor: currentColors['--nav-border']
+            backgroundColor: currentColors["--nav-bg"],
+            borderBottomColor: currentColors["--nav-border"],
           }}
         >
-          {navLinks.map(link => (
+          {navLinks.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               className="block w-full text-center py-4 font-semibold text-lg border-b transition-all duration-200"
               style={({ isActive }) => ({
                 color: isActive
-                  ? currentColors['--nav-text-active']
-                  : currentColors['--nav-text'],
-                borderBottomColor: currentColors['--nav-border']
+                  ? currentColors["--nav-text-active"]
+                  : currentColors["--nav-text"],
+                borderBottomColor: currentColors["--nav-border"],
               })}
               onClick={() => setOpen(false)}
             >
@@ -230,13 +233,21 @@ const Navbar = () => {
           </div>
 
           {!token && !registered && (
-            <NavLink to="/signup" className="w-full text-center py-4 font-semibold text-lg bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded" onClick={() => setOpen(false)}>
+            <NavLink
+              to="/signup"
+              className="w-full text-center py-4 font-semibold text-lg bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded"
+              onClick={() => setOpen(false)}
+            >
               Signup
             </NavLink>
           )}
 
           {!token && registered && (
-            <NavLink to="/login" className="w-full text-center py-4 font-semibold text-lg hover:text-blue-600" onClick={() => setOpen(false)}>
+            <NavLink
+              to="/login"
+              className="w-full text-center py-4 font-semibold text-lg hover:text-blue-600"
+              onClick={() => setOpen(false)}
+            >
               Login
             </NavLink>
           )}

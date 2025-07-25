@@ -7,14 +7,23 @@ const scrollToDemo = () => {
 };
 
 const AnimatedBackground = () => (
-  <svg className="absolute inset-0 w-full h-full z-0" viewBox="0 0 1440 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    className="absolute inset-0 w-full h-full z-0"
+    viewBox="0 0 1440 320"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <defs>
       <linearGradient id="hero-gradient" x1="0" y1="0" x2="1" y2="1">
         <stop offset="0%" stopColor="var(--link, #60a5fa)" />
         <stop offset="100%" stopColor="var(--button, #a78bfa)" />
       </linearGradient>
     </defs>
-    <path fill="url(#hero-gradient)" fillOpacity="0.2" d="M0,160L60,170.7C120,181,240,203,360,197.3C480,192,600,160,720,133.3C840,107,960,85,1080,101.3C1200,117,1320,171,1380,197.3L1440,224L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z" />
+    <path
+      fill="url(#hero-gradient)"
+      fillOpacity="0.2"
+      d="M0,160L60,170.7C120,181,240,203,360,197.3C480,192,600,160,720,133.3C840,107,960,85,1080,101.3C1200,117,1320,171,1380,197.3L1440,224L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"
+    />
     <circle cx="1200" cy="80" r="40" fill="var(--button, #a78bfa)" fillOpacity="0.15">
       <animate attributeName="cy" values="80;120;80" dur="4s" repeatCount="indefinite" />
     </circle>
@@ -26,7 +35,6 @@ const AnimatedBackground = () => (
 
 const HeroSection = () => {
   const { theme } = useContext(ThemeContext);
-
   const [colors, setColors] = useState({});
 
   useEffect(() => {
@@ -63,7 +71,7 @@ const HeroSection = () => {
           <span
             className="bg-gradient-to-r bg-clip-text text-transparent animate-gradient-move"
             style={{
-              backgroundImage: `linear-gradient(to right, var(--link, #60a5fa), var(--button, #a78bfa))`
+              backgroundImage: `linear-gradient(to right, var(--link, #60a5fa), var(--button, #a78bfa))`,
             }}
           >
             SentiLog{" "}
@@ -94,7 +102,7 @@ const HeroSection = () => {
           onClick={scrollToDemo}
           className="px-8 py-4 text-white text-lg font-semibold rounded-full shadow-lg hover:scale-105 transition-transform focus:outline-none focus:ring-4"
           style={{
-            backgroundImage: `linear-gradient(to right, var(--link, #60a5fa), var(--button, #a78bfa))`
+            backgroundImage: `linear-gradient(to right, var(--link, #60a5fa), var(--button, #a78bfa))`,
           }}
         >
           Try Live Demo
