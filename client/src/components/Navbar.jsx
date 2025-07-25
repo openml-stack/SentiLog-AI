@@ -1,29 +1,10 @@
-<<<<<<< HEAD
-import React, {useState, useEffect} from "react";
-import {NavLink, useLocation, useNavigate} from "react-router-dom";
-import {motion} from "framer-motion";
-=======
-
-
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from "motion/react";
->>>>>>> 65d03fc251206e1b8ca38e3e1e1c589043c31755
 
 
 const navLinks = [
-<<<<<<< HEAD
-  {to: "/", label: "Home"},
-  {to: "/analyze", label: "Analyze"},
-  {to: "/journal", label: "Journal"},
-  {to: "/news", label: "News"},
-  {to: "/dashboard", label: "Dashboard"},
-  {to: "/about", label: "About"},
-];
 
-const Logo = () => (
-  <span className="flex items-center gap-2 text-2xl font-extrabold tracking-tight bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent select-none">
-=======
   { to: "/", label: "Home" },
   { to: "/analyze", label: "Analyze" },
   { to: "/journal", label: "Journal" },
@@ -37,7 +18,7 @@ const Logo = () => (
     data-aos="fade-right"
     className="flex items-center gap-2 text-2xl font-extrabold tracking-tight bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent select-none"
   >
->>>>>>> 65d03fc251206e1b8ca38e3e1e1c589043c31755
+
     <svg
       width="32"
       height="32"
@@ -53,10 +34,7 @@ const Logo = () => (
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-<<<<<<< HEAD
-=======
 
->>>>>>> 65d03fc251206e1b8ca38e3e1e1c589043c31755
       <circle cx="16" cy="16" r="2.5" fill="#60a5fa" />
     </svg>
     SentiLog <span className="animate-pulse">AI</span>
@@ -100,26 +78,7 @@ const Navbar = () => {
       <div className="flex items-center gap-2">
         <Logo />
       </div>
-<<<<<<< HEAD
 
-      <div className="hidden md:flex items-center gap-8">
-        {/* Main nav links including Dashboard visible always */}
-        <div className="flex gap-6">
-          {navLinks.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              className={({isActive}) =>
-                `font-semibold text-lg px-2 py-1 rounded transition relative group ${
-                  isActive ? "text-blue-600" : "text-gray-700"
-                }`
-              }
-            >
-              {link.label}
-            </NavLink>
-          ))}
-        </div>
-=======
       <div className="hidden md:flex gap-8">
         {navLinks.map((link) => (
           <NavLink
@@ -135,7 +94,6 @@ const Navbar = () => {
             <span className="relative z-10">{link.label}</span>
           </NavLink>
         ))}
->>>>>>> 65d03fc251206e1b8ca38e3e1e1c589043c31755
 
         {/* Auth buttons: show Signup/Login when logged out, Logout when logged in */}
         <div className="flex gap-4 items-center">
@@ -172,13 +130,7 @@ const Navbar = () => {
 
       {/* Mobile menu toggle button */}
 
-<<<<<<< HEAD
-      <button
-        className="md:hidden text-2xl px-4 py-2 rounded-full bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 text-gray-800 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out focus:outline-none"
-        onClick={() => setOpen((o) => !o)}
-        aria-label="Toggle menu"
-      >
-=======
+
 
      <button
         className="md:hidden text-2xl px-4 py-2 rounded-full bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 text-gray-800 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out focus:outline-none"
@@ -186,7 +138,6 @@ const Navbar = () => {
          aria-label="Toggle menu"
         >
 
->>>>>>> 65d03fc251206e1b8ca38e3e1e1c589043c31755
         {open ? "✖️" : "☰"}
       </button>
 
@@ -194,19 +145,13 @@ const Navbar = () => {
       {open && (
 
         <motion.div
-<<<<<<< HEAD
-          initial={{opacity: 0, y: -4, scale: 0.98}}
-          animate={{opacity: 1, y: 0, scale: 1}}
-          transition={{duration: 0.3, ease: "easeInOut"}}
-          className="absolute top-full left-0 w-full bg-white/90 backdrop-blur-xl shadow-lg flex flex-col items-center md:hidden animate-fade-in border-b border-blue-100 z-50"
-        >
-=======
+
         initial={{opacity:0, y:-4, scale:0.98}}
         animate={{opacity:1, y:0, scale:1}}
         transition={{duration: 0.3, ease:"easeInOut"}}
         className="absolute top-full left-0 w-full bg-white/90 backdrop-blur-xl shadow-lg flex flex-col items-center md:hidden animate-fade-in border-b border-blue-100 z-50">
 
->>>>>>> 65d03fc251206e1b8ca38e3e1e1c589043c31755
+
           {navLinks.map((link) => (
             <NavLink
               key={link.to}
