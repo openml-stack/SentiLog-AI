@@ -11,7 +11,7 @@ const navLinks = [
   { to: "/journal", label: "Journal" },
   { to: "/news", label: "News" },
   { to: "/dashboard", label: "Dashboard" },
-  { to: "/about", label: "About" },
+  { to: "/About", label: "About" },
 ];
 
 const Logo = () => (

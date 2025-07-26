@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import HomePage from "./pages/HomePage";
 import AnalyzePage from "./pages/AnalyzePage";
 import Loader from "./components/Preloader/Loader";
+import About from './pages/About';
 
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -28,6 +29,7 @@ function App() {
           <Route path="/analyze" element={<AnalyzePage />} />
           <Route path="/journal" element={<JournalPage />} />
           <Route path="/news" element={<NewsPage />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </Router>
     </>
