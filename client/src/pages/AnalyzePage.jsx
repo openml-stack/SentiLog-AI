@@ -595,7 +595,7 @@ const AnalyzePage = () => {
           </div>
         )}
       </div>
-    </div>
+    </div></div>
   );
 };
 
