@@ -1,5 +1,5 @@
-const NewsEntry = require('../models/NewsEntry');
-const axios = require('axios');
+import NewsEntry from '../models/NewsEntry.js';
+import axios from 'axios';
 
 /**
  * Creates a new news entry with sentiment and emotion analysis
@@ -18,7 +18,7 @@ const axios = require('axios');
  * @returns {Object} 500 - Server error if ML service fails or database error
  */
 
-exports.createEntry = async (req, res, next) => {
+export const createEntry = async (req, res, next) => {
   try {
     // Extract news article data from request body
     const { url, title, text, date } = req.body;
@@ -52,7 +52,7 @@ exports.createEntry = async (req, res, next) => {
  * @returns {Object} 500 - Server error if database query fails
  */
 
-exports.getEntries = async (req, res, next) => {
+export const getEntries = async (req, res, next) => {
   try {
     // Fetch all news entries from database, sorted by date (newest first)
     // This returns entries with all fields: url, title, sentiment, emotion, date
@@ -78,7 +78,7 @@ exports.getEntries = async (req, res, next) => {
  * @returns {Object} 500 - Server error if database query fails
  */
 
-exports.getEntry = async (req, res, next) => {
+export const getEntry = async (req, res, next) => {
   try {
     // Fetch all news entries from database, sorted by date (newest first)
     // This returns entries with all fields: url, title, sentiment, emotion, date
@@ -107,7 +107,7 @@ exports.getEntry = async (req, res, next) => {
  * @returns {Object} 500 - Server error if database operation fails
  */
 
-exports.deleteEntry = async (req, res, next) => {
+export const deleteEntry = async (req, res, next) => {
   try {
     // Find and delete news entry by MongoDB ObjectId in one operation
     const entry = await NewsEntry.findByIdAndDelete(req.params.id);

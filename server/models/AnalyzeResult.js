@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const analyzeResultSchema = new mongoose.Schema({
   fileName: String,
@@ -11,4 +11,4 @@ const analyzeResultSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('AnalyzeResult', analyzeResultSchema);
+export default mongoose.model('AnalyzeResult', analyzeResultSchema);

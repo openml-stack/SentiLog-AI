@@ -1,14 +1,15 @@
-const express = require('express');
+import express from 'express';
+import { createEntry, getEntries, getEntry, deleteEntry } from '../controllers/newsController.js';
+
 const router = express.Router();
-const newsController = require('../controllers/newsController');
 
 // Create and analyze
-router.post('/', newsController.createEntry);
+router.post('/', createEntry);
 // Get all
-router.get('/', newsController.getEntries);
+router.get('/', getEntries);
 // Get one
-router.get('/:id', newsController.getEntry);
+router.get('/:id', getEntry);
 // Delete
-router.delete('/:id', newsController.deleteEntry);
+router.delete('/:id', deleteEntry);
 
-module.exports = router; 
+export default router; 

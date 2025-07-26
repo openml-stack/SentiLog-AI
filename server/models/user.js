@@ -1,14 +1,14 @@
-const mongoose=require('mongoose')
+import mongoose from 'mongoose';
 
-const Schema=mongoose.Schema
+const Schema = mongoose.Schema;
 
-const user=new Schema({
+const user = new Schema({
     firstname: String,
     lastname: String,
-    email:{type:String, unique:true},
-    password:String,
-})
+    email: { type: String, unique: true },
+    password: String,
+});
 
-const userModel=mongoose.model("user",user);
+const userModel = mongoose.model("user", user);
 
-module.exports=userModel;
+export default userModel;

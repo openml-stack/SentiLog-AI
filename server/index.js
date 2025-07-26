@@ -1,13 +1,13 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const errorHandler = require('./middleware/errorHandler');
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import errorHandler from './middleware/errorHandler.js';
 
-const journalRoutes = require('./routes/journal');
-const newsRoutes = require('./routes/news');
-const authRouter = require('./routes/authRoute');
-const analyzeRoutes = require('./routes/analyze');
+import journalRoutes from './routes/journal.js';
+import newsRoutes from './routes/news.js';
+import authRouter from './routes/authRoute.js';
+import analyzeRoutes from './routes/analyze.js';
 
 dotenv.config();
 const app = express();

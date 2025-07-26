@@ -1,9 +1,11 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const userModel = require('../models/user');
-require('dotenv').config();
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import userModel from '../models/user.js';
+import dotenv from 'dotenv';
 
-const signup = async (req, res) => {
+dotenv.config();
+
+export const signup = async (req, res) => {
   console.log("Signup request received:", req.body);
 
   try {
@@ -52,7 +54,7 @@ const signup = async (req, res) => {
   }
 };
 
-const signin = async (req, res) => {
+export const signin = async (req, res) => {
   console.log("Signin request received:", req.body);
 
   try {
@@ -86,5 +88,3 @@ const signin = async (req, res) => {
     return res.status(500).json({ message: "internal error" });
   }
 };
-
-module.exports = { signup, signin };

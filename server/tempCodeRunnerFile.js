@@ -1,12 +1,14 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-require('dotenv').config();
+import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-const journalRoutes = require('./routes/journal');
-const newsRoutes = require('./routes/news');
-const errorHandler = require('./middleware/errorHandler');
-const { authRouter } = require('./routes/authRoute');
+import journalRoutes from './routes/journal.js';
+import newsRoutes from './routes/news.js';
+import errorHandler from './middleware/errorHandler.js';
+import authRouter from './routes/authRoute.js';
+
+dotenv.config();
 
 const app = express();
 app.use(cors());
@@ -19,7 +21,6 @@ mongoose.connect(process.env.MONGO_URI)
 app.use('/api/journal', journalRoutes);
 app.use('/api/news', newsRoutes);
 app.use(errorHandler);
-
 
 app.use("/auth", authRouter);
 
