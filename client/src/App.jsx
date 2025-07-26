@@ -1,22 +1,35 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import JournalPage from "./pages/JournalPage";
-import NewsPage from "./pages/NewsPage";
-import Dashboard from "./pages/Dashboard";
-import HomePage from "./pages/HomePage";
+import React, { createContext, useEffect } from 'react'
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
+import { useState } from 'react'
 
-function App() {
+export const ThemeContext=createContext()
+
+const App = ({children}) => {
+  const [mode, setMode]=useState('light')
+
+  useEffect(()=>{
+    const currentMode=localStorage.getItem('mode')
+    if(currentMode){
+      setMode(currentMode)
+      document.body.className=currentMode;
+    }
+  },[])
+
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/journal" element={<JournalPage />} />
-        <Route path="/news" element={<NewsPage />} />
-      </Routes>
-    </Router>
-  );
+    <div className={`${mode==='light'? 'bg-white text-black': 'bg-gradient-to-br from-[#111133] via-[#2a2a49] to-[#090949] text-slate-300'}  min-h-screen flex flex-col`}>
+    <Navbar mode={mode} setMode={setMode}/>
+    <main className="flex-1">
+      <ThemeContext value={mode}>
+          {children}
+      </ThemeContext>
+        
+      
+    </main>
+    <Footer mode={mode} setMode={setMode}/>
+  </div>
+  )
 }
 
-export default App;
+export default App

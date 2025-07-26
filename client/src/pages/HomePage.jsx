@@ -1,24 +1,31 @@
-import React from "react";
-import Navbar from "../components/Navbar";
+import React, { useContext, useEffect } from "react";
 import HeroSection from "../components/HeroSection";
 import FeatureCards from "../components/FeatureCards";
 import QuickActions from "../components/QuickActions";
 import SentimentChartPreview from "../components/SentimentChartPreview";
 import HowItWorks from "../components/HowItWorks";
-import Footer from "../components/Footer";
+import { ThemeContext } from "../App";
 
-const HomePage = () => (
-  <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen flex flex-col">
-    <Navbar />
-    <main className="flex-1">
+
+const HomePage = () =>{
+  const theme=useContext(ThemeContext)
+
+
+  // tab title
+  useEffect(()=>{
+     document.title='SentiLog-Home'
+  },[])
+
+
+return (<div className={`${theme==='light'? 'bg-gradient-to-r from-blue-50 to-white':'bg-gradient-to-r from-[#171736] to-[#2d2d64]'} min-h-screen flex flex-col`}>
       <HeroSection />
       <FeatureCards />
       <QuickActions />
       <SentimentChartPreview />
       <HowItWorks />
-    </main>
-    <Footer />
   </div>
-);
+)
+}
+;
 
 export default HomePage; 
