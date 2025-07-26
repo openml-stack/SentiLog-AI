@@ -1,62 +1,115 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
-const steps = [
-  {
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="5" y="8" width="30" height="24" rx="4" fill="#60a5fa" fillOpacity="0.13"/><rect x="9" y="12" width="22" height="4" rx="2" fill="#60a5fa"/><rect x="9" y="18" width="14" height="2.5" rx="1.25" fill="#a78bfa"/><rect x="9" y="22" width="10" height="2.5" rx="1.25" fill="#a78bfa"/></svg>
-    ),
-    title: "Analyze",
-    desc: "Paste a news article → See how it feels"
-  },
-  {
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="8" y="10" width="24" height="20" rx="4" fill="#a78bfa" fillOpacity="0.13"/><rect x="12" y="14" width="16" height="12" rx="3" fill="#a78bfa"/><circle cx="20" cy="20" r="3" fill="#60a5fa"/><rect x="17" y="25" width="6" height="2" rx="1" fill="#60a5fa"/></svg>
-    ),
-    title: "Journal",
-    desc: "Write your journal entry → Reflect on your mood"
-  },
-  {
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="8" y="10" width="24" height="20" rx="4" fill="#60a5fa" fillOpacity="0.10"/><rect x="13" y="23" width="3" height="7" rx="1.5" fill="#a78bfa"/><rect x="18.5" y="18" width="3" height="12" rx="1.5" fill="#60a5fa"/><rect x="24" y="14" width="3" height="16" rx="1.5" fill="#a78bfa"/></svg>
-    ),
-    title: "Track",
-    desc: "Compare and track → Discover patterns over time"
-  }
-];
+const scrollToDemo = () => {
+  const demo = document.getElementById("live-demo-section");
+  if (demo) demo.scrollIntoView({ behavior: "smooth" });
+};
 
-const HowItWorks = () => {
-  const [hovered, setHovered] = useState(null);
+const AnimatedBackground = () => (
+  <svg
+    className="absolute inset-0 w-full h-full z-0"
+    viewBox="0 0 1440 320"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <linearGradient id="hero-gradient" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="var(--link, #60a5fa)" />
+        <stop offset="100%" stopColor="var(--button, #a78bfa)" />
+      </linearGradient>
+    </defs>
+    <path
+      fill="url(#hero-gradient)"
+      fillOpacity="0.2"
+      d="M0,160L60,170.7C120,181,240,203,360,197.3C480,192,600,160,720,133.3C840,107,960,85,1080,101.3C1200,117,1320,171,1380,197.3L1440,224L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"
+    />
+    <circle cx="1200" cy="80" r="40" fill="var(--button, #a78bfa)" fillOpacity="0.15">
+      <animate attributeName="cy" values="80;120;80" dur="4s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="300" cy="200" r="30" fill="var(--link, #60a5fa)" fillOpacity="0.12">
+      <animate attributeName="cy" values="200;160;200" dur="5s" repeatCount="indefinite" />
+    </circle>
+  </svg>
+);
+
+const HeroSection = () => {
+  const { theme } = useContext(ThemeContext);
+  const [colors, setColors] = useState({});
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const getVar = (name) =>
+      getComputedStyle(root).getPropertyValue(name).trim();
+
+    setColors({
+      bg: getVar("--bg"),
+      heading: getVar("--heading"),
+      text: getVar("--body-text"),
+      link: getVar("--link"),
+      button: getVar("--button"),
+      buttonHover: getVar("--button-hover"),
+      gradientFrom: getVar("--gradient-from"),
+      gradientTo: getVar("--gradient-to"),
+    });
+  }, [theme]);
+
   return (
-    <section className="max-w-5xl mx-auto px-4 py-16">
-      <h2 className="text-2xl md:text-3xl font-extrabold mb-10 text-center text-gray-900 tracking-tight">How It Works</h2>
-      <div className="flex flex-col md:flex-row gap-8 justify-center items-center relative">
-        {/* Timeline line */}
-        <div className="hidden md:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-blue-200 via-pink-200 to-blue-200 opacity-60 z-0" style={{transform:'translateY(-50%)'}} />
-        {steps.map((s, i) => (
-          <div
-            key={s.title}
-            className={`flex-1 bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-8 text-center border border-pink-100 relative z-10 transition-all duration-300 ease-in-out group ${hovered === i ? 'scale-105 shadow-2xl border-blue-300' : ''}`}
-            onMouseEnter={() => setHovered(i)}
-            onMouseLeave={() => setHovered(null)}
-            style={{animation: `fadeInUp 0.7s cubic-bezier(.39,.575,.56,1) both`, animationDelay: `${i * 0.15}s`}}
+    <section
+      className="relative text-center py-24 md:py-32 overflow-hidden"
+      style={{
+        backgroundColor: `var(--bg, ${colors.bg})`,
+        color: `var(--body-text, ${colors.text})`,
+      }}
+    >
+      <AnimatedBackground />
+      <div className="relative z-10 flex flex-col items-center justify-center">
+        <h1
+          className="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight leading-tight"
+          style={{ color: `var(--heading, ${colors.heading})` }}
+        >
+          <span
+            className="bg-gradient-to-r bg-clip-text text-transparent animate-gradient-move"
+            style={{
+              backgroundImage: `linear-gradient(to right, var(--link, #60a5fa), var(--button, #a78bfa))`,
+            }}
           >
-            <div className={`mx-auto mb-3 w-14 h-14 flex items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-pink-100 ${hovered === i ? 'ring-4 ring-blue-300' : ''} transition-all duration-300`}>{s.icon}</div>
-            <h3 className="text-lg font-bold mb-1 text-gray-900">{s.title}</h3>
-            <p className="text-gray-600">{s.desc}</p>
-            {i < steps.length - 1 && (
-              <div className="hidden md:block absolute right-0 top-1/2 w-6 h-1 bg-gradient-to-r from-blue-300 to-pink-300 opacity-80 z-20" style={{transform:'translateY(-50%)'}} />
-            )}
-          </div>
-        ))}
+            SentiLog{" "}
+            <span className="relative inline-block px-2">
+              <span className="text-white bg-gradient-to-r from-pink-500 to-blue-500 px-2 py-1 rounded shadow-lg animate-glitch">
+                AI
+              </span>
+            </span>
+          </span>
+          <br />
+          <span
+            className="text-2xl md:text-3xl font-medium mt-2 block"
+            style={{ color: `var(--body-text, ${colors.text})` }}
+          >
+            AI-powered sentiment insights for your world
+          </span>
+        </h1>
+
+        <p
+          className="text-lg md:text-xl mb-8 max-w-2xl mx-auto"
+          style={{ color: `var(--body-text, ${colors.text})` }}
+        >
+          Experience real-time emotion and sentiment analysis. Discover patterns
+          in news and your own mood, powered by advanced AI.
+        </p>
+
+        <button
+          onClick={scrollToDemo}
+          className="px-8 py-4 text-white text-lg font-semibold rounded-full shadow-lg hover:scale-105 transition-transform focus:outline-none focus:ring-4"
+          style={{
+            backgroundImage: `linear-gradient(to right, var(--link, #60a5fa), var(--button, #a78bfa))`,
+          }}
+        >
+          Try Live Demo
+        </button>
       </div>
     </section>
   );
 };
 
-export default HowItWorks;
-
-// Add to global CSS for fade-in animation:
-// @keyframes fadeInUp {
-//   0% { opacity: 0; transform: translateY(30px); }
-//   100% { opacity: 1; transform: translateY(0); }
-// } 
+export default HeroSection;
