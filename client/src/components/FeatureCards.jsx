@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { ThemeContext } from "../App";
 
 const features = [
   {
@@ -46,27 +47,36 @@ const features = [
 ];
 
 const FeatureCards = () => {
+   const theme=useContext(ThemeContext)
+  
   const [hovered, setHovered] = useState(null);
   return (
     <section className="max-w-7xl mx-auto px-4 py-12">
-      <div className="flex flex-col md:flex-row gap-6 justify-center">
+      <div className="flex flex-col md:flex-row gap-6 justify-center ">
         {features.map((f) => (
           <Link
             to={f.link}
             key={f.key}
-            className={`flex-1 bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-8 text-center border border-pink-100 hover:scale-105 hover:shadow-2xl transition-transform cursor-pointer relative group overflow-hidden`}
+            className={`${theme==='light'? 'bg-white/80 text-gray-600': 'bg-[#171736] text-slate-300 hover:text-slate-300'} 
+              flex-1  backdrop-blur-lg rounded-2xl
+              shadow-xl p-8 text-center border border-pink-100 
+              hover:scale-105 hover:shadow-2xl transition-transform 
+              cursor-pointer relative group overflow-hidden`}
             onMouseEnter={() => setHovered(f.key)}
             onMouseLeave={() => setHovered(null)}
           >
             <div className="flex flex-col items-center justify-center">
               <div className="mb-2">{f.icon}</div>
-              <h3 className="text-xl font-bold mb-1 text-gray-900 tracking-tight">{f.title}</h3>
-              <p className="text-gray-600 mb-2">{f.desc}</p>
+              <h3 className={`${theme==='light'? 'text-gray-900': 'text-sky-500'} 
+              text-xl font-bold mb-1  tracking-tight`}>{f.title}</h3>
+              <p className="mb-2">{f.desc}</p>
               <div className="transition-all duration-300 ease-in-out">
                 {hovered === f.key ? f.animation : null}
               </div>
             </div>
-            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-pink-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute bottom-0 left-0 w-full h-1 
+            bg-gradient-to-r from-blue-400 to-pink-400 opacity-0 
+            group-hover:opacity-100 transition-opacity" />
           </Link>
         ))}
       </div>

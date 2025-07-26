@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { ThemeContext } from "../App";
 
 const steps = [
   {
@@ -25,24 +26,26 @@ const steps = [
 ];
 
 const HowItWorks = () => {
+  const theme=useContext(ThemeContext)
   const [hovered, setHovered] = useState(null);
   return (
     <section className="max-w-5xl mx-auto px-4 py-16">
-      <h2 className="text-2xl md:text-3xl font-extrabold mb-10 text-center text-gray-900 tracking-tight">How It Works</h2>
+      <h2 className={`${theme==='light'? 'text-gray-900':'text-slate-300'} text-2xl md:text-3xl font-extrabold mb-10 text-center  tracking-tight`}>How It Works</h2>
       <div className="flex flex-col md:flex-row gap-8 justify-center items-center relative">
         {/* Timeline line */}
         <div className="hidden md:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-blue-200 via-pink-200 to-blue-200 opacity-60 z-0" style={{transform:'translateY(-50%)'}} />
         {steps.map((s, i) => (
           <div
             key={s.title}
-            className={`flex-1 bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-8 text-center border border-pink-100 relative z-10 transition-all duration-300 ease-in-out group ${hovered === i ? 'scale-105 shadow-2xl border-blue-300' : ''}`}
+            className={`${theme==='light'? 'bg-white/80 text-gray-600': 
+              'bg-gradient-to-b from-[#171736] to-[#313157] text-slate-300/90 shadow-md shadow-sky-400 hover:border border-pink-100'} flex-1  backdrop-blur-lg rounded-2xl shadow-xl p-8 text-center  relative z-10 transition-all duration-300 ease-in-out group ${hovered === i ? 'scale-105 shadow-2xl border-blue-300' : ''}`}
             onMouseEnter={() => setHovered(i)}
             onMouseLeave={() => setHovered(null)}
             style={{animation: `fadeInUp 0.7s cubic-bezier(.39,.575,.56,1) both`, animationDelay: `${i * 0.15}s`}}
           >
             <div className={`mx-auto mb-3 w-14 h-14 flex items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-pink-100 ${hovered === i ? 'ring-4 ring-blue-300' : ''} transition-all duration-300`}>{s.icon}</div>
-            <h3 className="text-lg font-bold mb-1 text-gray-900">{s.title}</h3>
-            <p className="text-gray-600">{s.desc}</p>
+            <h3 className={`${theme==='light'? 'text-gray-900': 'text-sky-500'} text-lg font-bold mb-1 `}>{s.title}</h3>
+            <p className="">{s.desc}</p>
             {i < steps.length - 1 && (
               <div className="hidden md:block absolute right-0 top-1/2 w-6 h-1 bg-gradient-to-r from-blue-300 to-pink-300 opacity-80 z-20" style={{transform:'translateY(-50%)'}} />
             )}

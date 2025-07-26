@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ThemeContext } from "../App";
 
 const scrollToDemo = () => {
   const demo = document.getElementById("live-demo-section");
@@ -23,8 +24,10 @@ const AnimatedBackground = () => (
   </svg>
 );
 
-const HeroSection = () => (
-  <section className="relative text-center py-24 md:py-32 overflow-hidden bg-gradient-to-r from-blue-50 to-pink-50">
+const HeroSection = () => {
+  const theme=useContext(ThemeContext)
+  return(
+  <section className={`${theme==='light'? 'bg-gradient-to-r from-blue-50 to-pink-50':'bg-gradient-to-r from-[#171736] to-[#2d2d64]'} relative text-center py-24 md:py-32 overflow-hidden `}>
     <AnimatedBackground />
     <div className="relative z-10 flex flex-col items-center justify-center">
       <h1 className="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight leading-tight">
@@ -34,9 +37,12 @@ const HeroSection = () => (
           </span>
         </span>
         <br />
-        <span className="text-2xl md:text-3xl font-medium text-gray-700 mt-2 block">AI-powered sentiment insights for your world</span>
+        <span className={`${theme==='light'? 'text-gray-700 ': 'text-slate-300'} text-2xl md:text-3xl font-medium 
+          mt-2 block`}>
+          AI-powered sentiment insights for your world
+        </span>
       </h1>
-      <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+      <p className={`${theme==='light'? 'text-gray-600':'text-slate-300'} text-lg md:text-xl  mb-8 max-w-2xl mx-auto`}>
         Experience real-time emotion and sentiment analysis. Discover patterns in news and your own mood, powered by advanced AI.
       </p>
       <button
@@ -47,7 +53,7 @@ const HeroSection = () => (
       </button>
     </div>
   </section>
-);
+)};
 
 export default HeroSection;
 

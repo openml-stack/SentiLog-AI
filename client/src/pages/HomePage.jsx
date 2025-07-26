@@ -13,7 +13,7 @@ const HomePage = () =>{
 
   // tab title
   useEffect(()=>{
-     document.title='SentiLog-Home'
+     document.title='SentiLogAI-Home'
   },[])
 
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { IoCall } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
@@ -7,11 +7,15 @@ import { BsGithub } from "react-icons/bs";
 import { FaLinkedinIn } from "react-icons/fa6";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { FaFacebook } from "react-icons/fa";
+import { ThemeContext } from "../App.jsx";
 
-const Footer = () => (
-  <footer className=" bg-[#2f2f66] backdrop-blur-xl border-t mx-auto 
-  border-blue-100 py-8 mt-12 px-5 md:px-10 text-center text-slate-300 text-sm w-screen
-  relative">
+const Footer = () => {
+   const theme=useContext(ThemeContext)
+  return (
+  <footer className={`bg-gradient-to-b sm:bg-gradient-to-r from-[#1f1f3b] via-purple-900/50  to-pink-700/50 text-slate-300 shadow-sky-400 
+  border-t mx-auto border-blue-100 py-8 mt-12 px-5 md:px-10 text-center shadow-inner
+  text-sm w-screen 
+  relative`}>
 
     <div className="flex justify-center items-center gap-2 mb-6">
       <span className="text-slate-300">---------</span>
@@ -63,24 +67,24 @@ const Footer = () => (
           
           <ul className="text-center">
             <li>
-              <a href="/" className="text-slate-300 text-sm
-              hover:text-white hover:scale-110 duration-150">Home</a>
+              <a href="/"  className={` text-slate-300 hover:text-white text-sm
+               hover:scale-110 duration-150`}>Home</a>
             </li>
             <li>
-              <a href="/journal" className="text-slate-300 text-sm
-              hover:text-white hover:scale-110 duration-150">Journal</a>
+              <a href="/journal"  className={` text-slate-300 hover:text-white text-sm
+               hover:scale-110 duration-150`}>Journal</a>
             </li>
              <li>
-              <a href="/news" className="text-slate-300 text-sm
-              hover:text-white hover:scale-110 duration-150">News</a>
+              <a href="/news"  className={` text-slate-300 hover:text-white text-sm
+               hover:scale-110 duration-150`}>News</a>
             </li>
               <li>
-              <a href="/about" className="text-slate-300 text-sm
-              hover:text-white hover:scale-110 duration-150">About</a>
+              <a href="/about" className={` text-slate-300 hover:text-white text-sm
+               hover:scale-110 duration-150`}>About</a>
             </li>
             <li>
-              <a href="/dashboard" className="text-slate-300 text-sm
-              hover:text-white hover:scale-110 duration-150">Dashboard</a>
+              <a href="/dashboard" className={` text-slate-300 hover:text-white text-sm
+               hover:scale-110 duration-150`}>Dashboard</a>
             </li>
           </ul>
        </div>
@@ -136,7 +140,7 @@ const Footer = () => (
     </div>
 
   </footer>
-);
+)};
 
 export default Footer;
 

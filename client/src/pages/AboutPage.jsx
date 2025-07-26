@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 const AboutPage = () => {
    // tab title
           useEffect(()=>{
-          document.title='SentiLog-About Us '
+          document.title='SentiLogAI-About Us '
           },[])
 
   return (

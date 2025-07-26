@@ -12,7 +12,7 @@ const JournalPage = () => {
 
   // tab title
     useEffect(()=>{
-       document.title='SentiLog-Journal '
+       document.title='SentiLogAI-Journal '
     },[])
 
   const handleSubmit = async (e) => {
