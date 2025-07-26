@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import GoogleLoginButton from "../components/GoogleLoginButton"; // ✅ custom button
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -10,8 +11,6 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
-    console.log("VITE_API_URL is:", import.meta.env.VITE_API_URL);
 
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/signin`, {
@@ -27,12 +26,12 @@ function LoginPage() {
         console.warn("Response body not JSON or empty.");
       }
 
-      console.log("Received response status:", res.status);
-      console.log("Received response data:", data);
-
       if (res.ok && data.token) {
         localStorage.setItem("token", data.token);
-        navigate("/");  // Redirect to Home page after login
+        localStorage.setItem("email", email);
+        localStorage.setItem("registered", "1");
+        window.dispatchEvent(new Event("authChange"));
+        navigate("/");
       } else {
         setError(data.message || `Login failed with status ${res.status}`);
       }
@@ -48,6 +47,7 @@ function LoginPage() {
         <h2 className="text-3xl font-bold mb-6 text-center text-gray-900">
           Login to SentiLog
         </h2>
+
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <input
             type="email"
@@ -73,6 +73,16 @@ function LoginPage() {
             Login
           </button>
         </form>
+
+        {/* Divider */}
+        <div className="flex items-center my-4">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <span className="mx-2 text-gray-500">or</span>
+          <div className="flex-grow border-t border-gray-300"></div>
+        </div>
+
+        {/* ✅ Google Login Button Component */}
+        <GoogleLoginButton />
       </div>
     </div>
   );

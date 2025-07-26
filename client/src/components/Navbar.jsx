@@ -1,8 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { ThemeContext } from "../context/ThemeContext";
 import ThemeToggle from "./ThemeToggle";
 import { motion } from "framer-motion";
+import { FaUserCircle } from "react-icons/fa"; 
+
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -55,11 +57,14 @@ const Navbar = () => {
   const [currentColors, setCurrentColors] = useState({});
   const location = useLocation();
   const navigate = useNavigate();
+  const dropdownRef = useRef();
 
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [registered, setRegistered] = useState(
     localStorage.getItem("registered") === "1"
   );
+  const [email, setEmail] = useState(localStorage.getItem("email")); 
+  const [showDropdown, setShowDropdown] = useState(false); 
 
   const isAuthPage = ["/login", "/signup"].includes(location.pathname);
 
@@ -121,18 +126,53 @@ const Navbar = () => {
     updateCSSVariables(theme);
   }, [theme]);
 
+  // Update auth state on location change
   useEffect(() => {
     setToken(localStorage.getItem("token"));
     setRegistered(localStorage.getItem("registered") === "1");
+    setEmail(localStorage.getItem("email")); 
   }, [location]);
+
+  // Listen for custom auth change events
+  useEffect(() => {
+    const handleAuthChange = () => {
+      setToken(localStorage.getItem("token"));
+      setRegistered(localStorage.getItem("registered") === "1");
+      setEmail(localStorage.getItem("email"));
+    };
+
+    window.addEventListener("authChange", handleAuthChange);
+    return () => window.removeEventListener("authChange", handleAuthChange);
+  }, []);
+
+  // Handle clicks outside dropdown
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("registered");
+    localStorage.removeItem("email");
     setToken(null);
     setRegistered(false);
+    setEmail(null);
+    setShowDropdown(false);
+    
+    // Dispatch auth change event
+    window.dispatchEvent(new Event("authChange"));
+    
     navigate("/");
   };
+
+  // Helper function to determine if user is logged in
+  const isLoggedIn = token && token !== "null" && token !== "";
 
   return (
     <nav
@@ -144,6 +184,7 @@ const Navbar = () => {
     >
       <Logo theme={theme} currentColors={currentColors} />
 
+      {/* Desktop Nav */}
       <div className="hidden md:flex items-center gap-8">
         <div className="flex gap-6">
           {navLinks.map((link) => (
@@ -164,34 +205,58 @@ const Navbar = () => {
 
         <ThemeToggle />
 
-        <div className="flex gap-4 items-center">
-          {!token && !registered && (
-            <NavLink
-              to="/signup"
-              className="px-4 py-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded hover:opacity-90 transition"
-            >
-              Signup
-            </NavLink>
-          )}
-          {!token && registered && (
-            <NavLink
-              to="/login"
-              className="px-4 py-2 text-blue-600 border border-blue-600 rounded hover:bg-blue-50 transition"
-            >
-              Login
-            </NavLink>
-          )}
-          {token && (
-            <button
-              onClick={logout}
-              className="px-4 py-2 text-red-600 border border-red-600 rounded hover:bg-red-50 transition"
-            >
-              Logout
-            </button>
-          )}
+        <div className="flex gap-4 items-center relative" ref={dropdownRef}>
+          {isLoggedIn ? (
+  <>
+    <button
+      onClick={() => setShowDropdown((prev) => !prev)}
+      className="text-3xl text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition"
+      aria-label="User menu"
+    >
+      <FaUserCircle />
+    </button>
+    {showDropdown && (
+      <motion.div
+        initial={{ opacity: 0, y: -5 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2 }}
+        className="absolute top-12 right-0 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded shadow-lg w-56 p-4 z-50"
+      >
+        <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
+          Signed in as:
+        </p>
+        <p className="font-medium break-all text-blue-700 dark:text-blue-400 mb-3">
+          {email || "User"}
+        </p>
+        <button
+          onClick={logout}
+          className="w-full text-red-600 hover:text-white hover:bg-red-600 transition-all py-2 px-3 rounded border border-red-600"
+        >
+          Sign out
+        </button>
+      </motion.div>
+    )}
+  </>
+) : (
+  <>
+    <NavLink
+      to="/signup"
+      className="px-4 py-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded hover:opacity-90 transition"
+    >
+      Signup
+    </NavLink>
+    <NavLink
+      to="/login"
+      className="px-4 py-2 text-blue-600 border border-blue-600 rounded hover:bg-blue-50 dark:hover:bg-blue-900 transition"
+    >
+      Login
+    </NavLink>
+  </>
+)}
         </div>
       </div>
 
+      {/* Mobile menu button */}
       <button
         className="md:hidden text-2xl px-4 py-2 rounded-full bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 text-gray-800 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out focus:outline-none"
         onClick={() => setOpen((o) => !o)}
@@ -200,6 +265,7 @@ const Navbar = () => {
         {open ? "✖️" : "☰"}
       </button>
 
+      {/* Mobile nav links */}
       {open && (
         <motion.div
           initial={{ opacity: 0, y: -4, scale: 0.98 }}
@@ -232,7 +298,8 @@ const Navbar = () => {
             <ThemeToggle />
           </div>
 
-          {!token && !registered && (
+          {/* Mobile auth buttons */}
+          {!isLoggedIn && !registered && (
             <NavLink
               to="/signup"
               className="w-full text-center py-4 font-semibold text-lg bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded"
@@ -242,26 +309,34 @@ const Navbar = () => {
             </NavLink>
           )}
 
-          {!token && registered && (
+          {!isLoggedIn && registered && (
             <NavLink
               to="/login"
-              className="w-full text-center py-4 font-semibold text-lg hover:text-blue-600"
+              className="w-full text-center py-4 font-semibold text-lg hover:text-blue-600 transition"
               onClick={() => setOpen(false)}
             >
               Login
             </NavLink>
           )}
 
-          {token && (
-            <button
-              onClick={() => {
-                logout();
-                setOpen(false);
-              }}
-              className="w-full text-center py-4 font-semibold text-lg border-t border-red-500 text-red-600 bg-red-50 rounded"
-            >
-              Logout
-            </button>
+          {isLoggedIn && (
+            <div className="w-full p-4 border-t border-gray-200 dark:border-gray-600">
+              <p className="text-sm text-gray-700 dark:text-gray-300 mb-2 text-center">
+                Signed in as:
+              </p>
+              <p className="font-medium break-all text-blue-700 dark:text-blue-400 mb-3 text-center">
+                {email || "User"}
+              </p>
+              <button
+                onClick={() => {
+                  logout();
+                  setOpen(false);
+                }}
+                className="w-full text-center py-3 font-semibold text-lg text-red-600 bg-red-50 dark:bg-red-900/20 hover:bg-red-600 hover:text-white border border-red-600 rounded transition-all"
+              >
+                Sign out
+              </button>
+            </div>
           )}
         </motion.div>
       )}
