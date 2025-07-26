@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import { themeColors } from "./themeColours";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const { theme } = useContext(ThemeContext);
@@ -80,6 +81,10 @@ const Footer = () => {
         </span>{" "}
         for open source
       </div>
+      <p>View our  <Link to="/privacy-policy" className="text-sm text-gray-600 hover:text-purple-600">
+        Privacy Policy
+      </Link>
+      </p>
     </footer>
   );
 };
