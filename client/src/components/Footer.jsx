@@ -81,10 +81,6 @@ const Footer = () => {
         </span>{" "}
         for open source
       </div>
-      <p>View our  <Link to="/privacy-policy" className="text-sm text-gray-600 hover:text-purple-600">
-        Privacy Policy
-      </Link>
-      </p>
     </footer>
   );
 };

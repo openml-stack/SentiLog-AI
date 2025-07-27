@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { ThemeContext } from "../context/ThemeContext";
 import ThemeToggle from "./ThemeToggle";
-//import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -11,7 +11,6 @@ const navLinks = [
   { to: "/news", label: "News" },
   { to: "/dashboard", label: "Dashboard" },
   { to: "/about", label: "About" },
-   { to: "/privacy-policy", label: "Privacy Policy" },
 ];
 
 const Logo = ({ theme, currentColors }) => (
