@@ -180,3 +180,6 @@ By contributing to this repository, you agree that your contributions will be li
 ---
 
 > _Let's build the future of mood and news analysis together!_ 
+
+
+## Folder Structure
