@@ -1,10 +1,8 @@
-
-import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import Logo from "./Logo";
-import { MdDarkMode } from "react-icons/md";
-import { CiLight } from "react-icons/ci";
-
+import React, { useState, useContext, useEffect } from "react";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { ThemeContext } from "../context/ThemeContext";
+import ThemeToggle from "./ThemeToggle";
+import { motion } from "framer-motion";
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -15,19 +13,44 @@ const navLinks = [
   { to: "/about", label: "About" },
 ];
 
+const Logo = ({ theme, currentColors }) => (
+  <span
+    className="flex items-center gap-2 text-2xl font-extrabold tracking-tight select-none transition-all duration-300"
+    style={{
+      background: `linear-gradient(to right, var(--gradient-from, ${currentColors['--gradient-from'] || '#6366f1'}), var(--gradient-to, ${currentColors['--gradient-to'] || '#d946ef'}))`,
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+      backgroundClip: "text",
+    }}
+  >
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <circle
+        cx="16"
+        cy="16"
+        r="14"
+        fill={theme === "dark" ? "#8b5cf6" : "#a78bfa"}
+        fillOpacity="0.18"
+      />
+      <path
+        d="M16 8v8l6 3"
+        stroke={theme === "dark" ? "#93c5fd" : "#60a5fa"}
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle
+        cx="16"
+        cy="16"
+        r="2.5"
+        fill={theme === "dark" ? "#93c5fd" : "#60a5fa"}
+      />
+    </svg>
+    SentiLog <span className="animate-pulse">AI</span>
+  </span>
+);
 
-const Navbar = ({mode, setMode}) => {
+const Navbar = () => {
   const [open, setOpen] = useState(false);
-
-
-  const toggleMode=()=>{
-    if (mode==='light'){
-      setMode('dark')
-    } else{
-      setMode('light')
-    }
-  }
-
   const { theme } = useContext(ThemeContext);
   const [currentColors, setCurrentColors] = useState({});
   const location = useLocation();
@@ -111,7 +134,6 @@ const Navbar = ({mode, setMode}) => {
     navigate("/");
   };
 
-
   return (
     <nav
       className="sticky top-0 z-50 backdrop-blur-xl shadow-lg flex items-center justify-between px-4 py-3 md:px-10 border-b transition-all duration-300"
@@ -170,23 +192,13 @@ const Navbar = ({mode, setMode}) => {
         </div>
       </div>
 
-      <button className={`${mode==='light'? 'bg-indigo-950': 'bg-yellow-400'} 
-      w-fit h-fit hidden md:flex`}
-      onClick={toggleMode}>
-        {mode==='light'?
-        <MdDarkMode className="text-slate-300" size={'20px'}/>  :
-        <CiLight className="text-black" size={'20px'}/> }
-        </button>
-        <div className="flex items-center gap-4">
-          <button
-        className={`${mode==='light'? '':'bg-blue-950 text-slate-300' } md:hidden text-xl focus:outline-none`}
-        onClick={() => setOpen(o => !o)}
-
+      <button
+        className="md:hidden text-2xl px-4 py-2 rounded-full bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 text-gray-800 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out focus:outline-none"
+        onClick={() => setOpen((o) => !o)}
         aria-label="Toggle menu"
       >
         {open ? "✖️" : "☰"}
       </button>
-
 
       {open && (
         <motion.div
@@ -210,7 +222,6 @@ const Navbar = ({mode, setMode}) => {
                   : currentColors["--nav-text"],
                 borderBottomColor: currentColors["--nav-border"],
               })}
-
               onClick={() => setOpen(false)}
             >
               {link.label}

@@ -1,13 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-const Dashboard = () => {
-
-  // tab title
-        useEffect(()=>{
-        document.title='SentiLogAI-Dashboard '
-        },[])
-  return (
+const Dashboard = () => (
   <div className="p-4">Dashboard (placeholder)</div>
-)};
+);
 
 export default Dashboard; 

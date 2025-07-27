@@ -1,22 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import TextInput from "../components/TextInput";
 import SentimentCard from "../components/SentimentCard";
 import api from "../axios";
-import { ThemeContext } from "../App";
-
 import QuillEditor from "../components/ReactQuill";
 import toast, { Toaster } from "react-hot-toast";
-
 const JournalPage = () => {
-  const theme=useContext(ThemeContext)
   const [text, setText] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  // tab title
-    useEffect(()=>{
-       document.title='SentiLogAI-Journal '
-    },[])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +30,6 @@ const JournalPage = () => {
   };
 
   return (
-
     <>
       <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-screen flex flex-col relative overflow-hidden">
         <Navbar />
@@ -79,7 +72,6 @@ const JournalPage = () => {
                 <div data-aos="fade-left" className="text-left mb-8">
                   <div className="flex items-center mb-6">
                     <div className="w-14 h-8 md:w-16 md:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mr-3 shadow-lg">
-
                       {loading ? (
                         <div className="w-5 h-5 md:w-6 md:h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                       ) : (
@@ -250,7 +242,6 @@ const JournalPage = () => {
                         />
                       </div>
                     </div>
-
                   ) : (
                     !loading && (
                       <p className="text-gray-500 italic text-lg">
@@ -259,12 +250,11 @@ const JournalPage = () => {
                     )
                   )}
                 </div>
-
               </div>
             </div>
           </section>
 
-         {/* Tips Section */}
+          {/* Tips Section */}
           <section data-aos="fade-up" className="py-16 px-4">
             <div className="max-w-6xl mx-auto">
               <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">
@@ -364,7 +354,6 @@ const JournalPage = () => {
         <Footer />
       </div>
     </>
-
   );
 };
 

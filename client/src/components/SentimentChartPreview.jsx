@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
-import { ThemeContext } from "../App";
+import React, { useEffect, useRef } from "react";
 
 // Theme color palette
 const themeColors = {
@@ -152,21 +151,55 @@ const AnimatedChart = () => {
 };
 
 const SentimentChartPreview = () => {
+  useEffect(() => {
+    const root = document.documentElement;
+    const theme = 'dark'; // Change to 'light' if needed
+    const colors = themeColors[theme];
 
-  const theme=useContext(ThemeContext)
-  return(
-  
-  <section className="max-w-3xl mx-auto px-4 py-12">
-    <div className={`${theme==='light'? 'bg-white/80 text-gray-600':'bg-gradient-to-tr from-[#28283d] via-[#2b2b55] to-[#161a50] text-slate-300'}  backdrop-blur-lg rounded-3xl shadow-2xl p-10 flex flex-col items-center border border-blue-100 relative`}>
-      {/* Preview badge */}
-      <span className="absolute top-6 right-6 bg-gradient-to-r from-blue-400 to-pink-400 text-white text-xs font-bold px-4 py-1 rounded-full shadow z-20">Preview</span>
-      <h2 className={`${theme==='light'? 'text-gray-900': 'text-sky-500'} text-2xl md:text-3xl font-extrabold mb-2  tracking-tight`}>Mood vs News: 7-Day AI Snapshot</h2>
-      <p className=" mb-1 text-center max-w-lg">See how your mood and the sentiment of world news align over the past week. Powered by SentiLog AI.</p>
-      <p className="text-blue-500 text-sm mb-6 text-center">This is a sample chart. Your real data will appear here after you use SentiLog AI.</p>
-      <AnimatedChart />
+    Object.entries(colors).forEach(([key, value]) => {
+      root.style.setProperty(key, value);
+    });
+  }, []);
+
+  return (
+    <div style={{ backgroundColor: 'var(--bg)' }}>
+      <section className="max-w-3xl mx-auto px-4 py-12">
+        <div 
+          className="backdrop-blur-lg rounded-3xl shadow-2xl p-10 flex flex-col items-center border relative"
+          style={{
+            backgroundColor: 'var(--card-bg)',
+            borderColor: 'var(--border)',
+          }}
+        >
+          <span 
+            className="absolute top-6 right-6 text-white text-xs font-bold px-4 py-1 rounded-full shadow z-20"
+            style={{ background: 'var(--badge-bg)' }}
+          >
+            Preview
+          </span>
+          <h2 
+            className="text-2xl md:text-3xl font-extrabold mb-2 tracking-tight"
+            style={{ color: 'var(--heading)' }}
+          >
+            Mood vs News: 7-Day AI Snapshot
+          </h2>
+          <p 
+            className="mb-1 text-center max-w-lg"
+            style={{ color: 'var(--body-text)' }}
+          >
+            See how your mood and the sentiment of world news align over the past week. Powered by SentiLog AI.
+          </p>
+          <p 
+            className="text-sm mb-6 text-center"
+            style={{ color: 'var(--preview-text)' }}
+          >
+            This is a sample chart. Your real data will appear here after you use SentiLog AI.
+          </p>
+          <AnimatedChart />
+        </div>
+      </section>
     </div>
-  </section>
-)};
-
+  );
+};
 
 export default SentimentChartPreview;

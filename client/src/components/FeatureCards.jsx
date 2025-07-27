@@ -4,6 +4,7 @@ import { ThemeContext } from '../context/ThemeContext';
 import { themeColors } from "./themeColours";
 import {Newspaper,Smile,LineChart} from "lucide-react"
 
+
 const features = [
   {
     key: "news",
@@ -42,8 +43,6 @@ const features = [
 ];
 
 const FeatureCards = () => {
-   const theme=useContext(ThemeContext)
-  
   const [hovered, setHovered] = useState(null);
   const { theme } = useContext(ThemeContext);
   const [currentColors, setCurrentColors] = useState(themeColors[theme]);
@@ -71,18 +70,12 @@ const FeatureCards = () => {
       }}
     >
       <div className="flex flex-col md:flex-row gap-6 justify-center">
-
         {features.map((f) => (
           <Link
             data-aos={f.aos}
             to={f.link}
             key={f.key}
-            className={`${theme==='light'? 'bg-white/80 text-gray-600': 'bg-[#171736] text-slate-300 hover:text-slate-300'} 
-              flex-1  backdrop-blur-lg rounded-2xl
-              shadow-xl p-8 text-center border border-pink-100 
-              hover:scale-105 hover:shadow-2xl transition-transform 
-              cursor-pointer relative group overflow-hidden`}
-
+            className="flex-1 backdrop-blur-lg rounded-2xl shadow-xl p-8 text-center border hover:scale-105 hover:shadow-2xl transition-all duration-300 cursor-pointer relative group overflow-hidden"
             onMouseEnter={() => setHovered(f.key)}
             onMouseLeave={() => setHovered(null)}
             style={{
@@ -94,9 +87,8 @@ const FeatureCards = () => {
           >
             <div className="flex flex-col items-center justify-center">
               <div className="mb-2">{f.icon}</div>
-
               <h3 
-                className={`text-xl font-bold mb-1 tracking-tight ${theme==='light'? 'text-gray-900': 'text-sky-500'}}
+                className="text-xl font-bold mb-1 tracking-tight" 
                 style={{ 
                   color: `var(--heading, ${currentColors['--heading']})` 
                 }}
@@ -112,19 +104,16 @@ const FeatureCards = () => {
               >
                 {f.desc}
               </p>
-
               <div className="transition-all duration-300 ease-in-out">
                 {hovered === f.key ? f.animation : null}
               </div>
             </div>
-
             <div 
               className="absolute bottom-0 left-0 w-full h-1 opacity-0 group-hover:opacity-100 transition-opacity" 
               style={{ 
                 background: `linear-gradient(to right, var(--gradient-from, ${currentColors['--gradient-from']}), var(--gradient-to, ${currentColors['--gradient-to']}))` 
               }}
             />
-
           </Link>
         ))}
       </div>

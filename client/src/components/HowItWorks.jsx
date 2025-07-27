@@ -107,7 +107,6 @@ const HeroSection = () => {
         >
           Try Live Demo
         </button>
-
       </div>
     </section>
   );

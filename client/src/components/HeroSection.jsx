@@ -1,7 +1,5 @@
-
-import React, { useContext } from "react";
-import { ThemeContext } from "../App";
-
+import React, { useContext, useEffect, useState } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
 const scrollToDemo = () => {
   const demo = document.getElementById("live-demo-section");
