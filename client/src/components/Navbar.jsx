@@ -182,12 +182,20 @@ const Navbar = () => {
             </NavLink>
           )}
           {token && (
-            <button
-              onClick={logout}
-              className="px-4 py-2 text-red-600 border border-red-600 rounded hover:bg-red-50 transition"
-            >
-              Logout
-            </button>
+            <>
+              <NavLink
+                to="/forgot-password"
+                className="px-4 py-2 text-green-600 border border-green-600 rounded hover:bg-green-50 transition"
+              >
+                Reset Password
+              </NavLink>
+              <button
+                onClick={logout}
+                className="px-4 py-2 text-red-600 border border-red-600 rounded hover:bg-red-50 transition"
+              >
+                Logout
+              </button>
+            </>
           )}
         </div>
       </div>
