@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+
+import React, { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 import Logo from "./Logo";
 import { MdDarkMode } from "react-icons/md";
 import { CiLight } from "react-icons/ci";
-import { motion } from "framer-motion";
-import ThemeToggle from "./ThemeToggle"; // assuming this exists
-import { ThemeContext } from "../contexts/ThemeContext"; // assuming this exists
+
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -16,8 +15,19 @@ const navLinks = [
   { to: "/about", label: "About" },
 ];
 
-const Navbar = ({ mode, setMode }) => {
+
+const Navbar = ({mode, setMode}) => {
   const [open, setOpen] = useState(false);
+
+
+  const toggleMode=()=>{
+    if (mode==='light'){
+      setMode('dark')
+    } else{
+      setMode('light')
+    }
+  }
+
   const { theme } = useContext(ThemeContext);
   const [currentColors, setCurrentColors] = useState({});
   const location = useLocation();
@@ -101,9 +111,6 @@ const Navbar = ({ mode, setMode }) => {
     navigate("/");
   };
 
-  const toggleMode = () => {
-    setMode(mode === "light" ? "dark" : "light");
-  };
 
   return (
     <nav
@@ -163,30 +170,23 @@ const Navbar = ({ mode, setMode }) => {
         </div>
       </div>
 
-      <div className="flex items-center gap-4 md:hidden">
-        <button
-          className={`${
-            mode === "light" ? "bg-indigo-950" : "bg-yellow-400"
-          } w-fit h-fit p-1 rounded`}
-          onClick={toggleMode}
-        >
-          {mode === "light" ? (
-            <MdDarkMode className="text-slate-300" size={"20px"} />
-          ) : (
-            <CiLight className="text-black" size={"20px"} />
-          )}
+      <button className={`${mode==='light'? 'bg-indigo-950': 'bg-yellow-400'} 
+      w-fit h-fit hidden md:flex`}
+      onClick={toggleMode}>
+        {mode==='light'?
+        <MdDarkMode className="text-slate-300" size={'20px'}/>  :
+        <CiLight className="text-black" size={'20px'}/> }
         </button>
+        <div className="flex items-center gap-4">
+          <button
+        className={`${mode==='light'? '':'bg-blue-950 text-slate-300' } md:hidden text-xl focus:outline-none`}
+        onClick={() => setOpen(o => !o)}
 
-        <button
-          className={`${
-            mode === "light" ? "" : "bg-blue-950 text-slate-300"
-          } md:hidden text-xl focus:outline-none p-1 rounded`}
-          onClick={() => setOpen((o) => !o)}
-          aria-label="Toggle menu"
-        >
-          {open ? "✖️" : "☰"}
-        </button>
-      </div>
+        aria-label="Toggle menu"
+      >
+        {open ? "✖️" : "☰"}
+      </button>
+
 
       {open && (
         <motion.div
@@ -210,6 +210,7 @@ const Navbar = ({ mode, setMode }) => {
                   : currentColors["--nav-text"],
                 borderBottomColor: currentColors["--nav-border"],
               })}
+
               onClick={() => setOpen(false)}
             >
               {link.label}
