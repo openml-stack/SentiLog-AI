@@ -1,3 +1,4 @@
+
 import React, { useContext } from "react";
 import { IoCall } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
@@ -12,7 +13,9 @@ import { ThemeContext } from "../App.jsx";
 const Footer = () => {
    const theme=useContext(ThemeContext)
   return (
-  <footer className={`bg-gradient-to-b sm:bg-gradient-to-r from-[#1f1f3b] via-purple-900/50  to-pink-700/50 text-slate-300 shadow-sky-400 
+  <footer
+    data-aos="fade-up"
+    className={`bg-gradient-to-b sm:bg-gradient-to-r from-[#1f1f3b] via-purple-900/50  to-pink-700/50 text-slate-300 shadow-sky-400 
   border-t mx-auto border-blue-100 py-8 mt-12 px-5 md:px-10 text-center shadow-inner
   text-sm w-screen 
   relative`}>
@@ -144,4 +147,3 @@ const Footer = () => {
 
 export default Footer;
 
-// 

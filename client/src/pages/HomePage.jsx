@@ -28,4 +28,4 @@ return (<div className={`${theme==='light'? 'bg-gradient-to-r from-blue-50 to-wh
 }
 ;
 
-export default HomePage; 
+export default HomePage;
