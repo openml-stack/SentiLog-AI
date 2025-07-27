@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GoogleLoginButton from "../components/GoogleLoginButton"; // ✅ custom button
+import { useNavigate, Link } from "react-router-dom";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -73,7 +74,6 @@ function LoginPage() {
             Login
           </button>
         </form>
-
         {/* Divider */}
         <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
@@ -83,6 +83,9 @@ function LoginPage() {
 
         {/* ✅ Google Login Button Component */}
         <GoogleLoginButton />
+        <div style={{ textAlign: 'right', marginBottom: '10px' }}>
+          <Link to="/forgot-password">Forgot Password?</Link>
+        </div>
       </div>
     </div>
   );

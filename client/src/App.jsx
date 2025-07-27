@@ -7,7 +7,9 @@ import HomePage from "./pages/HomePage";
 import AnalyzePage from "./pages/AnalyzePage";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
-
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword"; 
+import Loader from "./components/Preloader/Loader";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -30,6 +32,9 @@ function App() {
           <Route path="/news" element={<NewsPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signin" element={<LoginPage />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Routes>
       </Router>
     </>

@@ -1,3 +1,4 @@
+
 const { Router } = require("express");
 const passport = require("passport");
 const { signup, signin } = require("../controllers/authController");
@@ -7,6 +8,15 @@ const authRouter = Router();
 // === Email/Password Signup & Signin Routes ===
 authRouter.post("/signup", signup);
 authRouter.post("/signin", signin);
+
+const { Router } = require('express');
+const { signup, signin, forgotPassword, resetPassword } = require('../controllers/authController'); // your logic here
+
+
+authRouter.post('/signup', signup);
+authRouter.post('/signin', signin);
+authRouter.post('/forgot-password', forgotPassword);
+authRouter.post('/reset-password', resetPassword);
 
 // === Google OAuth Routes ===
 authRouter.get(
