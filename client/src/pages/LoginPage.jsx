@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GoogleLoginButton from "../components/GoogleLoginButton"; // ✅ custom button
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function LoginPage() {
   const navigate = useNavigate();

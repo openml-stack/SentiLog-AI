@@ -12,21 +12,11 @@ const newsRoutes = require('./routes/news');
 const authRouter = require('./routes/authRoute');
 const analyzeRoutes = require('./routes/analyze');
 
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const dotenv = require("dotenv");
 require("dotenv").config();
 
-const errorHandler = require("./middleware/errorHandler");
 require("./utils/cronJob"); // this starts the cron when the server starts
 // const newsFetcher = require("./services/newsFetcher");
 // newsFetcher(); // Fetch and post news immediately on server start
-
-const journalRoutes = require("./routes/journal");
-const newsRoutes = require("./routes/news");
-const authRouter = require("./routes/authRoute");
-const analyzeRoutes = require("./routes/analyze");
 
 // Load environment variables
 dotenv.config();

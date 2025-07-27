@@ -9,8 +9,7 @@ const authRouter = Router();
 authRouter.post("/signup", signup);
 authRouter.post("/signin", signin);
 
-const { Router } = require('express');
-const { signup, signin, forgotPassword, resetPassword } = require('../controllers/authController'); // your logic here
+const {  forgotPassword, resetPassword } = require('../controllers/authController'); // your logic here
 
 
 authRouter.post('/signup', signup);
