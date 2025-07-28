@@ -91,8 +91,10 @@ const HowItWorks = () => {
 
   return (
     <section
-      className="relative py-20 px-4 overflow-hidden"
-      style={{ backgroundColor: "var(--bg)" }}
+      className={`relative py-20 px-4 overflow-hidden transition-colors duration-300 ${
+        theme === 'dark' ? 'bg-theme-dark' : 'bg-theme-light'
+      }`}
+      // style={{ backgroundColor: "var(--bg)" }}
     >
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Section Header */}

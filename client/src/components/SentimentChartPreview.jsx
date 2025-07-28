@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
 // Theme color palette
 const themeColors = {
@@ -151,18 +152,21 @@ const AnimatedChart = () => {
 };
 
 const SentimentChartPreview = () => {
+  const { theme } = useContext(ThemeContext);
+  
   useEffect(() => {
     const root = document.documentElement;
-    const theme = 'dark'; // Change to 'light' if needed
     const colors = themeColors[theme];
 
     Object.entries(colors).forEach(([key, value]) => {
       root.style.setProperty(key, value);
     });
-  }, []);
+  }, [theme]);
 
   return (
-    <div style={{ backgroundColor: 'var(--bg)' }}>
+    <div className={`transition-colors duration-300 ${
+      theme === 'dark' ? 'bg-theme-dark' : 'bg-theme-light'
+    }`}>
       <section className="max-w-3xl mx-auto px-4 py-12">
         <div 
           className="backdrop-blur-lg rounded-3xl shadow-2xl p-10 flex flex-col items-center border relative"
