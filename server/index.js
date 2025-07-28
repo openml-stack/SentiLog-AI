@@ -14,7 +14,7 @@ const journalRoutes = require("./routes/journal");
 const newsRoutes = require("./routes/news");
 const authRouter = require("./routes/authRoute");
 const analyzeRoutes = require("./routes/analyze");
-const ContactRoutes =require("./routes/Contact")
+const contactRoutes =require("./routes/Contact")
 
 
 dotenv.config();
@@ -38,7 +38,7 @@ app.use('/api/journal', journalRoutes);
 app.use('/api/news', newsRoutes);
 app.use('/api/analyze', analyzeRoutes);
 app.use('/api/auth', authRouter);
-app.use('/api/contact',ContactRoutes)
+app.use('/api/contact',contactRoutes)
 
 
 // Error handler
