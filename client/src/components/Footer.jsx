@@ -16,11 +16,11 @@ const Footer = () => {
   return (
     <footer
       data-aos="fade-up"
-      className={`w-full py-10 mt-0 text-center text-sm relative transition-colors duration-300 ${
+      className={`w-full py-10 mt-0 text-center text-sm relative transition-colors duration-300 border-t ${
         theme === 'dark' 
-          ? 'bg-gray-900 border-gray-700' 
-          : 'bg-gray-50 border-gray-200'
-      } border-t`}
+          ? 'bg-theme-dark border-gray-700' 
+          : 'bg-theme-light border-gray-200'
+      }`}
     >
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-center items-center gap-2 mb-4">

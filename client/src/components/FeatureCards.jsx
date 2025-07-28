@@ -41,11 +41,15 @@ const FeatureCards = () => {
         once: true,
       });
     });
-  }, []);
+  }, [theme]);
 
   return (
-    <section className="w-full py-16 px-4 transition-colors duration-300"
-      style={{ backgroundColor: "var(--bg)" }}
+    <section
+      key={theme}
+      className={`w-full py-16 px-4 transition-colors duration-300 ${
+        theme === 'dark' ? 'bg-theme-dark' : 'bg-theme-light'
+      }`}
+      // style={{ backgroundColor: "var(--bg)" }}
     >
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}

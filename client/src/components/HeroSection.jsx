@@ -10,8 +10,10 @@ const AnimatedBackground = ({ theme }) => (
   <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
     {/* Solid background */}
     <div 
-      className="absolute inset-0 w-full h-full transition-colors duration-300"
-      style={{ backgroundColor: "var(--bg)" }}
+      className={`absolute inset-0 w-full h-full transition-colors duration-300 ${
+        theme === 'dark' ? 'bg-theme-dark' : 'bg-theme-light'
+      }`}
+      // style={{ backgroundColor: "var(--bg)" }}
     />
     
     {/* Animated wave pattern */}
@@ -79,6 +81,11 @@ const AnimatedBackground = ({ theme }) => (
 const HeroSection = () => {
   const { theme } = useContext(ThemeContext);
   const [colors, setColors] = useState({});
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -97,10 +104,23 @@ const HeroSection = () => {
     });
   }, [theme]);
 
+  // Prevent hydration mismatch
+  if (!mounted) {
+    return (
+      <section className={`relative text-center py-16 md:py-20 overflow-hidden h-[80vh] flex items-center justify-center ${
+        theme === 'dark' ? 'bg-theme-dark' : 'bg-theme-light'
+      }`}>
+        <div className="animate-pulse text-gray-500">Loading...</div>
+      </section>
+    );
+  }
+
   return (
     <section
-      className="relative text-center py-16 md:py-20 overflow-hidden h-[80vh] flex items-center justify-center transition-colors duration-300"
-        style={{ backgroundColor: "var(--bg)" }}
+      className={`relative text-center py-16 md:py-20 overflow-hidden h-[80vh] flex items-center justify-center transition-colors duration-300 ${
+        theme === 'dark' ? 'bg-theme-dark' : 'bg-theme-light'
+      }`}
+      // style={{ backgroundColor: "var(--bg)" }}
     >
       <AnimatedBackground theme={theme} />
       <div className="relative z-20 flex flex-col items-center justify-center px-4">
