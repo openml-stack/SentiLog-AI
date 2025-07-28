@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import api from "../axios";
 export const ContactPage = () => {
   const [data, setData] = useState({
     username: "",
@@ -15,37 +15,32 @@ export const ContactPage = () => {
     }));
   };
 
-  const handleSubmit =async(e) => {
-    e.preventDefault();
-    const {username,email,message}=data
-    try{
-      const res= await fetch("http://localhost:8080/api/contact",{
-      method:"post",
-      headers:{
-       "content-type":"application/json",
-      },
-      body:JSON.stringify({username,email,message})
-      
-      })
-       const result=await res.json();
-       if(res.ok){
-        alert("form submitted")
-       setData({username:"",
-        email:"",
-        message:""
-       })
-      
-       }
-        else{
-        alert("somethimg went wrong")
-       }
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  const { username, email, message } = data;
 
-    }catch(error){
-      console.log(error);
-      alert("error sending message")
+  try {
+    const res = await api.post("/api/contact", {
+      username,
+      email,
+      message
+    });
+
+    if (res.status === 200) {
+      alert("Form submitted");
+      setData({
+        username: "",
+        email: "",
+        message: ""
+      });
+    } else {
+      alert("Something went wrong");
     }
-   
-  };
+  } catch (error) {
+    console.error(error);
+    alert("Error sending message");
+  }
+};
 
   return (
     <>
