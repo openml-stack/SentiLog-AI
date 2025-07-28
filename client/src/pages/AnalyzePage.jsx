@@ -172,7 +172,6 @@ const AnalyzePage = () => {
         ? 'bg-gradient-to-br from-gray-900 via-slate-900 to-black' 
         : 'bg-gradient-to-br from-blue-50 via-white to-purple-50'
     }`}>
-      <Navbar />
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Header */}
         <div data-aos="fade-up" className="text-center mb-12">

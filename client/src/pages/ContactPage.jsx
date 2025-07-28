@@ -48,7 +48,6 @@ export const ContactPage = () => {
 
   return (
     <>
-      <Navbar />
       <div
         className="min-h-screen px-4 py-10 transition-all duration-300"
         style={{ backgroundColor: "var(--bg)", color: "var(--body-text)" }}

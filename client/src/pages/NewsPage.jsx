@@ -50,7 +50,7 @@ const NewsPage = () => {
           ? 'bg-gradient-to-br from-gray-900 via-slate-900 to-black' 
           : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50'
       }`}>
-        <Navbar />
+       
         
         {/* Enhanced Background Pattern */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
