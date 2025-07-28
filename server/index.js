@@ -1,3 +1,4 @@
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -13,6 +14,8 @@ const journalRoutes = require("./routes/journal");
 const newsRoutes = require("./routes/news");
 const authRouter = require("./routes/authRoute");
 const analyzeRoutes = require("./routes/analyze");
+const contactRoutes =require("./routes/Contact")
+
 
 dotenv.config();
 const app = express();
@@ -30,10 +33,13 @@ app.get("/", (req, res) => {
 });
 
 // API routes
-app.use("/api/journal", journalRoutes);
-app.use("/api/news", newsRoutes);
-app.use("/api/analyze", analyzeRoutes);
-app.use("/api/auth", authRouter);
+
+app.use('/api/journal', journalRoutes);
+app.use('/api/news', newsRoutes);
+app.use('/api/analyze', analyzeRoutes);
+app.use('/api/auth', authRouter);
+app.use('/api/contact',contactRoutes)
+
 
 // Error handler
 app.use(errorHandler);

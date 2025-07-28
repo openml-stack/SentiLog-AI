@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const journalController = require('../controllers/journalController');
+const journalController = require('../controllers/journalController.js');
 
 // Create and analyze
 router.post('/', journalController.createEntry);
