@@ -14,6 +14,7 @@ import Loader from "./components/Preloader/Loader";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
           <Route path="/news" element={<NewsPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/signin" element={<LoginPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Routes>
