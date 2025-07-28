@@ -1,5 +1,5 @@
 const express= require("express")
 const  {ContactFormHandler}= require("../controllers/ContactController")
  const router=express.Router();
-router.post("/contact",ContactFormHandler);
+router.post("/",ContactFormHandler);
 module.exports=router;
