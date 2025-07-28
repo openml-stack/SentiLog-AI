@@ -212,7 +212,7 @@ const AnalyzePage = () => {
           >
             {uploadedFile ? (
               <div className="space-y-4">
-                <CheckCircle className="w-16 h-16 mx-auto text-green-500" />
+                <CheckCircle className="w-16 h-16 mx-auto text-blue-600" />
                 <div>
                   <h3 className="text-xl font-semibold text-gray-800 mb-2">
                     File Ready for Analysis
