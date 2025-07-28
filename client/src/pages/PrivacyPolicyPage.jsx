@@ -49,7 +49,7 @@ const PrivacyPolicy = () => {
 
   return (
     <div>
-        <Navbar/>
+       
   
             <div className="flex flex-col md:flex-row min-h-screen text-gray-800 dark:text-gray-200">
                 {/* Sidebar */}

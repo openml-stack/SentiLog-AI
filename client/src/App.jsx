@@ -28,7 +28,9 @@ function App() {
 
   return (
     <>
+      
       <Router>
+        <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/dashboard" element={<Dashboard />} />
