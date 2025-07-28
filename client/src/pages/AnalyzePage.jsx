@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import {
   Upload,
   FileText,
@@ -13,9 +13,11 @@ import {
   Eye,
 } from "lucide-react";
 import api from "../axios";
-import Navbar from "../components/Navbar.jsx"
+import Navbar from "../components/Navbar.jsx";
+import { ThemeContext } from "../context/ThemeContext";
 
 const AnalyzePage = () => {
+  const { theme } = useContext(ThemeContext);
   const [dragActive, setDragActive] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [extractedText, setExtractedText] = useState("");
@@ -26,6 +28,18 @@ const AnalyzePage = () => {
   const [showFullText, setShowFullText] = useState(false);
   const fileInputRef = useRef(null);
   const resultRef = useRef(null);
+
+
+  useEffect(() => {
+  import('aos').then(AOS => {
+    AOS.init({
+      duration: 600,
+      once: false,
+    });
+    AOS.refreshHard();
+  });
+}, [theme]);
+
 
   const handleDrag = (e) => {
     e.preventDefault();
@@ -82,41 +96,6 @@ const AnalyzePage = () => {
     }
     setIsExtracting(false);
   };
-  const themeColors = {
-  light: {
-    '--bg': '#ffffff',
-    '--card-bg': '#f9fafb',
-    '--border': '#e5e7eb',
-    '--heading': '#111827',
-    '--body-text': '#374151',
-    '--button': '#6366f1',
-    '--button-hover': '#4f46e5',
-    '--gradient-from': '#6366f1',
-    '--gradient-to': '#d946ef',
-    '--input-bg': '#ffffff',
-    '--input-border': '#d1d5db',
-    '--icon': '#6b7280',
-    '--link': '#3b82f6',
-    '--link-hover': '#1d4ed8',
-  },
-  dark: {
-    '--bg': '#0b1120',
-    '--card-bg': '#111827',
-    '--border': '#1f2937',
-    '--heading': '#f3f4f6',
-    '--body-text': '#d1d5db',
-    '--button': '#6366f1',
-    '--button-hover': '#4f46e5',
-    '--gradient-from': '#6366f1',
-    '--gradient-to': '#d946ef',
-    '--input-bg': '#1a2332',
-    '--input-border': '#334155',
-    '--icon': '#94a3b8',
-    '--link': '#60a5fa',
-    '--link-hover': '#3b82f6',
-  }
-};
-
 
   const downloadResults = () => {
     if (!sentimentResult || !uploadedFile) return;
@@ -166,28 +145,47 @@ const AnalyzePage = () => {
   };
 
   const getSentimentColor = (sentiment) => {
-    switch (sentiment) {
-      case "positive":
-        return "text-green-600 bg-green-50 border-green-200";
-      case "negative":
-        return "text-red-600 bg-red-50 border-red-200";
-      default:
-        return "text-gray-600 bg-gray-50 border-gray-200";
+    if (theme === 'dark') {
+      switch (sentiment) {
+        case "positive":
+          return "text-green-400 bg-green-900/30 border-green-700";
+        case "negative":
+          return "text-red-400 bg-red-900/30 border-red-700";
+        default:
+          return "text-gray-400 bg-gray-800 border-gray-600";
+      }
+    } else {
+      switch (sentiment) {
+        case "positive":
+          return "text-green-600 bg-green-50 border-green-200";
+        case "negative":
+          return "text-red-600 bg-red-50 border-red-200";
+        default:
+          return "text-gray-600 bg-gray-50 border-gray-200";
+      }
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-        
-        <div className="text-center mb-12">
+    <div className={`min-h-screen transition-colors duration-300 ${
+      theme === 'dark' 
+        ? 'bg-gradient-to-br from-gray-900 via-slate-900 to-black' 
+        : 'bg-gradient-to-br from-blue-50 via-white to-purple-50'
+    }`}>
       <Navbar />
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Header */}
         <div data-aos="fade-up" className="text-center mb-12">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+          <h1 className={`text-4xl font-bold bg-gradient-to-r ${
+            theme === 'dark' 
+              ? 'from-blue-400 to-purple-400' 
+              : 'from-blue-600 to-purple-600'
+          } bg-clip-text text-transparent mb-4`}>
             Advanced Document Sentiment Analysis
           </h1>
-          <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+          <p className={`text-lg max-w-3xl mx-auto ${
+            theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+          }`}>
             Upload your documents to extract raw text and perform comprehensive
             sentiment analysis using advanced AI processing. Supports TXT, PDF,
             and DOCX files with detailed emotional sentiment scoring.
@@ -197,13 +195,19 @@ const AnalyzePage = () => {
         {/* Upload Section */}
         <div
           data-aos="fade-down"
-          className="bg-white rounded-2xl shadow-xl p-8 mb-8"
+          className={`rounded-2xl shadow-xl p-8 mb-8 transition-colors duration-300 ${
+            theme === 'dark' ? 'bg-gray-800' : 'bg-white'
+          }`}
         >
           <div
             className={`border-2 border-dashed rounded-xl p-12 text-center transition-all duration-300 ${
               dragActive
-                ? "border-blue-500 bg-blue-50"
-                : "border-gray-300 hover:border-blue-400 hover:bg-gray-50"
+                ? theme === 'dark'
+                  ? "border-blue-400 bg-blue-900/20"
+                  : "border-blue-500 bg-blue-50"
+                : theme === 'dark'
+                  ? "border-gray-600 hover:border-blue-500 hover:bg-gray-700/50"
+                  : "border-gray-300 hover:border-blue-400 hover:bg-gray-50"
             }`}
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
@@ -214,13 +218,15 @@ const AnalyzePage = () => {
               <div className="space-y-4">
                 <CheckCircle className="w-16 h-16 mx-auto text-green-500" />
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                  <h3 className={`text-xl font-semibold mb-2 ${
+                    theme === 'dark' ? 'text-gray-100' : 'text-gray-800'
+                  }`}>
                     File Ready for Analysis
                   </h3>
                   <p className="text-lg text-blue-600 font-medium">
                     {uploadedFile.name}
                   </p>
-                  <p className="text-gray-600">
+                  <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>
                     {(uploadedFile.size / 1024).toFixed(1)} KB
                   </p>
                 </div>
@@ -231,7 +237,11 @@ const AnalyzePage = () => {
                     setSentimentResult(null);
                     setError("");
                   }}
-                  className="text-blue-600 hover:text-blue-800 font-medium"
+                  className={`font-medium transition-colors ${
+                    theme === 'dark' 
+                      ? 'text-blue-400 hover:text-blue-300' 
+                      : 'text-blue-600 hover:text-blue-800'
+                  }`}
                 >
                   Upload Different File
                 </button>
@@ -240,13 +250,19 @@ const AnalyzePage = () => {
               <>
                 <Upload
                   className={`w-16 h-16 mx-auto mb-4 ${
-                    dragActive ? "text-blue-500" : "text-gray-400"
+                    dragActive 
+                      ? "text-blue-500" 
+                      : theme === 'dark' ? "text-gray-500" : "text-gray-400"
                   }`}
                 />
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                <h3 className={`text-xl font-semibold mb-2 ${
+                  theme === 'dark' ? 'text-gray-100' : 'text-gray-800'
+                }`}>
                   Upload Document for Analysis
                 </h3>
-                <p className="text-gray-600 mb-6">
+                <p className={`mb-6 ${
+                  theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   Drag and drop your file here, or click to browse
                 </p>
                 <input
@@ -262,7 +278,9 @@ const AnalyzePage = () => {
                 >
                   Choose File
                 </button>
-                <p className="text-sm text-gray-500 mt-4">
+                <p className={`text-sm mt-4 ${
+                  theme === 'dark' ? 'text-gray-500' : 'text-gray-500'
+                }`}>
                   Supported formats: .txt, .pdf, .docx (Max size: 10MB)
                 </p>
               </>
@@ -270,22 +288,30 @@ const AnalyzePage = () => {
           </div>
 
           {error && (
-            <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center">
+            <div className={`mt-6 p-4 rounded-lg flex items-center border ${
+              theme === 'dark' 
+                ? 'bg-red-900/30 border-red-700' 
+                : 'bg-red-50 border-red-200'
+            }`}>
               <AlertCircle className="w-5 h-5 text-red-500 mr-3 flex-shrink-0" />
-              <p className="text-red-700">{error}</p>
+              <p className={theme === 'dark' ? 'text-red-400' : 'text-red-700'}>{error}</p>
             </div>
           )}
         </div>
 
         {/* Text Extraction Loading */}
         {isExtracting && (
-          <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
+          <div className={`rounded-2xl shadow-xl p-8 mb-8 transition-colors duration-300 ${
+            theme === 'dark' ? 'bg-gray-800' : 'bg-white'
+          }`}>
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              <h3 className={`text-lg font-semibold mb-2 ${
+                theme === 'dark' ? 'text-gray-100' : 'text-gray-800'
+              }`}>
                 Processing Document...
               </h3>
-              <p className="text-gray-600">
+              <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>
                 Extracting text and analyzing sentiment for {uploadedFile?.name}
               </p>
             </div>
@@ -294,16 +320,24 @@ const AnalyzePage = () => {
 
         {/* Extracted Text Display */}
         {extractedText && !isExtracting && (
-          <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
+          <div className={`rounded-2xl shadow-xl p-8 mb-8 transition-colors duration-300 ${
+            theme === 'dark' ? 'bg-gray-800' : 'bg-white'
+          }`}>
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-semibold text-gray-800 flex items-center">
+              <h3 className={`text-xl font-semibold flex items-center ${
+                theme === 'dark' ? 'text-gray-100' : 'text-gray-800'
+              }`}>
                 <FileText className="w-6 h-6 text-blue-500 mr-2" />
                 Extracted Raw Text
               </h3>
               <div className="flex gap-2">
                 <button
                   onClick={() => setShowFullText(!showFullText)}
-                  className="flex items-center px-4 py-2 text-blue-600 hover:text-blue-800 border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors"
+                  className={`flex items-center px-4 py-2 border rounded-lg transition-colors ${
+                    theme === 'dark'
+                      ? 'text-blue-400 hover:text-blue-300 border-blue-600 hover:bg-blue-900/20'
+                      : 'text-blue-600 hover:text-blue-800 border-blue-200 hover:bg-blue-50'
+                  }`}
                 >
                   <Eye className="w-4 h-4 mr-2" />
                   {showFullText ? "Show Less" : "Show Full Text"}
@@ -311,13 +345,21 @@ const AnalyzePage = () => {
               </div>
             </div>
 
-            <div className="bg-gray-50 rounded-lg p-6 border-2 border-gray-200">
-              <div className="text-sm text-gray-600 mb-4">
+            <div className={`rounded-lg p-6 border-2 ${
+              theme === 'dark' 
+                ? 'bg-gray-900 border-gray-600' 
+                : 'bg-gray-50 border-gray-200'
+            }`}>
+              <div className={`text-sm mb-4 ${
+                theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+              }`}>
                 Extracted {extractedText.split(/\s+/).length} words from{" "}
                 {uploadedFile?.name}
               </div>
               <div className={showFullText ? "" : "max-h-64 overflow-y-auto"}>
-                <pre className="text-sm text-gray-700 whitespace-pre-wrap font-mono leading-relaxed">
+                <pre className={`text-sm whitespace-pre-wrap font-mono leading-relaxed ${
+                  theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                   {showFullText
                     ? extractedText
                     : extractedText.length > 1000
@@ -332,9 +374,13 @@ const AnalyzePage = () => {
 
         {/* Enhanced Sentiment Results */}
         {sentimentResult && !isExtracting && (
-          <div ref={resultRef} className="bg-white rounded-2xl shadow-xl p-8">
+          <div ref={resultRef} className={`rounded-2xl shadow-xl p-8 transition-colors duration-300 ${
+            theme === 'dark' ? 'bg-gray-800' : 'bg-white'
+          }`}>
             <div className="flex items-center justify-between mb-8">
-              <h3 className="text-2xl font-bold text-gray-800 flex items-center">
+              <h3 className={`text-2xl font-bold flex items-center ${
+                theme === 'dark' ? 'text-gray-100' : 'text-gray-800'
+              }`}>
                 <BarChart3 className="w-8 h-8 text-purple-500 mr-3" />
                 Comprehensive Sentiment Analysis Results
               </h3>
@@ -356,7 +402,9 @@ const AnalyzePage = () => {
                   )}`}
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm font-medium text-gray-600">
+                    <span className={`text-sm font-medium ${
+                      theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                    }`}>
                       Overall Sentiment
                     </span>
                     {getSentimentIcon(sentimentResult.sentiment)}
@@ -370,13 +418,13 @@ const AnalyzePage = () => {
                   </div>
                   <div className="space-y-1 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Score:</span>
+                      <span className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>Score:</span>
                       <span className="font-medium">
                         {sentimentResult.score}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Confidence:</span>
+                      <span className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>Confidence:</span>
                       <span className="font-medium">
                         {sentimentResult.confidence}%
                       </span>
@@ -388,25 +436,31 @@ const AnalyzePage = () => {
               {/* Document Statistics */}
               <div className="lg:col-span-2">
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="p-6 bg-blue-50 rounded-xl border-2 border-blue-200">
-                    <h4 className="font-semibold text-blue-800 mb-4">
+                  <div className={`p-6 rounded-xl border-2 ${
+                    theme === 'dark' 
+                      ? 'bg-blue-900/30 border-blue-700' 
+                      : 'bg-blue-50 border-blue-200'
+                  }`}>
+                    <h4 className={`font-semibold mb-4 ${
+                      theme === 'dark' ? 'text-blue-400' : 'text-blue-800'
+                    }`}>
                       Document Statistics
                     </h4>
                     <div className="space-y-3 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-gray-600">Total Words:</span>
+                        <span className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>Total Words:</span>
                         <span className="font-medium">
                           {sentimentResult.wordCount?.toLocaleString()}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-600">Sentences:</span>
+                        <span className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>Sentences:</span>
                         <span className="font-medium">
                           {sentimentResult.sentenceCount?.toLocaleString()}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-600">
+                        <span className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>
                           Avg Words/Sentence:
                         </span>
                         <span className="font-medium">
@@ -414,7 +468,7 @@ const AnalyzePage = () => {
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-600">Text Length:</span>
+                        <span className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>Text Length:</span>
                         <span className="font-medium">
                           {sentimentResult.detailedAnalysis?.textLength?.toLocaleString()}{" "}
                           chars
@@ -423,25 +477,31 @@ const AnalyzePage = () => {
                     </div>
                   </div>
 
-                  <div className="p-6 bg-purple-50 rounded-xl border-2 border-purple-200">
-                    <h4 className="font-semibold text-purple-800 mb-4">
+                  <div className={`p-6 rounded-xl border-2 ${
+                    theme === 'dark' 
+                      ? 'bg-purple-900/30 border-purple-700' 
+                      : 'bg-purple-50 border-purple-200'
+                  }`}>
+                    <h4 className={`font-semibold mb-4 ${
+                      theme === 'dark' ? 'text-purple-400' : 'text-purple-800'
+                    }`}>
                       Sentiment Indicators
                     </h4>
                     <div className="space-y-3 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-green-600">Positive Terms:</span>
-                        <span className="font-medium text-green-600">
+                        <span className="text-green-500">Positive Terms:</span>
+                        <span className="font-medium text-green-500">
                           {sentimentResult.positiveWords}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-red-600">Negative Terms:</span>
-                        <span className="font-medium text-red-600">
+                        <span className="text-red-500">Negative Terms:</span>
+                        <span className="font-medium text-red-500">
                           {sentimentResult.negativeWords}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-600">
+                        <span className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>
                           Total Sentiment Words:
                         </span>
                         <span className="font-medium">
@@ -449,7 +509,7 @@ const AnalyzePage = () => {
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-600">
+                        <span className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>
                           Sentiment Density:
                         </span>
                         <span className="font-medium">
@@ -468,14 +528,20 @@ const AnalyzePage = () => {
             </div>
 
             {/* Sentiment Breakdown Visualization */}
-            <div className="mt-8 p-6 bg-gray-50 rounded-xl border-2 border-gray-200">
-              <h4 className="font-semibold text-gray-800 mb-6">
+            <div className={`mt-8 p-6 rounded-xl border-2 ${
+              theme === 'dark' 
+                ? 'bg-gray-900 border-gray-600' 
+                : 'bg-gray-50 border-gray-200'
+            }`}>
+              <h4 className={`font-semibold mb-6 ${
+                theme === 'dark' ? 'text-gray-100' : 'text-gray-800'
+              }`}>
                 Sentiment Distribution
               </h4>
               <div className="space-y-4">
                 <div>
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm text-green-600 font-medium">
+                    <span className="text-sm text-green-500 font-medium">
                       Positive Sentiment
                     </span>
                     <span className="text-sm font-medium">
@@ -490,7 +556,9 @@ const AnalyzePage = () => {
                       %
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3">
+                  <div className={`w-full rounded-full h-3 ${
+                    theme === 'dark' ? 'bg-gray-700' : 'bg-gray-200'
+                  }`}>
                     <div
                       className="bg-gradient-to-r from-green-400 to-green-600 h-3 rounded-full transition-all duration-1000"
                       style={{
@@ -509,7 +577,7 @@ const AnalyzePage = () => {
 
                 <div>
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm text-red-600 font-medium">
+                    <span className="text-sm text-red-500 font-medium">
                       Negative Sentiment
                     </span>
                     <span className="text-sm font-medium">
@@ -524,7 +592,9 @@ const AnalyzePage = () => {
                       %
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3">
+                  <div className={`w-full rounded-full h-3 ${
+                    theme === 'dark' ? 'bg-gray-700' : 'bg-gray-200'
+                  }`}>
                     <div
                       className="bg-gradient-to-r from-red-400 to-red-600 h-3 rounded-full transition-all duration-1000"
                       style={{
@@ -544,19 +614,27 @@ const AnalyzePage = () => {
             </div>
 
             {/* Analysis Summary */}
-            <div className="mt-8 p-6 bg-indigo-50 rounded-xl border-2 border-indigo-200">
-              <h4 className="font-semibold text-indigo-800 mb-4">
+            <div className={`mt-8 p-6 rounded-xl border-2 ${
+              theme === 'dark' 
+                ? 'bg-indigo-900/30 border-indigo-700' 
+                : 'bg-indigo-50 border-indigo-200'
+            }`}>
+              <h4 className={`font-semibold mb-4 ${
+                theme === 'dark' ? 'text-indigo-400' : 'text-indigo-800'
+              }`}>
                 Detailed Analysis Summary
               </h4>
-              <p className="text-sm text-indigo-700 leading-relaxed">
+              <p className={`text-sm leading-relaxed ${
+                theme === 'dark' ? 'text-indigo-300' : 'text-indigo-700'
+              }`}>
                 The document <strong>"{uploadedFile?.name}"</strong> exhibits a
                 <strong
                   className={`${
                     sentimentResult.sentiment === "positive"
-                      ? "text-green-600"
+                      ? "text-green-500"
                       : sentimentResult.sentiment === "negative"
-                      ? "text-red-600"
-                      : "text-gray-600"
+                      ? "text-red-500"
+                      : theme === 'dark' ? "text-gray-400" : "text-gray-600"
                   }`}
                 >
                   {" "}
@@ -595,7 +673,7 @@ const AnalyzePage = () => {
           </div>
         )}
       </div>
-    </div></div>
+    </div>
   );
 };
 
