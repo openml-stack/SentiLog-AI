@@ -1,124 +1,166 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
+import {
+  FileText,
+  BookOpen,
+  TrendingUp,
+  Zap,
+  Brain,
+  BarChart3,
+} from "lucide-react";
 
-const steps = [
-  {
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-        <rect
-          x="5"
-          y="8"
-          width="30"
-          height="24"
-          rx="4"
-          fill="#60a5fa"
-          fillOpacity="0.13"
-        />
-        <rect x="9" y="12" width="22" height="4" rx="2" fill="#60a5fa" />
-        <rect x="9" y="18" width="14" height="2.5" rx="1.25" fill="#a78bfa" />
-        <rect x="9" y="22" width="10" height="2.5" rx="1.25" fill="#a78bfa" />
-      </svg>
-    ),
-    title: "Analyze",
-    desc: "Paste a news article → See how it feels",
-    aos: "fade-left",
-  },
-  {
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-        <rect
-          x="8"
-          y="10"
-          width="24"
-          height="20"
-          rx="4"
-          fill="#a78bfa"
-          fillOpacity="0.13"
-        />
-        <rect x="12" y="14" width="16" height="12" rx="3" fill="#a78bfa" />
-        <circle cx="20" cy="20" r="3" fill="#60a5fa" />
-        <rect x="17" y="25" width="6" height="2" rx="1" fill="#60a5fa" />
-      </svg>
-    ),
-    title: "Journal",
-    desc: "Write your journal entry → Reflect on your mood",
-    aos: "fade-up",
-  },
-  {
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-        <rect
-          x="8"
-          y="10"
-          width="24"
-          height="20"
-          rx="4"
-          fill="#60a5fa"
-          fillOpacity="0.10"
-        />
-        <rect x="13" y="23" width="3" height="7" rx="1.5" fill="#a78bfa" />
-        <rect x="18.5" y="18" width="3" height="12" rx="1.5" fill="#60a5fa" />
-        <rect x="24" y="14" width="3" height="16" rx="1.5" fill="#a78bfa" />
-      </svg>
-    ),
-    title: "Track",
-    desc: "Compare and track → Discover patterns over time",
-    aos: "fade-right",
-  },
-];
-
-const HowItWorks = () => {
-  const [hovered, setHovered] = useState(null);
+const StepCard = ({ icon: Icon, title, description, step, delay }) => {
   return (
-    <section className="max-w-5xl mx-auto px-4 py-16">
-      <h2 className="text-2xl md:text-3xl font-extrabold mb-10 text-center text-gray-900 tracking-tight">
-        How It Works
-      </h2>
-      <div className="flex flex-col md:flex-row gap-8 justify-center items-center relative">
-        {/* Timeline line */}
-        <div
-          className="hidden md:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-blue-200 via-pink-200 to-blue-200 opacity-60 z-0"
-          style={{ transform: "translateY(-50%)" }}
-        />
-        {steps.map((s, i) => (
+    <div
+      className={`relative group transition-all duration-700 transform translate-y-0 opacity-100`}
+    >
+      {/* Card Container */}
+      <div
+        className="relative p-8 rounded-2xl border-2 backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl overflow-hidden"
+        style={{
+          backgroundColor: "var(--card-bg)",
+          borderColor: "var(--border)",
+          boxShadow: "0 10px 30px rgba(139, 92, 246, 0.1)",
+        }}
+      >
+        {/* Animated Border Glow */}
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+
+        {/* Icon Container */}
+        <div className="flex justify-center mb-6">
           <div
-            data-aos={s.aos}
-            key={s.title}
-            className={`flex-1 bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-8 text-center border border-pink-100 relative z-10 transition-all duration-300 ease-in-out group ${
-              hovered === i ? "scale-105 shadow-2xl border-blue-300" : ""
-            }`}
-            onMouseEnter={() => setHovered(i)}
-            onMouseLeave={() => setHovered(null)}
+            className="relative p-4 rounded-full transition-all duration-300 group-hover:scale-110"
             style={{
-              animation: `fadeInUp 0.7s cubic-bezier(.39,.575,.56,1) both`,
-              animationDelay: `${i * 0.15}s`,
+              background: `linear-gradient(135deg, var(--gradient-from), var(--gradient-to))`,
+              boxShadow: "0 8px 25px rgba(139, 92, 246, 0.3)",
             }}
           >
-            <div
-              className={`mx-auto mb-3 w-14 h-14 flex items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-pink-100 ${
-                hovered === i ? "ring-4 ring-blue-300" : ""
-              } transition-all duration-300`}
-            >
-              {s.icon}
-            </div>
-            <h3 className="text-lg font-bold mb-1 text-gray-900">{s.title}</h3>
-            <p className="text-gray-600">{s.desc}</p>
-            {i < steps.length - 1 && (
-              <div
-                className="hidden md:block absolute right-0 top-1/2 w-6 h-1 bg-gradient-to-r from-blue-300 to-pink-300 opacity-80 z-20"
-                style={{ transform: "translateY(-50%)" }}
-              />
-            )}
+            <Icon size={32} className="text-white" />
+
+            {/* Pulse Effect */}
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 opacity-0 group-hover:opacity-30 group-hover:animate-ping" />
           </div>
-        ))}
+        </div>
+
+        {/* Content */}
+        <div className="text-center">
+          <h3
+            className="text-xl font-bold mb-3 tracking-tight"
+            style={{ color: "var(--heading)" }}
+          >
+            {title}
+          </h3>
+          <p
+            className="text-sm leading-relaxed"
+            style={{ color: "var(--body-text)" }}
+          >
+            {description}
+          </p>
+        </div>
       </div>
+    </div>
+  );
+};
+
+const HowItWorks = () => {
+  const { theme } = useContext(ThemeContext);
+
+  const steps = [
+    {
+      icon: FileText,
+      title: "Analyze",
+      description:
+        "Paste a news article or any text to see how it feels. Our AI instantly analyzes sentiment and emotional tone.",
+      step: 1,
+    },
+    {
+      icon: BookOpen,
+      title: "Journal",
+      description:
+        "Write your journal entry and reflect on your mood. Track your emotional patterns over time.",
+      step: 2,
+    },
+    {
+      icon: TrendingUp,
+      title: "Track",
+      description:
+        "Compare and track your emotions. Discover patterns and insights about your emotional well-being.",
+      step: 3,
+    },
+  ];
+
+  return (
+    <section
+      className="relative py-20 px-4 overflow-hidden"
+      style={{ backgroundColor: "var(--bg)" }}
+    >
+      <div className="relative z-10 max-w-7xl mx-auto">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <div className="flex items-center justify-center mb-4">
+            <Zap className="mr-3 text-purple-500" size={28} />
+            <h2
+              className="text-4xl md:text-5xl font-extrabold tracking-tight"
+              style={{ color: "var(--heading)" }}
+            >
+              How It{" "}
+              <span
+                className="bg-gradient-to-r bg-clip-text text-transparent"
+                style={{
+                  backgroundImage: `linear-gradient(to right, var(--gradient-from), var(--gradient-to))`,
+                }}
+              >
+                Works
+              </span>
+            </h2>
+          </div>
+
+          <p
+            className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed"
+            style={{ color: "var(--body-text)" }}
+          >
+            Experience the power of AI-driven sentiment analysis in three simple
+            steps. From text analysis to mood tracking, discover insights about
+            emotions effortlessly.
+          </p>
+        </div>
+
+        {/* Steps Grid */}
+        <div className="grid lg:grid-cols-3 gap-8 lg:gap-12 mb-16">
+          {steps.map((step, index) => (
+            <StepCard key={step.step} {...step} delay={index * 200} />
+          ))}
+        </div>
+        {/* Bottom CTA Section */}
+        <div className="text-center">
+          <div
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full border-2 backdrop-blur-xl transition-all duration-300 hover:scale-105"
+            style={{
+              backgroundColor: "rgba(139, 92, 246, 0.1)",
+              borderColor: "var(--border)",
+              color: "var(--body-text)",
+            }}
+          >
+            <Brain className="text-purple-500" size={20} />
+            <span className="font-medium">
+              Powered by advanced machine learning algorithms
+            </span>
+            <BarChart3 className="text-pink-500" size={20} />
+          </div>
+        </div>
+      </div>
+      {/* Decorative floating elements */}
+      <div
+        className="hidden md:block absolute top-20 left-10 w-40 h-40 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 opacity-20 animate-bounce"
+        style={{ animationDelay: "0s" }}
+      />
+
+      <div
+        className="hidden md:block absolute bottom-20 right-1/4 w-20 h-20 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 opacity-25 animate-bounce"
+        style={{ animationDelay: "2s" }}
+      />
     </section>
   );
 };
 
 export default HowItWorks;
-
-// Add to global CSS for fade-in animation:
-// @keyframes fadeInUp {
-//   0% { opacity: 0; transform: translateY(30px); }
-//   100% { opacity: 1; transform: translateY(0); }
-// }

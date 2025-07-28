@@ -34,8 +34,10 @@ SentiLog AI provides a unique fusion of sentiment-aware news analysis and person
 ```
 project-root/
 │
-├── client/                  # React frontend (Vite + Tailwind)
-│   └── src/
+├── client/ 
+|   ├── index.html/
+|   ├── public/                 
+│   └── src/                 # React frontend (Vite + Tailwind)
 │       ├── pages/           # JournalPage, NewsPage, Dashboard
 │       ├── components/      # Navbar, SentimentCard, ChartPanel
 │       ├── App.jsx
@@ -44,14 +46,21 @@ project-root/
 ├── server/                  # Node.js + Express backend
 │   ├── routes/              # journal.js, news.js
 │   ├── controllers/
+|   ├── middlewares/         # Express entry
+|   ├── uploads/
+|   ├── utils/
 │   ├── models/              # Mongo schemas
-│   └── index.js             # Express entry
+│   └── index.js             
 │
 ├── ml-api/                  # Flask-based ML service
 │   ├── app.py
 │   ├── model/
+|   ├── vader_service.py/
 │   └── requirements.txt
-│
+|
+├── notebook/
+|    ├── varder_sentiment_demo.ipynb
+│    
 ├── .gitignore
 ├── README.md
 └── package.json / envs
@@ -64,8 +73,8 @@ project-root/
 ### 1. Clone the Repo
 
 ```bash
-git clone https://github.com/your-org/SentiLogAI.git
-cd SentiLogAI
+git clone https://github.com/your-org/SentiLog-AI.git
+cd SentiLog-AI
 ```
 
 ---
@@ -171,3 +180,6 @@ By contributing to this repository, you agree that your contributions will be li
 ---
 
 > _Let's build the future of mood and news analysis together!_ 
+
+
+## Folder Structure
