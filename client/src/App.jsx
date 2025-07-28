@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
 import JournalPage from "./pages/JournalPage";
 import NewsPage from "./pages/NewsPage";
 import Dashboard from "./pages/Dashboard";
@@ -11,7 +10,6 @@ import LoginPage from "./pages/LoginPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword"; 
 import Loader from "./components/Preloader/Loader";
-
 import AOS from "aos";
 import "aos/dist/aos.css";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
@@ -34,6 +32,7 @@ function App() {
           <Route path="/journal" element={<JournalPage />} />
           <Route path="/news" element={<NewsPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/signin" element={<LoginPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
