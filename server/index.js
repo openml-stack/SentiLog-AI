@@ -1,3 +1,4 @@
+const router=require("./routes/Contact")
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -29,6 +30,7 @@ app.use('/api/journal', journalRoutes);
 app.use('/api/news', newsRoutes);
 app.use('/api/analyze', analyzeRoutes);
 app.use('/api/auth', authRouter);
+app.use('/api',router)
 
 // Error handler
 app.use(errorHandler);
