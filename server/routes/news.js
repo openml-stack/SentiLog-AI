@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router();
+const newsRouter = express.Router();
 const newsController = require("../controllers/newsController");
 
 /**
@@ -24,7 +24,7 @@ const newsController = require("../controllers/newsController");
  *       201:
  *         description: News article created
  */
-router.post("/", newsController.createEntry);
+newsRouter.post("/", newsController.createEntry);
 
 /**
  * @swagger
@@ -36,7 +36,7 @@ router.post("/", newsController.createEntry);
  *       200:
  *         description: List of news entries
  */
-router.get("/", newsController.getEntries);
+newsRouter.get("/", newsController.getEntries);
 
 /**
  * @swagger
@@ -53,7 +53,7 @@ router.get("/", newsController.getEntries);
  *       200:
  *         description: News entry
  */
-router.get("/:id", newsController.getEntry);
+newsRouter.get("/:id", newsController.getEntry);
 
 /**
  * @swagger
@@ -70,6 +70,6 @@ router.get("/:id", newsController.getEntry);
  *       200:
  *         description: Deleted message
  */
-router.delete("/:id", newsController.deleteEntry);
+newsRouter.delete("/:id", newsController.deleteEntry);
 
-module.exports = router;
+module.exports = newsRouter;

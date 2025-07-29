@@ -1,5 +1,13 @@
-const express = require("express");
-const router = express.Router();
+const { Router } = require("express");
+const {
+  signup,
+  signin,
+  forgotPassword,
+  resetPassword,
+} = require("../controllers/authController"); // your logic here
+
+const authRouter = Router();
+
 const {
   signup,
   signin,
@@ -29,7 +37,7 @@ const {
  *       201:
  *         description: User created
  */
-router.post("/signup", signup);
+authRouter.post("/signup", signup);
 
 /**
  * @swagger
@@ -51,7 +59,7 @@ router.post("/signup", signup);
  *       200:
  *         description: Successful login
  */
-router.post("/signin", signin);
+authRouter.post("/signin", signin);
 
 /**
  * @swagger
@@ -72,7 +80,7 @@ router.post("/signin", signin);
  *       200:
  *         description: Reset link sent
  */
-router.post("/forgot-password", forgotPassword);
+authRouter.post("/forgot-password", forgotPassword);
 
 /**
  * @swagger
@@ -94,6 +102,6 @@ router.post("/forgot-password", forgotPassword);
  *       200:
  *         description: Password reset successful
  */
-router.post("/reset-password", resetPassword);
+authRouter.post("/reset-password", resetPassword);
 
-module.exports = router;
+module.exports = authRouter;

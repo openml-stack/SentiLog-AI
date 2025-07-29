@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router();
+const analyzeRouter = express.Router();
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 const { analyzeFile } = require("../controllers/analyzeController");
@@ -27,6 +27,6 @@ const { analyzeFile } = require("../controllers/analyzeController");
  *       200:
  *         description: Text and sentiment analysis result
  */
-router.post("/file", upload.single("file"), analyzeFile);
+analyzeRouter.post("/file", upload.single("file"), analyzeFile);
 
-module.exports = router;
+module.exports = analyzeRouter;

@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router();
+const journalRouter = express.Router();
 const journalController = require("../controllers/journalController");
 
 /**
@@ -21,7 +21,7 @@ const journalController = require("../controllers/journalController");
  *       201:
  *         description: Created journal entry
  */
-router.post("/", journalController.createEntry);
+journalRouter.post("/", journalController.createEntry);
 
 /**
  * @swagger
@@ -33,7 +33,7 @@ router.post("/", journalController.createEntry);
  *       200:
  *         description: List of journal entries
  */
-router.get("/", journalController.getEntries);
+journalRouter.get("/", journalController.getEntries);
 
 /**
  * @swagger
@@ -50,7 +50,7 @@ router.get("/", journalController.getEntries);
  *       200:
  *         description: Journal entry
  */
-router.get("/:id", journalController.getEntry);
+journalRouter.get("/:id", journalController.getEntry);
 
 /**
  * @swagger
@@ -67,6 +67,6 @@ router.get("/:id", journalController.getEntry);
  *       200:
  *         description: Deleted message
  */
-router.delete("/:id", journalController.deleteEntry);
+journalRouter.delete("/:id", journalController.deleteEntry);
 
-module.exports = router;
+module.exports = journalRouter;

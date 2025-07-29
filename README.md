@@ -14,14 +14,17 @@ SentiLog AI is an open-source platform that combines news sentiment analysis and
 ---
 
 ## 🌟 Core Features
+
 SentiLog AI provides a unique fusion of sentiment-aware news analysis and personal mental wellness tracking through the following key features:
 
 ### 📰 Real-Time News Bias Filter
+
 - Automatically analyzes current news articles and classifies them based on political bias: Left, Right, or Neutral.
 - Helps users recognize media bias and form balanced opinions.
 - Uses Natural Language Processing (NLP) models to assess sentiment and ideological leaning in real-time.
 
 ### 📓 Daily Mood Journal
+
 - Users can write daily journal entries about their thoughts or experiences.
 - The system performs sentiment and emotion analysis (e.g., happy, sad, anxious).
 - Helps users track their mental state over time, identifying patterns or triggers.
@@ -101,6 +104,23 @@ npm run dev
 
 ---
 
+---
+
+### 📘 API Documentation (Swagger)
+
+Once your backend server is running, you can explore all API endpoints using **Swagger UI**:
+
+[http://localhost:5000/api-docs](http://localhost:5000/api-docs)
+
+This interactive documentation provides:
+
+- Available endpoints and HTTP methods
+- Required parameters and request formats
+- Sample requests and responses
+- Error status codes
+
+> **Note:** If your server runs on a different port, update the URL accordingly (e.g., `http://localhost:3000/api-docs`).
+
 ### 4. Setup the ML API (ml-api/)
 
 ```bash
@@ -145,9 +165,9 @@ This project is licensed under the **MIT License** — see the [LICENSE](./LICEN
 
 The MIT License is a permissive license that allows you to:
 
-*   Freely use, copy, modify, and distribute the code.  
-*   Use the project in commercial and non-commercial applications.  
-*   Attribute the original creator(s) in any reused version.  
+- Freely use, copy, modify, and distribute the code.
+- Use the project in commercial and non-commercial applications.
+- Attribute the original creator(s) in any reused version.
 
 By contributing to this repository, you agree that your contributions will be licensed under the MIT License as well.
 
@@ -170,4 +190,4 @@ By contributing to this repository, you agree that your contributions will be li
 
 ---
 
-> _Let's build the future of mood and news analysis together!_ 
+> _Let's build the future of mood and news analysis together!_
