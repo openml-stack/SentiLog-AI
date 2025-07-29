@@ -59,6 +59,9 @@ html, body, #root {
   --link-hover: #3b82f6;
 }
 
+.bg-theme {
+  background-color: var(--bg);
+}
 
 /* Typography */
 a {

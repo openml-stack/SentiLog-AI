@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import SentimentCard from "./SentimentCard";
 import { Link } from "react-router-dom";
 import api from "../axios";
-
+import { ThemeContext } from "../context/ThemeContext";
 const themeColors = {
   light: {
     '--bg': '#ffffff',
@@ -88,7 +88,7 @@ const QuickActions = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showResult, setShowResult] = useState(false);
-
+  const { theme } = useContext(ThemeContext);
   useEffect(() => {
     const root = document.documentElement;
     const theme = 'dark';
@@ -115,7 +115,9 @@ const QuickActions = () => {
   };
 
   return (
-    <div className="quick-actions" style={{ backgroundColor: 'var(--bg)', minHeight: '100vh' }}>
+    <div className={`quick-actions transition-colors duration-300 min-h-screen ${
+      theme === 'dark' ? 'bg-theme-dark' : 'bg-theme-light'
+    }`}>
       <section id="live-demo-section" className="max-w-2xl mx-auto px-4 py-16">
         <div className="relative backdrop-blur-2xl rounded-3xl shadow-2xl p-10 flex flex-col gap-4 border overflow-hidden" style={{
           backgroundColor: 'var(--card-bg)',
