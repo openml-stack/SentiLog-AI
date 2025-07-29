@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ScrollToTop from "./components/ScrollToTop";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import JournalPage from "./pages/JournalPage";
@@ -30,6 +31,7 @@ function App() {
     <>
       
       <Router>
+        <ScrollToTop />
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
