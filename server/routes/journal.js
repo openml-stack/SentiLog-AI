@@ -4,7 +4,7 @@ const journalController = require("../controllers/journalController");
 
 /**
  * @swagger
- * /api/journal:
+ * /journal:
  *   post:
  *     summary: Create a new journal entry
  *     tags: [Journal]
@@ -25,7 +25,7 @@ journalRouter.post("/", journalController.createEntry);
 
 /**
  * @swagger
- * /api/journal:
+ * /journal:
  *   get:
  *     summary: Get all journal entries
  *     tags: [Journal]
@@ -37,7 +37,7 @@ journalRouter.get("/", journalController.getEntries);
 
 /**
  * @swagger
- * /api/journal/{id}:
+ * /journal/{id}:
  *   get:
  *     summary: Get journal entry by ID
  *     tags: [Journal]
@@ -54,7 +54,7 @@ journalRouter.get("/:id", journalController.getEntry);
 
 /**
  * @swagger
- * /api/journal/{id}:
+ * /journal/{id}:
  *   delete:
  *     summary: Delete journal entry by ID
  *     tags: [Journal]

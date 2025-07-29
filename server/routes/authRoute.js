@@ -1,10 +1,5 @@
 const { Router } = require("express");
-const {
-  signup,
-  signin,
-  forgotPassword,
-  resetPassword,
-} = require("../controllers/authController"); // your logic here
+// your logic here
 
 const authRouter = Router();
 
@@ -17,7 +12,7 @@ const {
 
 /**
  * @swagger
- * /api/auth/signup:
+ * /auth/signup:
  *   post:
  *     summary: Register a new user
  *     tags: [Auth]
@@ -41,7 +36,7 @@ authRouter.post("/signup", signup);
 
 /**
  * @swagger
- * /api/auth/signin:
+ * /auth/signin:
  *   post:
  *     summary: Login user
  *     tags: [Auth]
@@ -63,7 +58,7 @@ authRouter.post("/signin", signin);
 
 /**
  * @swagger
- * /api/auth/forgot-password:
+ * /auth/forgot-password:
  *   post:
  *     summary: Send password reset email
  *     tags: [Auth]
@@ -84,7 +79,7 @@ authRouter.post("/forgot-password", forgotPassword);
 
 /**
  * @swagger
- * /api/auth/reset-password:
+ * /auth/reset-password:
  *   post:
  *     summary: Reset user password
  *     tags: [Auth]

@@ -12,7 +12,7 @@ const options = {
     },
     servers: [
       {
-        url: `http://localhost:${process.env.PORT}/api`, // Change this to production URL later
+        url: `http://localhost:${process.env.PORT}/api/`, // Change this to production URL later
       },
     ],
   },

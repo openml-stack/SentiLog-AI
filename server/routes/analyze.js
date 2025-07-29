@@ -6,7 +6,7 @@ const { analyzeFile } = require("../controllers/analyzeController");
 
 /**
  * @swagger
- * /api/analyze/file:
+ * /analyze/file:
  *   post:
  *     summary: Analyze uploaded document (PDF, DOCX, TXT)
  *     tags: [Analyze]

@@ -4,7 +4,7 @@ const newsController = require("../controllers/newsController");
 
 /**
  * @swagger
- * /api/news:
+ * /news:
  *   post:
  *     summary: Create a new news article entry
  *     tags: [News]
@@ -28,7 +28,7 @@ newsRouter.post("/", newsController.createEntry);
 
 /**
  * @swagger
- * /api/news:
+ * /news:
  *   get:
  *     summary: Get all news entries
  *     tags: [News]
@@ -40,7 +40,7 @@ newsRouter.get("/", newsController.getEntries);
 
 /**
  * @swagger
- * /api/news/{id}:
+ * /news/{id}:
  *   get:
  *     summary: Get news entry by ID
  *     tags: [News]
@@ -57,7 +57,7 @@ newsRouter.get("/:id", newsController.getEntry);
 
 /**
  * @swagger
- * /api/news/{id}:
+ * /news/{id}:
  *   delete:
  *     summary: Delete news entry by ID
  *     tags: [News]
