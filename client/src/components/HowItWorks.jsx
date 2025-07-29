@@ -1,115 +1,168 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
+import {
+  FileText,
+  BookOpen,
+  TrendingUp,
+  Zap,
+  Brain,
+  BarChart3,
+} from "lucide-react";
 
-const scrollToDemo = () => {
-  const demo = document.getElementById("live-demo-section");
-  if (demo) demo.scrollIntoView({ behavior: "smooth" });
+const StepCard = ({ icon: Icon, title, description, step, delay }) => {
+  return (
+    <div
+      className={`relative group transition-all duration-700 transform translate-y-0 opacity-100`}
+    >
+      {/* Card Container */}
+      <div
+        className="relative p-8 rounded-2xl border-2 backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl overflow-hidden"
+        style={{
+          backgroundColor: "var(--card-bg)",
+          borderColor: "var(--border)",
+          boxShadow: "0 10px 30px rgba(139, 92, 246, 0.1)",
+        }}
+      >
+        {/* Animated Border Glow */}
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+
+        {/* Icon Container */}
+        <div className="flex justify-center mb-6">
+          <div
+            className="relative p-4 rounded-full transition-all duration-300 group-hover:scale-110"
+            style={{
+              background: `linear-gradient(135deg, var(--gradient-from), var(--gradient-to))`,
+              boxShadow: "0 8px 25px rgba(139, 92, 246, 0.3)",
+            }}
+          >
+            <Icon size={32} className="text-white" />
+
+            {/* Pulse Effect */}
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 opacity-0 group-hover:opacity-30 group-hover:animate-ping" />
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="text-center">
+          <h3
+            className="text-xl font-bold mb-3 tracking-tight"
+            style={{ color: "var(--heading)" }}
+          >
+            {title}
+          </h3>
+          <p
+            className="text-sm leading-relaxed"
+            style={{ color: "var(--body-text)" }}
+          >
+            {description}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-const AnimatedBackground = () => (
-  <svg
-    className="absolute inset-0 w-full h-full z-0"
-    viewBox="0 0 1440 320"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <defs>
-      <linearGradient id="hero-gradient" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stopColor="var(--link, #60a5fa)" />
-        <stop offset="100%" stopColor="var(--button, #a78bfa)" />
-      </linearGradient>
-    </defs>
-    <path
-      fill="url(#hero-gradient)"
-      fillOpacity="0.2"
-      d="M0,160L60,170.7C120,181,240,203,360,197.3C480,192,600,160,720,133.3C840,107,960,85,1080,101.3C1200,117,1320,171,1380,197.3L1440,224L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"
-    />
-    <circle cx="1200" cy="80" r="40" fill="var(--button, #a78bfa)" fillOpacity="0.15">
-      <animate attributeName="cy" values="80;120;80" dur="4s" repeatCount="indefinite" />
-    </circle>
-    <circle cx="300" cy="200" r="30" fill="var(--link, #60a5fa)" fillOpacity="0.12">
-      <animate attributeName="cy" values="200;160;200" dur="5s" repeatCount="indefinite" />
-    </circle>
-  </svg>
-);
-
-const HeroSection = () => {
+const HowItWorks = () => {
   const { theme } = useContext(ThemeContext);
-  const [colors, setColors] = useState({});
 
-  useEffect(() => {
-    const root = document.documentElement;
-    const getVar = (name) =>
-      getComputedStyle(root).getPropertyValue(name).trim();
-
-    setColors({
-      bg: getVar("--bg"),
-      heading: getVar("--heading"),
-      text: getVar("--body-text"),
-      link: getVar("--link"),
-      button: getVar("--button"),
-      buttonHover: getVar("--button-hover"),
-      gradientFrom: getVar("--gradient-from"),
-      gradientTo: getVar("--gradient-to"),
-    });
-  }, [theme]);
+  const steps = [
+    {
+      icon: FileText,
+      title: "Analyze",
+      description:
+        "Paste a news article or any text to see how it feels. Our AI instantly analyzes sentiment and emotional tone.",
+      step: 1,
+    },
+    {
+      icon: BookOpen,
+      title: "Journal",
+      description:
+        "Write your journal entry and reflect on your mood. Track your emotional patterns over time.",
+      step: 2,
+    },
+    {
+      icon: TrendingUp,
+      title: "Track",
+      description:
+        "Compare and track your emotions. Discover patterns and insights about your emotional well-being.",
+      step: 3,
+    },
+  ];
 
   return (
     <section
-      className="relative text-center py-24 md:py-32 overflow-hidden"
-      style={{
-        backgroundColor: `var(--bg, ${colors.bg})`,
-        color: `var(--body-text, ${colors.text})`,
-      }}
+      className={`relative py-20 px-4 overflow-hidden transition-colors duration-300 ${
+        theme === 'dark' ? 'bg-theme-dark' : 'bg-theme-light'
+      }`}
+      // style={{ backgroundColor: "var(--bg)" }}
     >
-      <AnimatedBackground />
-      <div className="relative z-10 flex flex-col items-center justify-center">
-        <h1
-          className="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight leading-tight"
-          style={{ color: `var(--heading, ${colors.heading})` }}
-        >
-          <span
-            className="bg-gradient-to-r bg-clip-text text-transparent animate-gradient-move"
+      <div className="relative z-10 max-w-7xl mx-auto">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <div className="flex items-center justify-center mb-4">
+            <Zap className="mr-3 text-purple-500" size={28} />
+            <h2
+              className="text-4xl md:text-5xl font-extrabold tracking-tight"
+              style={{ color: "var(--heading)" }}
+            >
+              How It{" "}
+              <span
+                className="bg-gradient-to-r bg-clip-text text-transparent"
+                style={{
+                  backgroundImage: `linear-gradient(to right, var(--gradient-from), var(--gradient-to))`,
+                }}
+              >
+                Works
+              </span>
+            </h2>
+          </div>
+
+          <p
+            className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed"
+            style={{ color: "var(--body-text)" }}
+          >
+            Experience the power of AI-driven sentiment analysis in three simple
+            steps. From text analysis to mood tracking, discover insights about
+            emotions effortlessly.
+          </p>
+        </div>
+
+        {/* Steps Grid */}
+        <div className="grid lg:grid-cols-3 gap-8 lg:gap-12 mb-16">
+          {steps.map((step, index) => (
+            <StepCard key={step.step} {...step} delay={index * 200} />
+          ))}
+        </div>
+        {/* Bottom CTA Section */}
+        <div className="text-center">
+          <div
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full border-2 backdrop-blur-xl transition-all duration-300 hover:scale-105"
             style={{
-              backgroundImage: `linear-gradient(to right, var(--link, #60a5fa), var(--button, #a78bfa))`,
+              backgroundColor: "rgba(139, 92, 246, 0.1)",
+              borderColor: "var(--border)",
+              color: "var(--body-text)",
             }}
           >
-            SentiLog{" "}
-            <span className="relative inline-block px-2">
-              <span className="text-white bg-gradient-to-r from-pink-500 to-blue-500 px-2 py-1 rounded shadow-lg animate-glitch">
-                AI
-              </span>
+            <Brain className="text-purple-500" size={20} />
+            <span className="font-medium">
+              Powered by advanced machine learning algorithms
             </span>
-          </span>
-          <br />
-          <span
-            className="text-2xl md:text-3xl font-medium mt-2 block"
-            style={{ color: `var(--body-text, ${colors.text})` }}
-          >
-            AI-powered sentiment insights for your world
-          </span>
-        </h1>
-
-        <p
-          className="text-lg md:text-xl mb-8 max-w-2xl mx-auto"
-          style={{ color: `var(--body-text, ${colors.text})` }}
-        >
-          Experience real-time emotion and sentiment analysis. Discover patterns
-          in news and your own mood, powered by advanced AI.
-        </p>
-
-        <button
-          onClick={scrollToDemo}
-          className="px-8 py-4 text-white text-lg font-semibold rounded-full shadow-lg hover:scale-105 transition-transform focus:outline-none focus:ring-4"
-          style={{
-            backgroundImage: `linear-gradient(to right, var(--link, #60a5fa), var(--button, #a78bfa))`,
-          }}
-        >
-          Try Live Demo
-        </button>
+            <BarChart3 className="text-pink-500" size={20} />
+          </div>
+        </div>
       </div>
+      {/* Decorative floating elements */}
+      <div
+        className="hidden md:block absolute top-20 left-10 w-40 h-40 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 opacity-20 animate-bounce"
+        style={{ animationDelay: "0s" }}
+      />
+
+      <div
+        className="hidden md:block absolute bottom-20 right-1/4 w-20 h-20 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 opacity-25 animate-bounce"
+        style={{ animationDelay: "2s" }}
+      />
     </section>
   );
 };
 
-export default HeroSection;
+export default HowItWorks;

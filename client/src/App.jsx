@@ -8,10 +8,15 @@ import HomePage from "./pages/HomePage";
 import AnalyzePage from "./pages/AnalyzePage";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword"; 
 import Loader from "./components/Preloader/Loader";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { ContactPage } from "./pages/ContactPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+
 
 function App() {
 
@@ -23,7 +28,9 @@ function App() {
 
   return (
     <>
+      
       <Router>
+        <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -32,6 +39,10 @@ function App() {
           <Route path="/news" element={<NewsPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/signin" element={<LoginPage />} />
+          <Route path="/Contact" element={<ContactPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Routes>
       </Router>
     </>
