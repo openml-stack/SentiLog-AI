@@ -61,7 +61,7 @@ project-root/
 
 ## 🚀 Quick Start
 
-### 1. Clone the Repo
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/your-org/SentiLogAI.git
@@ -170,4 +170,4 @@ By contributing to this repository, you agree that your contributions will be li
 
 ---
 
-> _Let's build the future of mood and news analysis together!_ 
+> _Let’s build the future of mood and news analysis together — one contribution at a time! _ 
