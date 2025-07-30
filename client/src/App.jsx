@@ -38,11 +38,11 @@ function App() {
           <Route path="/journal" element={<JournalPage />} />
           <Route path="/news" element={<NewsPage />} />
           <Route path="/signup" element={<SignupPage />} />
-          <Route path="/signin" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/Contact" element={<ContactPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
       </Router>
     </>
