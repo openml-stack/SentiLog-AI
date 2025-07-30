@@ -1,14 +1,15 @@
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
+const express=require('express')
+const jwt=require('jsonwebtoken')
 
-dotenv.config();
-const Jwt_USER_SECRET = process.env.Jwt_USER_SECRET;
+
+require('dotenv').config()
+const Jwt_USER_SECRET=process.env.Jwt_USER_SECRET
 
 async function jwtmiddleware(req,res,next){
     try{
         const token=req.headers.token
         if(!token){
-            return res.status(401).json({
+           return res.status(401).json({
                 message:"token not found"
             })
         }
@@ -21,5 +22,4 @@ async function jwtmiddleware(req,res,next){
         })
     }
 }
-
-export default jwtmiddleware;
+module.exports=jwtmiddleware;

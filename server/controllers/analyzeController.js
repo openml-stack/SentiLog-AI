@@ -1,6 +1,6 @@
-import fs from 'fs';
-import pdfParse from 'pdf-parse';
-import mammoth from 'mammoth';
+const fs = require('fs');
+const pdfParse = require('pdf-parse');
+const mammoth = require('mammoth');
 
 async function extractText(file) {
   const ext = file.originalname.split('.').pop().toLowerCase();
@@ -24,7 +24,7 @@ async function extractText(file) {
   throw new Error('Unsupported file type');
 }
 
-export const analyzeFile = async (req, res) => {
+const analyzeFile = async (req, res) => {
   const file = req.file;
   if (!file) return res.status(400).json({ error: 'No file uploaded' });
 
@@ -120,3 +120,5 @@ function analyzeSentiment(text) {
     }
   };
 }
+
+module.exports = { analyzeFile };
