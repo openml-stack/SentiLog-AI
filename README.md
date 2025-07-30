@@ -198,12 +198,3 @@ By contributing to this repository, you agree that your contributions will be li
 - [vaderSentiment](https://github.com/cjhutto/vaderSentiment)
 
 ---
-
-<<<<<<< HEAD
-> _Let's build the future of mood and news analysis together!_
-=======
-> _Let's build the future of mood and news analysis together!_ 
-
-
-## Folder Structure
->>>>>>> d981f6171a5d4a52fee4b662f872c48bebd7eaf4
