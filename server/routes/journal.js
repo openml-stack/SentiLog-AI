@@ -1,15 +1,74 @@
-import express from 'express';
-import { createEntry, getEntries, getEntry, deleteEntry } from '../controllers/journalController.js';
 
-const router = express.Router();
+const express = require("express");
+const journalRouter = express.Router();
+const journalController = require("../controllers/journalController");
 
-// Create and analyze
-router.post('/', createEntry);
-// Get all
-router.get('/', getEntries);
-// Get one
-router.get('/:id', getEntry);
-// Delete
-router.delete('/:id', deleteEntry);
+/**
+ * @swagger
+ * /journal:
+ *   post:
+ *     summary: Create a new journal entry
+ *     tags: [Journal]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [text]
+ *             properties:
+ *               text: { type: string }
+ *     responses:
+ *       201:
+ *         description: Created journal entry
+ */
+journalRouter.post("/", journalController.createEntry);
 
-export default router; 
+/**
+ * @swagger
+ * /journal:
+ *   get:
+ *     summary: Get all journal entries
+ *     tags: [Journal]
+ *     responses:
+ *       200:
+ *         description: List of journal entries
+ */
+journalRouter.get("/", journalController.getEntries);
+
+/**
+ * @swagger
+ * /journal/{id}:
+ *   get:
+ *     summary: Get journal entry by ID
+ *     tags: [Journal]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Journal entry
+ */
+journalRouter.get("/:id", journalController.getEntry);
+
+/**
+ * @swagger
+ * /journal/{id}:
+ *   delete:
+ *     summary: Delete journal entry by ID
+ *     tags: [Journal]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Deleted message
+ */
+journalRouter.delete("/:id", journalController.deleteEntry);
+
+module.exports = journalRouter;
+

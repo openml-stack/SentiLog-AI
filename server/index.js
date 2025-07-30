@@ -1,11 +1,21 @@
 
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const dotenv = require("dotenv");
+require("dotenv").config();
+const setupSwagger = require("./config/swagger");
+const errorHandler = require("./middleware/errorHandler");
+// require("./utils/cronJob"); // this starts the cron when the server starts
+// const newsFetcher = require("./services/newsFetcher");
+// newsFetcher(); // Fetch and post news immediately on server start
 
-import express from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import errorHandler from './middleware/errorHandler.js';
-import './utils/cronJob.js'; // start cron job on server start
+const journalRoutes = require("./routes/journal");
+const newsRoutes = require("./routes/news");
+const authRouter = require("./routes/authRoute");
+const analyzeRoutes = require("./routes/analyze");
+const contactRoutes =require("./routes/Contact")
+
 
 import journalRoutes from './routes/journal.js';
 import newsRoutes from './routes/news.js';
@@ -38,7 +48,9 @@ app.use('/api/contact', contactRoutes);
 // Error handler
 app.use(errorHandler);
 
-// Start server
+setupSwagger(app);
+// Start server (only once)
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
   console.log(`🚀 Server running on http://localhost:${PORT}`)

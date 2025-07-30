@@ -1,15 +1,77 @@
-import express from 'express';
-import { createEntry, getEntries, getEntry, deleteEntry } from '../controllers/newsController.js';
 
-const router = express.Router();
+const express = require("express");
+const newsRouter = express.Router();
+const newsController = require("../controllers/newsController");
 
-// Create and analyze
-router.post('/', createEntry);
-// Get all
-router.get('/', getEntries);
-// Get one
-router.get('/:id', getEntry);
-// Delete
-router.delete('/:id', deleteEntry);
+/**
+ * @swagger
+ * /news:
+ *   post:
+ *     summary: Create a new news article entry
+ *     tags: [News]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [title, text, date, url]
+ *             properties:
+ *               url: { type: string }
+ *               title: { type: string }
+ *               text: { type: string }
+ *               date: { type: string, format: date-time }
+ *     responses:
+ *       201:
+ *         description: News article created
+ */
+newsRouter.post("/", newsController.createEntry);
 
-export default router; 
+/**
+ * @swagger
+ * /news:
+ *   get:
+ *     summary: Get all news entries
+ *     tags: [News]
+ *     responses:
+ *       200:
+ *         description: List of news entries
+ */
+newsRouter.get("/", newsController.getEntries);
+
+/**
+ * @swagger
+ * /news/{id}:
+ *   get:
+ *     summary: Get news entry by ID
+ *     tags: [News]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: News entry
+ */
+newsRouter.get("/:id", newsController.getEntry);
+
+/**
+ * @swagger
+ * /news/{id}:
+ *   delete:
+ *     summary: Delete news entry by ID
+ *     tags: [News]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Deleted message
+ */
+newsRouter.delete("/:id", newsController.deleteEntry);
+
+module.exports = newsRouter;
+
