@@ -450,7 +450,6 @@ const JournalPage = () => {
             </div>
           </section>
         </main>
-        <Footer />
       </div>
     </>
   );

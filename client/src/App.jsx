@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ScrollToTop from "./components/ScrollToTop";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import JournalPage from "./pages/JournalPage";
 import NewsPage from "./pages/NewsPage";
 import Dashboard from "./pages/Dashboard";
@@ -46,6 +47,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Routes>
+        <Footer />
       </Router>
     </>
   );
