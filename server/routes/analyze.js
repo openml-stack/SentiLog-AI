@@ -1,10 +1,8 @@
-
 const express = require("express");
 const analyzeRouter = express.Router();
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 const { analyzeFile } = require("../controllers/analyzeController");
-
 
 /**
  * @swagger
@@ -32,4 +30,3 @@ const { analyzeFile } = require("../controllers/analyzeController");
 analyzeRouter.post("/file", upload.single("file"), analyzeFile);
 
 module.exports = analyzeRouter;
-

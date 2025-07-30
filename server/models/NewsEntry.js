@@ -1,5 +1,4 @@
-
-import mongoose from 'mongoose';
+const mongoose = require("mongoose");
 
 const NewsEntrySchema = new mongoose.Schema({
   url: String,
@@ -9,4 +8,5 @@ const NewsEntrySchema = new mongoose.Schema({
   emotion: String,
   date: Date,
 });
-export default mongoose.model('NewsEntry', NewsEntrySchema); 
+
+module.exports = mongoose.model("NewsEntry", NewsEntrySchema);
