@@ -1,5 +1,6 @@
+
 const { Router } = require("express");
-// your logic here
+
 
 const authRouter = Router();
 
@@ -99,4 +100,4 @@ authRouter.post("/forgot-password", forgotPassword);
  */
 authRouter.post("/reset-password", resetPassword);
 
-module.exports = authRouter;
+export default authRouter;

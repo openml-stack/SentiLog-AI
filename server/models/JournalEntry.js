@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const JournalEntrySchema = new mongoose.Schema({
   text: { type: String, required: true },
@@ -7,4 +7,4 @@ const JournalEntrySchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('JournalEntry', JournalEntrySchema); 
+export default mongoose.model('JournalEntry', JournalEntrySchema); 

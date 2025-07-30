@@ -1,3 +1,4 @@
+
 const express = require("express");
 const newsRouter = express.Router();
 const newsController = require("../controllers/newsController");
@@ -73,3 +74,4 @@ newsRouter.get("/:id", newsController.getEntry);
 newsRouter.delete("/:id", newsController.deleteEntry);
 
 module.exports = newsRouter;
+

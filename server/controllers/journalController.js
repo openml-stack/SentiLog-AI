@@ -1,5 +1,5 @@
-const JournalEntry = require('../models/JournalEntry');
-const axios = require('axios');
+import JournalEntry from '../models/JournalEntry.js';
+import axios from 'axios';
 
 /**
  * Creates a new journal entry with sentiment and emotion analysis
@@ -15,7 +15,7 @@ const axios = require('axios');
  * @returns {Object} 500 - Server error if ML service fails or database error
  */
 
-exports.createEntry = async (req, res, next) => {
+export const createEntry = async (req, res, next) => {
   try {
     const { text } = req.body;
     const mlRes = await axios.post('http://localhost:5001/predict', { text });
@@ -37,7 +37,7 @@ exports.createEntry = async (req, res, next) => {
  * @returns {Array} 200 - Array of journal entries sorted by creation date (descending)
  * @returns {Object} 500 - Server error if database query fails
  */
-exports.getEntries = async (req, res, next) => {
+export const getEntries = async (req, res, next) => {
   try {
     const entries = await JournalEntry.find().sort({ createdAt: -1 });
     res.json(entries);
@@ -60,7 +60,7 @@ exports.getEntries = async (req, res, next) => {
  * @returns {Object} 500 - Server error if database query fails
  */
 
-exports.getEntry = async (req, res, next) => {
+export const getEntry = async (req, res, next) => {
   try {
     const entry = await JournalEntry.findById(req.params.id);
     if (!entry) return res.status(404).json({ error: 'Not found' });
@@ -84,7 +84,7 @@ exports.getEntry = async (req, res, next) => {
  * @returns {Object} 500 - Server error if database operation fails
  */
 
-exports.deleteEntry = async (req, res, next) => {
+export const deleteEntry = async (req, res, next) => {
   try {
     const entry = await JournalEntry.findByIdAndDelete(req.params.id);
     if (!entry) return res.status(404).json({ error: 'Not found' });

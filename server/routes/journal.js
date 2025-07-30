@@ -1,3 +1,4 @@
+
 const express = require("express");
 const journalRouter = express.Router();
 const journalController = require("../controllers/journalController");
@@ -70,3 +71,4 @@ journalRouter.get("/:id", journalController.getEntry);
 journalRouter.delete("/:id", journalController.deleteEntry);
 
 module.exports = journalRouter;
+

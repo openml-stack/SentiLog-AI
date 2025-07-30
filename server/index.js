@@ -17,6 +17,12 @@ const analyzeRoutes = require("./routes/analyze");
 const contactRoutes =require("./routes/Contact")
 
 
+import journalRoutes from './routes/journal.js';
+import newsRoutes from './routes/news.js';
+import authRouter from './routes/authRoute.js';
+import analyzeRoutes from './routes/analyze.js';
+import contactRoutes from './routes/Contact.js';
+
 dotenv.config();
 const app = express();
 
@@ -25,26 +31,26 @@ app.use(express.json());
 
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch((err) => console.error("❌ MongoDB connection error:", err));
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-app.get("/", (req, res) => {
-  res.send("Server is alive");
+app.get('/', (req, res) => {
+  res.send('Server is alive');
 });
 
 // API routes
-
 app.use('/api/journal', journalRoutes);
 app.use('/api/news', newsRoutes);
 app.use('/api/analyze', analyzeRoutes);
 app.use('/api/auth', authRouter);
-app.use('/api/contact',contactRoutes)
-
+app.use('/api/contact', contactRoutes);
 
 // Error handler
 app.use(errorHandler);
+
 setupSwagger(app);
 // Start server (only once)
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
   console.log(`🚀 Server running on http://localhost:${PORT}`)
