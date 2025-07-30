@@ -16,7 +16,6 @@ const HomePage = () => (
       <SentimentChartPreview />
       <HowItWorks />
     </main>
-    <Footer />
   </div>
 );
 
