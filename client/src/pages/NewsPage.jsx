@@ -452,7 +452,6 @@ const NewsPage = () => {
             </div>
           </section>
         </main>
-        <Footer />
       </div>
     </>
   );
