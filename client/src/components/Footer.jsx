@@ -1,56 +1,109 @@
-import React from "react";
+import React, { useContext, useEffect} from "react";
+import { ThemeContext } from "../context/ThemeContext";
+import { Link } from "react-router-dom";
+import { Github, Twitter, Linkedin, Mail, Heart, Zap, Shield, TrendingUp } from "lucide-react";
 
-const Footer = () => (
-  <footer
-    data-aos="fade-up"
-    className="bg-white/70 backdrop-blur-xl border-t border-blue-100 py-8 mt-12 text-center text-gray-600 text-sm relative"
-  >
+const Footer = () => {
+  const { theme } = useContext(ThemeContext);
 
-    <div className="flex justify-center items-center gap-2 mb-2">
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 32 32"
-        fill="none"
-        className="inline-block align-middle"
-      >
-        <circle cx="16" cy="16" r="14" fill="#a78bfa" fillOpacity="0.18" />
-        <path
-          d="M16 8v8l6 3"
-          stroke="#60a5fa"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle cx="16" cy="16" r="2.5" fill="#60a5fa" />
-      </svg>
-      <span className="font-bold text-blue-700 text-base tracking-tight">
-        SentiLog AI
-      </span>
-      <span className="text-gray-400">&copy; {new Date().getFullYear()}</span>
-    </div>
-    <div className="flex justify-center gap-4 mb-2">
-      <a
-        href="https://github.com/IkkiOcean/SentiLog-AI"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="hover:scale-110 transition-transform"
-      >
-        <svg
-          width="22"
-          height="22"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-          className="inline-block text-gray-700 hover:text-blue-500"
-        >
-          <path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.339-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.748-1.025 2.748-1.025.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.338 4.695-4.566 4.944.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.749 0 .267.18.577.688.48C19.138 20.2 22 16.447 22 12.021 22 6.484 17.523 2 12 2z" />
-        </svg>
-      </a>
-    </div>
-    <div className="text-gray-400">
-      Built with <span className="text-pink-500">♥</span> for open source
-    </div>
-  </footer>
-);
+  useEffect(() => {
+    import('aos').then(AOS => {
+      AOS.init({
+        duration: 800,
+        once: true,
+      });
+    });
+  }, []);
+
+  return (
+    <footer className="bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-950 border-t border-slate-200 dark:border-slate-800">
+      <div className="max-w-7xl mx-auto px-6 pt-16 pb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12" data-aos="fade-up">
+          
+          {/* Brand Section */}
+          <div className="lg:col-span-2" data-aos="fade-up" data-aos-delay="100">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl">
+                <Zap className="h-6 w-6 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                SentiLog AI
+              </h3>
+            </div>
+            <p className="text-slate-600 dark:text-slate-400 text-lg leading-relaxed mb-6 max-w-md">
+              Transform your data into actionable insights with the power of advanced sentiment analysis and AI-driven analytics.
+            </p>
+            <div className="flex space-x-4">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" 
+                 className="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+                <Github className="h-5 w-5 text-slate-700 dark:text-slate-300" />
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
+                 className="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+                <Twitter className="h-5 w-5 text-slate-700 dark:text-slate-300" />
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+                 className="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+                <Linkedin className="h-5 w-5 text-slate-700 dark:text-slate-300" />
+              </a>
+              <a href="https://gmail.com" target="_blank" rel="noopener noreferrer" 
+                 className="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+                <Mail className="h-5 w-5 text-slate-700 dark:text-slate-300" />
+              </a>
+            </div>
+          </div>
+
+          {/* Product Links */}
+          <div data-aos="fade-up" data-aos-delay="200">
+            <h4 className="font-semibold text-slate-900 dark:text-slate-100 mb-6 flex items-center">
+              <TrendingUp className="h-4 w-4 mr-2 text-indigo-600" />
+              Product
+            </h4>
+            <ul className="space-y-4">
+              <li><Link to="/" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Home</Link></li>
+              <li><Link to="/analyze" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Analyze</Link></li>
+              <li><Link to="/journal" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Journal</Link></li>
+              <li><Link to="/news" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">News</Link></li>
+              <li><Link to="/dashboard" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Dashboard</Link></li>
+            </ul>
+          </div>
+
+          {/* Support Links */}
+          <div data-aos="fade-up" data-aos-delay="300">
+            <h4 className="font-semibold text-slate-900 dark:text-slate-100 mb-6 flex items-center">
+              <Shield className="h-4 w-4 mr-2 text-indigo-600" />
+              Support
+            </h4>
+            <ul className="space-y-4">
+              <li><Link to="/" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Help Center</Link></li>
+              <li><Link to="/Contact" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Contact Us</Link></li>
+              <li><Link to="/" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">About Us</Link></li>
+              <li><Link to="/" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">System Status</Link></li>
+              <li><Link to="/privacy-policy" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Privacy Policy</Link></li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom Section */}
+        <div className="mt-16 pt-5 border-t border-slate-200 dark:border-slate-800" data-aos="fade-up" data-aos-delay="400" data-aos-offset="0"
+  data-aos-duration="800"
+  data-aos-anchor-placement="top-bottom">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <div className="flex items-center space-x-2 text-slate-600 dark:text-slate-400">
+              <span>© {new Date().getFullYear()} SentiLog AI</span>
+              <span className="text-slate-400 dark:text-slate-600">•</span>
+              <span>All rights reserved</span>
+            </div>
+            <div className="flex items-center space-x-2 text-slate-600 dark:text-slate-400">
+              <span>Built with</span>
+              <Heart className="h-4 w-4 text-red-500 fill-current animate-pulse" />
+              <span>for open source</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
 
 export default Footer;

@@ -95,10 +95,10 @@ git checkout -b feature/your-feature-name
 ```
 
 Use prefixes like `feature/`, `fix/`, `docs/`, or `refactor/` for better organization.
+
 5. **Set Up Your Development Environment:**
 
 **Frontend Setup:**
-
 ```bash
 cd client
 npm install

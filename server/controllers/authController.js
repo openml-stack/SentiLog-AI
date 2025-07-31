@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const userModel = require('../models/user');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const signup = async (req, res) => {
@@ -87,4 +88,79 @@ const signin = async (req, res) => {
   }
 };
 
-module.exports = { signup, signin };
+
+// Forgot Password
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await userModel.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // Create a reset token
+    const resetToken = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_RESET_SECRET,
+      { expiresIn: '15m' }
+    );
+
+    // Reset link
+    const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
+
+    // Send reset email
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    await transporter.sendMail({
+      from: `"Support" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: 'Password Reset Request',
+      html: `
+        <h3>Password Reset</h3>
+        <p>You requested a password reset. Click the link below to reset your password:</p>
+        <a href="${resetLink}" target="_blank">${resetLink}</a>
+        <p>This link will expire in 15 minutes.</p>
+      `,
+    });
+
+    return res.json({ message: 'Reset link sent successfully', resetLink });
+
+  } catch (err) {
+    console.error("Forgot Password Error:", err);
+    return res.status(500).json({ message: "Something went wrong", error: err.message });
+  }
+};
+
+
+// Reset Password
+
+const resetPassword = async (req, res) => {
+  const { token, newPassword } = req.body;
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_RESET_SECRET);
+    const user = await userModel.findById(decoded.userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "Invalid user" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    return res.json({ message: "Password updated successfully" });
+  } catch (err) {
+    console.error("Reset Password Error:", err);
+    return res.status(400).json({ message: "Invalid or expired token" });
+  }
+};
+
+
+
+module.exports = { signup, signin, forgotPassword, resetPassword };

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -73,6 +73,9 @@ function LoginPage() {
             Login
           </button>
         </form>
+        <div style={{ textAlign: 'right', marginBottom: '10px' }}>
+          <Link to="/forgot-password">Forgot Password?</Link>
+        </div>
       </div>
     </div>
   );
