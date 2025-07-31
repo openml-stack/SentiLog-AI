@@ -14,4 +14,4 @@ class VaderService:
         elif compound <= -0.05:
             return "Negative"
         else:
-            return "Neutral"
+            return "Neutral" 
