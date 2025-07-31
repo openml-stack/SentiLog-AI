@@ -26,6 +26,9 @@ const userSchema = new Schema(
     },
     resetPasswordToken: String,
     resetPasswordExpires: Date,
+    profilephoto:{
+      type:String,
+    }
   },
   {
     timestamps: true,

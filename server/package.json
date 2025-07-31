@@ -16,6 +16,7 @@
     "axios": "^1.11.0",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
+    "cloudinary": "^2.7.0",
     "cors": "^2.8.5",
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
@@ -28,7 +29,7 @@
     "pdf-parse": "^1.1.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
-    "tailwind": "^4.0.0",
+    "tailwind": "^2.3.1",
     "zod": "^4.0.5"
   }
 }
