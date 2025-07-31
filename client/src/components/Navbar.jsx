@@ -3,6 +3,7 @@ import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { ThemeContext } from "../context/ThemeContext";
 import ThemeToggle from "./ThemeToggle";
 import { motion } from "framer-motion";
+import logo from '../assets/SentiLog.png'
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -25,10 +26,12 @@ const Logo = ({ theme, currentColors }) => (
   >
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
      
-    <img src="../../public/companylogo.png"></img>
+    {/* <img src="/companylogo.png"></img> */}
+    <img src={logo}></img>
      
     </svg>
-        <img src="../../public/companylogo.png" style={{ width: "32px", height: "32px", borderRadius:8 }}
+        {/* <img src={"/companylogo.png"} style={{ width: "32px", height: "32px", borderRadius:8 }} */}
+        <img src={logo} style={{ width: "32px", height: "32px", borderRadius:8 }}
 ></img>
 
     SentiLog <span className="animate-pulse">AI</span>
