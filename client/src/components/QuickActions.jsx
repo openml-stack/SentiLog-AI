@@ -146,7 +146,7 @@ const QuickActions = () => {
             />
             <div className="flex gap-2 mt-4">
               <button
-                 className="px-6 py-2 hover:text-blue-500
+                 className="px-6 py-2
  text-white rounded-xl font-semibold shadow-lg hover:scale-105 focus:ring-4 focus:ring-emerald-500/30 transition-all duration-200"
                 style={{
                   background: 'linear-gradient(135deg, var(--gradient-from), var(--gradient-to))',
@@ -168,7 +168,7 @@ const QuickActions = () => {
               </button>
               <Link
                 to="/journal"
-                className="px-6 py-2 text-white rounded-xl font-semibold shadow-lg hover:scale-105 focus:ring-4 focus:ring-emerald-500/30 transition-all duration-200"
+                className="px-6 py-2 text-white rounded-xl font-semibold shadow-lg hover:scale-105 hover:text-white focus:ring-4 focus:ring-emerald-500/30 transition-all duration-200"
                 style={{
                   background:'linear-gradient(135deg, var(--gradient-from), var(--gradient-to))',
                   boxShadow: '0 10px 20px rgba(5, 95, 70, 0.3)',

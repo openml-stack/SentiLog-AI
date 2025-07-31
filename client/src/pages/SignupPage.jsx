@@ -97,7 +97,9 @@ function SignupPage() {
             onChange={handleChange}
             required
             className="p-3 border border-gray-300 rounded"
+
           />
+          <input  type="checkbox" onclick="myFunction()" className="p-3 border border-gray-300 rounded"/>
           {success && <p className="text-green-600">{success}</p>}
           {error && <p className="text-red-600">{error}</p>}
           <button
