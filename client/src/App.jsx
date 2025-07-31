@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import HomePage from "./pages/HomePage";
 import AnalyzePage from "./pages/AnalyzePage";
 import Loader from "./components/Preloader/Loader";
+import ScrollToTopButton from "./components/ScrollToTopButton";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -30,6 +31,7 @@ function App() {
           <Route path="/news" element={<NewsPage />} />
         </Routes>
       </Router>
+      <ScrollToTopButton />
     </>
   );
 }
