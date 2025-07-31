@@ -69,7 +69,7 @@ function SignupPage() {
             value={form.firstname}
             onChange={handleChange}
             required
-            className="p-3 border border-gray-300 rounded"
+            className="p-3 border border-gray-300 rounded text-gray-900 placeholder-gray-400"
           />
           <input
             type="text"
@@ -78,7 +78,7 @@ function SignupPage() {
             value={form.lastname}
             onChange={handleChange}
             required
-            className="p-3 border border-gray-300 rounded"
+            className="p-3 border border-gray-300 rounded text-gray-900 placeholder-gray-400"
           />
           <input
             type="email"
@@ -87,7 +87,7 @@ function SignupPage() {
             value={form.email}
             onChange={handleChange}
             required
-            className="p-3 border border-gray-300 rounded"
+            className="p-3 border border-gray-300 rounded text-gray-900 placeholder-gray-400"
           />
           <input
             type="password"

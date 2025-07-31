@@ -24,27 +24,13 @@ const Logo = ({ theme, currentColors }) => (
     }}
   >
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-      <circle
-        cx="16"
-        cy="16"
-        r="14"
-        fill={theme === "dark" ? "#8b5cf6" : "#a78bfa"}
-        fillOpacity="0.18"
-      />
-      <path
-        d="M16 8v8l6 3"
-        stroke={theme === "dark" ? "#93c5fd" : "#60a5fa"}
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle
-        cx="16"
-        cy="16"
-        r="2.5"
-        fill={theme === "dark" ? "#93c5fd" : "#60a5fa"}
-      />
+     
+    <img src="../../public/companylogo.png"></img>
+     
     </svg>
+        <img src="../../public/companylogo.png" style={{ width: "32px", height: "32px", borderRadius:8 }}
+></img>
+
     SentiLog <span className="animate-pulse">AI</span>
   </span>
 );
