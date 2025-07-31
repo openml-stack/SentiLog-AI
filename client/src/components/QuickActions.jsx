@@ -148,17 +148,20 @@ const QuickActions = () => {
             />
             <div className="flex gap-2 mt-4">
               <button
-                className="px-6 py-2 text-white rounded-xl font-semibold shadow-lg hover:scale-105 focus:ring-4 focus:ring-purple-500/30 transition-all duration-200 disabled:opacity-60 disabled:hover:scale-100"
+                 className="px-6 py-2
+ text-white rounded-xl font-semibold shadow-lg hover:scale-105 focus:ring-4 focus:ring-emerald-500/30 transition-all duration-200"
                 style={{
                   background: 'linear-gradient(135deg, var(--gradient-from), var(--gradient-to))',
                   boxShadow: '0 10px 20px rgba(139, 92, 246, 0.3)',
                 }}
+                
                 onClick={handleAnalyze}
                 disabled={loading || !text.trim()}
               >
                 {loading ? (
-                  <span className="flex items-center gap-2">
-                    <span className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
+                  <span className="flex items-center gap-3">
+                    <span className="animate-spin
+ inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
                     Analyzing...
                   </span>
                 ) : (
@@ -167,9 +170,9 @@ const QuickActions = () => {
               </button>
               <Link
                 to="/journal"
-                className="px-6 py-2 text-white rounded-xl font-semibold shadow-lg hover:scale-105 focus:ring-4 focus:ring-emerald-500/30 transition-all duration-200"
+                className="px-6 py-2 text-white rounded-xl font-semibold shadow-lg hover:scale-105 hover:text-white focus:ring-4 focus:ring-emerald-500/30 transition-all duration-200"
                 style={{
-                  backgroundColor: 'var(--success-bg)',
+                  background:'linear-gradient(135deg, var(--gradient-from), var(--gradient-to))',
                   boxShadow: '0 10px 20px rgba(5, 95, 70, 0.3)',
                 }}
                 onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--success-hover)'}
