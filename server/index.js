@@ -6,9 +6,8 @@ const dotenv = require("dotenv");
 require("dotenv").config();
 const setupSwagger = require("./config/swagger");
 const errorHandler = require("./middleware/errorHandler");
-// require("./utils/cronJob"); // this starts the cron when the server starts
-// const newsFetcher = require("./services/newsFetcher");
-// newsFetcher(); // Fetch and post news immediately on server start
+require("./utils/cronJob"); // this starts the cron when the server starts
+ // Fetch and post news immediately on server start
 
 const journalRoutes = require("./routes/journal");
 const newsRoutes = require("./routes/news");
@@ -25,7 +24,10 @@ app.use(express.json());
 
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB connected"))
+  .then(() => {console.log("✅ MongoDB connected")
+
+  }
+)
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 app.get("/", (req, res) => {

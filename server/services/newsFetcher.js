@@ -1,5 +1,5 @@
 const axios = require("axios");
-
+const NewsEntry = require("../models/NewsEntry");
 const NEWS_API_KEY = process.env.NEWS_API_KEY;
 const GUARDIAN_API_KEY = process.env.GUARDIAN_API_KEY;
 
@@ -62,7 +62,8 @@ const fetchAndPostNews = async ({ topic = "India", hours = 36 } = {}) => {
       }
 
       for (const entry of entries) {
-        await axios.post("http://localhost:4000/api/news", entry);
+        console.log(entry.url);
+        await createNewsEntry(entry.url, entry.title, entry.text, entry.date);
         console.log(`✅ Posted from ${source.name}: ${entry.title}`);
       }
     } catch (err) {
@@ -71,4 +72,30 @@ const fetchAndPostNews = async ({ topic = "India", hours = 36 } = {}) => {
   }
 };
 
+async function createNewsEntry(url, title, text, date) {
+  try {
+  
+      // Call ML service (running on port 5001) to analyze sentiment and emotion
+      // This sends the article text to a Python/ML microservice for analysis
+      const mlRes = await axios.post(`${process.env.ML_API_URL}/vader/analyze`, { text });
+  
+      // Extract sentiment (positive/negative/neutral) and emotion data from ML response
+      const { sentiment, emotion } = mlRes.data;
+      
+  
+      // Create new news entry in database with original data + ML analysis results
+      await NewsEntry.create({
+        url,
+        title,
+        text,
+        sentiment,
+        emotion,
+        date,
+      });
+  
+    } catch (err) {
+      console.error('Error creating news entry:', err.message);
+      
+    }
+}
 module.exports = fetchAndPostNews;
