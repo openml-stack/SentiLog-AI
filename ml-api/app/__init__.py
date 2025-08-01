@@ -1,29 +1,22 @@
 from flask import Flask
 from flask_cors import CORS
+from dotenv import load_dotenv
 import os
-
-def create_app(config_name=None):
-    """Application factory pattern for Flask app"""
-    
-    # Create Flask app instance
+load_dotenv()
+def create_app():
+    """Simple Flask app factory without config classes"""
     app = Flask(__name__)
-    
-    # Load configuration
-    if config_name is None:
-        config_name = os.environ.get('FLASK_ENV', 'development')
-    
-    if config_name == 'production':
-        app.config.from_object('app.config.ProductionConfig')
-    elif config_name == 'testing':
-        app.config.from_object('app.config.TestingConfig')
-    else:
-        app.config.from_object('app.config.DevelopmentConfig')
-    
+
+    # Set config directly
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
+    app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
+    cors_origins = os.environ.get('CORS_ORIGINS', '*').split(',')
+
     # Initialize CORS
-    CORS(app, resources={r"/*": {"origins": app.config.get('CORS_ORIGINS', '*')}})
-    
+    CORS(app, resources={r"/*": {"origins": cors_origins}})
+
     # Register blueprints
     from app.routes import routes
     app.register_blueprint(routes.bp)
-    
-    return app 
+
+    return app

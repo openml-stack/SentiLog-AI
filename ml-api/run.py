@@ -6,7 +6,7 @@ app = create_app()
 
 if __name__ == '__main__':
     # Get port from environment variable or default to 5001
-    port = int(os.environ.get('PORT', 5001))
+    port = os.environ.get('PORT')
     
     # Get host from environment variable or default to localhost
     host = os.environ.get('HOST', '0.0.0.0')
