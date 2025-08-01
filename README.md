@@ -119,7 +119,7 @@ npm run dev
 
 Once your backend server is running, you can explore all API endpoints using **Swagger UI**:
 
-[http://localhost:5000/api-docs](http://localhost:5000/api-docs)
+[https://sentilog-ai.onrender.com/api-docs](https://sentilog-ai.onrender.com/api-docs)
 
 This interactive documentation provides:
 
