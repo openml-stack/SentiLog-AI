@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import PasswordInput from "../components/PasswordInput";
 
 function SignupPage() {
   const navigate = useNavigate();
@@ -89,15 +90,12 @@ function SignupPage() {
             required
             className="p-3 border border-gray-300 rounded text-gray-900 placeholder-gray-400"
           />
-          <input
-            type="password"
+          <PasswordInput
             name="password"
-            placeholder="Password"
             value={form.password}
             onChange={handleChange}
-            required
-            className="p-3 border border-gray-300 rounded"
-
+            placeholder="Password"
+            className="p-3 border border-gray-300 rounded text-gray-900 placeholder-gray-400"
           />
          
           {success && <p className="text-green-600">{success}</p>}
