@@ -30,7 +30,7 @@ export default function ForgotPassword() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="p-3 border border-gray-300 rounded"
+            className="p-3 border border-gray-300 rounded  text-gray-900 placeholder-gray-400"
           />
           {message && <p className="text-green-600">{message}</p>}
           {error && <p className="text-red-600">{error}</p>}

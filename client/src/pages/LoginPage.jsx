@@ -55,7 +55,7 @@ function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="p-3 border border-gray-300 rounded"
+            className="p-3 border border-gray-300 rounded text-gray-900 placeholder-gray-400"
           />
           <input
             type="password"
@@ -63,7 +63,7 @@ function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="p-3 border border-gray-300 rounded"
+            className="p-3 border border-gray-300 rounded text-gray-900 placeholder-gray-400"
           />
           {error && <p className="text-red-600">{error}</p>}
           <button
