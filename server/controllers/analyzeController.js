@@ -41,6 +41,7 @@ const analyzeFile = async (req, res) => {
       sentiment: { sentiment : mlRes.data.sentiment }
     }); 
   } catch (err) {
+    console.error('Error analyzing text:', err.message);
     if(err.status === 400) {
       return res.status(400).json({ error: "File not Supported" });
     }
@@ -63,6 +64,7 @@ const analyzeText = async (req, res) => {
 
     res.json({ text, sentiment: mlRes.data.sentiment });
   } catch (err) {
+    console.error('Error analyzing text:', err.message);
     res.status(500).json({ error: err.message });
   }
 };

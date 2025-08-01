@@ -62,7 +62,6 @@ const fetchAndPostNews = async ({ topic = "India", hours = 36 } = {}) => {
       }
 
       for (const entry of entries) {
-        console.log(entry.url);
         await createNewsEntry(entry.url, entry.title, entry.text, entry.date);
         console.log(`✅ Posted from ${source.name}: ${entry.title}`);
       }
