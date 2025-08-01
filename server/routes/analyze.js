@@ -2,7 +2,7 @@ const express = require("express");
 const analyzeRouter = express.Router();
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
-const { analyzeFile } = require("../controllers/analyzeController");
+const { analyzeFile, analyzeText } = require("../controllers/analyzeController");
 
 /**
  * @swagger
@@ -28,5 +28,34 @@ const { analyzeFile } = require("../controllers/analyzeController");
  *         description: Text and sentiment analysis result
  */
 analyzeRouter.post("/file", upload.single("file"), analyzeFile);
-
+/**
+ * @swagger
+ * /analyze/text:
+ *   post:
+ *     summary: Analyze plain text for sentiment
+ *     tags: [Analyze]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [text]
+ *             properties:
+ *               text:
+ *                 type: string
+ *                 description: Text to analyze
+ *     responses:
+ *       200:
+ *         description: Sentiment analysis result
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 sentiment:
+ *                   type: string
+ *                   description: Sentiment label
+ */
+analyzeRouter.post("/text", analyzeText);
 module.exports = analyzeRouter;

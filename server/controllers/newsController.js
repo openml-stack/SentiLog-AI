@@ -28,7 +28,7 @@ exports.createEntry = async (req, res) => {
     const mlRes = await axios.post(`${process.env.ML_API_URL}/vader/analyze`, { text });
 
     // Extract sentiment (positive/negative/neutral) and emotion data from ML response
-    const { sentiment, emotion } = mlRes.data;
+    const { sentiment } = mlRes.data;
     
 
     // Create new news entry in database with original data + ML analysis results
@@ -37,7 +37,6 @@ exports.createEntry = async (req, res) => {
       title,
       text,
       sentiment,
-      emotion,
       date,
     });
 

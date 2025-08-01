@@ -1,6 +1,4 @@
-import React from "react";
-
-const SentimentCard = ({ sentiment, emotion }) => {
+const SentimentCard = ({ sentiment}) => {
   let bgColor = "bg-white/20 dark:bg-white/5"; 
   let borderColor = "border-gray-300 dark:border-white/10";
   let textColor = "text-gray-800 dark:text-gray-100";
@@ -21,9 +19,6 @@ const SentimentCard = ({ sentiment, emotion }) => {
     >
       <div className={`text-lg font-semibold ${textColor}`}>
         Sentiment: {sentiment}
-      </div>
-      <div className="text-base text-gray-700 dark:text-gray-300 mt-2">
-        Emotion: {emotion}
       </div>
     </div>
   );

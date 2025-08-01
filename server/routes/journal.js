@@ -4,7 +4,7 @@ const journalController = require("../controllers/journalController");
 
 /**
  * @swagger
- * /journal:
+ * /journal/create:
  *   post:
  *     summary: Create a new journal entry
  *     tags: [Journal]
@@ -21,7 +21,7 @@ const journalController = require("../controllers/journalController");
  *       201:
  *         description: Created journal entry
  */
-journalRouter.post("/", journalController.createEntry);
+journalRouter.post("/create", journalController.createEntry);
 
 /**
  * @swagger

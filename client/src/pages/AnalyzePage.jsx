@@ -78,7 +78,7 @@ const AnalyzePage = () => {
     formData.append("file", file);
 
     try {
-      const res = await api.post("/api/analyze", formData, {
+      const res = await api.post("/api/analyze/file", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
