@@ -30,6 +30,9 @@ export default function ResetPassword() {
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
       setError(err.response?.data?.message || 'Something went wrong');
+      if (import.meta.env.MODE !== "production") {
+        console.error("Network error during password reset:", err);
+      }
     }
   };
 

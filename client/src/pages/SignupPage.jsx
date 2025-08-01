@@ -23,7 +23,10 @@ function SignupPage() {
     setError("");
     setSuccess("");
 
-    console.log("VITE_API_URL is:", import.meta.env.VITE_API_URL);
+    // Removed: Logging API URL in production is not safe
+    if (import.meta.env.MODE !== "production") {
+      console.log("VITE_API_URL is:", import.meta.env.VITE_API_URL);
+    }
 
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/signup`, {
@@ -39,8 +42,11 @@ function SignupPage() {
         console.warn("Response body not JSON or empty.");
       }
 
-      console.log("Received response status:", res.status);
-      console.log("Received response data:", data);
+      // Only log response status/data in non-production
+      if (import.meta.env.MODE !== "production") {
+        console.log("Received response status:", res.status);
+        console.log("Received response data:", data);
+      }
 
       if (res.ok && data.token) {
         localStorage.setItem("token", data.token);
