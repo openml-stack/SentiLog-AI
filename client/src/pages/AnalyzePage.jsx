@@ -2,9 +2,8 @@ import React, { useState, useRef, useContext, useEffect } from "react";
 import {
   Upload,
   FileText,
-  File,
-  AlertCircle,
   CheckCircle,
+  AlertCircle,
   BarChart3,
   TrendingUp,
   TrendingDown,
@@ -13,7 +12,6 @@ import {
   Eye,
 } from "lucide-react";
 import api from "../axios";
-import Navbar from "../components/Navbar.jsx";
 import { ThemeContext } from "../context/ThemeContext";
 
 const AnalyzePage = () => {
@@ -22,24 +20,29 @@ const AnalyzePage = () => {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [extractedText, setExtractedText] = useState("");
   const [sentimentResult, setSentimentResult] = useState(null);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isExtracting, setIsExtracting] = useState(false);
   const [error, setError] = useState("");
   const [showFullText, setShowFullText] = useState(false);
   const fileInputRef = useRef(null);
   const resultRef = useRef(null);
 
-
+  // Animated background transition on theme switch
   useEffect(() => {
-  import('aos').then(AOS => {
-    AOS.init({
-      duration: 600,
-      once: false,
+    import('aos').then(AOS => {
+      AOS.init({ duration: 600, once: false });
+      AOS.refreshHard();
     });
-    AOS.refreshHard();
-  });
-}, [theme]);
+  }, [theme]);
 
+  // Reset all state and file input
+  const resetState = () => {
+    setUploadedFile(null);
+    setExtractedText("");
+    setSentimentResult(null);
+    setError("");
+    setShowFullText(false);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   const handleDrag = (e) => {
     e.preventDefault();
@@ -55,7 +58,6 @@ const AnalyzePage = () => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       handleFile(e.dataTransfer.files[0]);
     }
@@ -73,6 +75,7 @@ const AnalyzePage = () => {
     setIsExtracting(true);
     setSentimentResult(null);
     setExtractedText("");
+    setShowFullText(false);
 
     const formData = new FormData();
     formData.append("file", file);
@@ -81,11 +84,9 @@ const AnalyzePage = () => {
       const res = await api.post("/api/analyze/file", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
       const data = res.data;
-      setExtractedText(data.extractedText);
-      setSentimentResult(data.sentiment || data.detailedAnalysis);
-
+      setExtractedText(data.extractedText || "");
+      setSentimentResult(data.sentiment || data.detailedAnalysis || {});
       setTimeout(() => {
         resultRef.current?.scrollIntoView({ behavior: "smooth" });
       }, 100);
@@ -99,7 +100,6 @@ const AnalyzePage = () => {
 
   const downloadResults = () => {
     if (!sentimentResult || !uploadedFile) return;
-
     const results = {
       fileName: uploadedFile.name,
       analysisDate: new Date().toISOString(),
@@ -116,17 +116,13 @@ const AnalyzePage = () => {
       },
       detailedAnalysis: sentimentResult.detailedAnalysis,
     };
-
     const blob = new Blob([JSON.stringify(results, null, 2)], {
       type: "application/json",
     });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `sentiment-analysis-${uploadedFile.name.replace(
-      /\.[^/.]+$/,
-      ""
-    )}.json`;
+    a.download = `sentiment-analysis-${uploadedFile.name.replace(/\.[^/.]+$/, "")}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -166,38 +162,36 @@ const AnalyzePage = () => {
     }
   };
 
+  // Theme-dependent classes
+  const gradients = theme === 'dark'
+    ? 'from-gray-900 via-slate-900 to-black'
+    : 'from-blue-50 via-white to-purple-50';
+  const cardBg = theme === 'dark' ? 'bg-gray-800' : 'bg-white';
+
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${
-      theme === 'dark' 
-        ? 'bg-gradient-to-br from-gray-900 via-slate-900 to-black' 
-        : 'bg-gradient-to-br from-blue-50 via-white to-purple-50'
-    }`}>
+    <div className={`min-h-screen transition-colors duration-500 bg-gradient-to-br ${gradients}`}>
       <div className="max-w-6xl mx-auto px-6 py-12">
+
         {/* Header */}
         <div data-aos="fade-up" className="text-center mb-12">
           <h1 className={`text-4xl font-bold bg-gradient-to-r ${
-            theme === 'dark' 
-              ? 'from-blue-400 to-purple-400' 
-              : 'from-blue-600 to-purple-600'
-          } bg-clip-text text-transparent mb-4`}>
+              theme === 'dark'
+                ? 'from-blue-400 to-purple-400'
+                : 'from-blue-600 to-purple-600'
+            } bg-clip-text text-transparent mb-4`}>
             Advanced Document Sentiment Analysis
           </h1>
           <p className={`text-lg max-w-3xl mx-auto ${
             theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
           }`}>
-            Upload your documents to extract raw text and perform comprehensive
-            sentiment analysis using advanced AI processing. Supports TXT, PDF,
-            and DOCX files with detailed emotional sentiment scoring.
+            Upload your documents to extract raw text and perform comprehensive sentiment analysis using advanced AI processing. Supports TXT, PDF, and DOCX files with detailed emotional sentiment scoring.
           </p>
         </div>
 
         {/* Upload Section */}
         <div
           data-aos="fade-down"
-          className={`rounded-2xl shadow-xl p-8 mb-8 transition-colors duration-300 ${
-            theme === 'dark' ? 'bg-gray-800' : 'bg-white'
-          }`}
-        >
+          className={`rounded-2xl shadow-xl p-8 mb-8 transition-colors duration-500 ${cardBg}`}>
           <div
             className={`border-2 border-dashed rounded-xl p-12 text-center transition-all duration-300 ${
               dragActive
@@ -212,6 +206,7 @@ const AnalyzePage = () => {
             onDragLeave={handleDrag}
             onDragOver={handleDrag}
             onDrop={handleDrop}
+            style={{ cursor: uploadedFile || isExtracting ? "not-allowed" : "pointer" }}
           >
             {uploadedFile ? (
               <div className="space-y-4">
@@ -230,17 +225,13 @@ const AnalyzePage = () => {
                   </p>
                 </div>
                 <button
-                  onClick={() => {
-                    setUploadedFile(null);
-                    setExtractedText("");
-                    setSentimentResult(null);
-                    setError("");
-                  }}
+                  onClick={resetState}
                   className={`font-medium transition-colors ${
-                    theme === 'dark' 
-                      ? 'text-blue-400 hover:text-blue-300' 
+                    theme === 'dark'
+                      ? 'text-blue-400 hover:text-blue-300'
                       : 'text-blue-600 hover:text-blue-800'
                   }`}
+                  disabled={isExtracting}
                 >
                   Upload Different File
                 </button>
@@ -249,8 +240,8 @@ const AnalyzePage = () => {
               <>
                 <Upload
                   className={`w-16 h-16 mx-auto mb-4 ${
-                    dragActive 
-                      ? "text-blue-500" 
+                    dragActive
+                      ? "text-blue-500"
                       : theme === 'dark' ? "text-gray-500" : "text-gray-400"
                   }`}
                 />
@@ -259,9 +250,7 @@ const AnalyzePage = () => {
                 }`}>
                   Upload Document for Analysis
                 </h3>
-                <p className={`mb-6 ${
-                  theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-                }`}>
+                <p className={`mb-6 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
                   Drag and drop your file here, or click to browse
                 </p>
                 <input
@@ -270,16 +259,16 @@ const AnalyzePage = () => {
                   className="hidden"
                   accept=".txt,.pdf,.docx"
                   onChange={handleFileInput}
+                  disabled={isExtracting}
                 />
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+                  disabled={isExtracting}
                 >
                   Choose File
                 </button>
-                <p className={`text-sm mt-4 ${
-                  theme === 'dark' ? 'text-gray-500' : 'text-gray-500'
-                }`}>
+                <p className={`text-sm mt-4 ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>
                   Supported formats: .txt, .pdf, .docx (Max size: 10MB)
                 </p>
               </>
@@ -287,22 +276,21 @@ const AnalyzePage = () => {
           </div>
 
           {error && (
-            <div className={`mt-6 p-4 rounded-lg flex items-center border ${
-              theme === 'dark' 
-                ? 'bg-red-900/30 border-red-700' 
-                : 'bg-red-50 border-red-200'
-            }`}>
+            <div className={`mt-6 p-4 rounded-lg flex items-center border ${theme === 'dark'
+                  ? 'bg-red-900/30 border-red-700'
+                  : 'bg-red-50 border-red-200'
+              }`}
+              aria-live="assertive"
+            >
               <AlertCircle className="w-5 h-5 text-red-500 mr-3 flex-shrink-0" />
               <p className={theme === 'dark' ? 'text-red-400' : 'text-red-700'}>{error}</p>
             </div>
           )}
         </div>
 
-        {/* Text Extraction Loading */}
+        {/* Loading */}
         {isExtracting && (
-          <div className={`rounded-2xl shadow-xl p-8 mb-8 transition-colors duration-300 ${
-            theme === 'dark' ? 'bg-gray-800' : 'bg-white'
-          }`}>
+          <div className={`rounded-2xl shadow-xl p-8 mb-8 transition-colors duration-500 ${cardBg}`}>
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
               <h3 className={`text-lg font-semibold mb-2 ${
@@ -317,11 +305,9 @@ const AnalyzePage = () => {
           </div>
         )}
 
-        {/* Extracted Text Display */}
+        {/* Extracted Text */}
         {extractedText && !isExtracting && (
-          <div className={`rounded-2xl shadow-xl p-8 mb-8 transition-colors duration-300 ${
-            theme === 'dark' ? 'bg-gray-800' : 'bg-white'
-          }`}>
+          <div className={`rounded-2xl shadow-xl p-8 mb-8 transition-colors duration-500 ${cardBg}`}>
             <div className="flex items-center justify-between mb-6">
               <h3 className={`text-xl font-semibold flex items-center ${
                 theme === 'dark' ? 'text-gray-100' : 'text-gray-800'
@@ -331,7 +317,7 @@ const AnalyzePage = () => {
               </h3>
               <div className="flex gap-2">
                 <button
-                  onClick={() => setShowFullText(!showFullText)}
+                  onClick={() => setShowFullText((prev) => !prev)}
                   className={`flex items-center px-4 py-2 border rounded-lg transition-colors ${
                     theme === 'dark'
                       ? 'text-blue-400 hover:text-blue-300 border-blue-600 hover:bg-blue-900/20'
@@ -345,8 +331,8 @@ const AnalyzePage = () => {
             </div>
 
             <div className={`rounded-lg p-6 border-2 ${
-              theme === 'dark' 
-                ? 'bg-gray-900 border-gray-600' 
+              theme === 'dark'
+                ? 'bg-gray-900 border-gray-600'
                 : 'bg-gray-50 border-gray-200'
             }`}>
               <div className={`text-sm mb-4 ${
@@ -356,26 +342,21 @@ const AnalyzePage = () => {
                 {uploadedFile?.name}
               </div>
               <div className={showFullText ? "" : "max-h-64 overflow-y-auto"}>
-                <pre className={`text-sm whitespace-pre-wrap font-mono leading-relaxed ${
-                  theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-                }`}>
+                <pre className={`text-sm whitespace-pre-wrap font-mono leading-relaxed ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
                   {showFullText
                     ? extractedText
                     : extractedText.length > 1000
-                    ? extractedText.substring(0, 1000) +
-                      '...\n\n[Click "Show Full Text" to see complete content]'
-                    : extractedText}
+                      ? extractedText.substring(0, 1000) + '...\n\n[Click "Show Full Text" to see complete content]'
+                      : extractedText}
                 </pre>
               </div>
             </div>
           </div>
         )}
 
-        {/* Enhanced Sentiment Results */}
+        {/* Sentiment Results */}
         {sentimentResult && !isExtracting && (
-          <div ref={resultRef} className={`rounded-2xl shadow-xl p-8 transition-colors duration-300 ${
-            theme === 'dark' ? 'bg-gray-800' : 'bg-white'
-          }`}>
+          <div ref={resultRef} className={`rounded-2xl shadow-xl p-8 transition-colors duration-500 ${cardBg}`}>
             <div className="flex items-center justify-between mb-8">
               <h3 className={`text-2xl font-bold flex items-center ${
                 theme === 'dark' ? 'text-gray-100' : 'text-gray-800'
@@ -395,49 +376,47 @@ const AnalyzePage = () => {
             <div className="grid lg:grid-cols-3 gap-8">
               {/* Overall Sentiment */}
               <div className="lg:col-span-1">
-                <div
-                  className={`p-6 rounded-xl border-2 ${getSentimentColor(
-                    sentimentResult.sentiment
-                  )}`}
-                >
+                <div className={`p-6 rounded-xl border-2 ${getSentimentColor(sentimentResult?.sentiment)}`}>
                   <div className="flex items-center justify-between mb-4">
                     <span className={`text-sm font-medium ${
                       theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
                     }`}>
                       Overall Sentiment
                     </span>
-                    {getSentimentIcon(sentimentResult.sentiment)}
+                    {getSentimentIcon(sentimentResult?.sentiment)}
                   </div>
                   <div
                     className={`text-3xl font-bold capitalize mb-2 ${
-                      getSentimentColor(sentimentResult.sentiment).split(" ")[0]
+                      getSentimentColor(sentimentResult?.sentiment).split(" ")[0]
                     }`}
                   >
-                    {sentimentResult.sentiment}
+                    {sentimentResult?.sentiment || 'neutral'}
                   </div>
                   <div className="space-y-1 text-sm">
                     <div className="flex justify-between">
                       <span className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>Score:</span>
                       <span className="font-medium">
-                        {sentimentResult.score}
+                        {typeof sentimentResult?.score !== "undefined" ? sentimentResult.score : "N/A"}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>Confidence:</span>
                       <span className="font-medium">
-                        {sentimentResult.confidence}%
+                        {typeof sentimentResult?.confidence !== "undefined"
+                          ? `${sentimentResult.confidence}%`
+                          : "N/A"}
                       </span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Document Statistics */}
+              {/* Document Statistics and Sentiment Indicators */}
               <div className="lg:col-span-2">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className={`p-6 rounded-xl border-2 ${
-                    theme === 'dark' 
-                      ? 'bg-blue-900/30 border-blue-700' 
+                    theme === 'dark'
+                      ? 'bg-blue-900/30 border-blue-700'
                       : 'bg-blue-50 border-blue-200'
                   }`}>
                     <h4 className={`font-semibold mb-4 ${
@@ -449,13 +428,13 @@ const AnalyzePage = () => {
                       <div className="flex justify-between">
                         <span className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>Total Words:</span>
                         <span className="font-medium">
-                          {sentimentResult.wordCount?.toLocaleString()}
+                          {sentimentResult?.wordCount?.toLocaleString() || 0}
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>Sentences:</span>
                         <span className="font-medium">
-                          {sentimentResult.sentenceCount?.toLocaleString()}
+                          {sentimentResult?.sentenceCount?.toLocaleString() || 0}
                         </span>
                       </div>
                       <div className="flex justify-between">
@@ -463,22 +442,23 @@ const AnalyzePage = () => {
                           Avg Words/Sentence:
                         </span>
                         <span className="font-medium">
-                          {sentimentResult.averageWordsPerSentence}
+                          {typeof sentimentResult?.averageWordsPerSentence !== "undefined"
+                            ? sentimentResult.averageWordsPerSentence
+                            : "N/A"}
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>Text Length:</span>
                         <span className="font-medium">
-                          {sentimentResult.detailedAnalysis?.textLength?.toLocaleString()}{" "}
-                          chars
+                          {sentimentResult?.detailedAnalysis?.textLength?.toLocaleString() || 0} chars
                         </span>
                       </div>
                     </div>
                   </div>
 
                   <div className={`p-6 rounded-xl border-2 ${
-                    theme === 'dark' 
-                      ? 'bg-purple-900/30 border-purple-700' 
+                    theme === 'dark'
+                      ? 'bg-purple-900/30 border-purple-700'
                       : 'bg-purple-50 border-purple-200'
                   }`}>
                     <h4 className={`font-semibold mb-4 ${
@@ -490,13 +470,13 @@ const AnalyzePage = () => {
                       <div className="flex justify-between">
                         <span className="text-green-500">Positive Terms:</span>
                         <span className="font-medium text-green-500">
-                          {sentimentResult.positiveWords}
+                          {sentimentResult?.positiveWords || 0}
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-red-500">Negative Terms:</span>
                         <span className="font-medium text-red-500">
-                          {sentimentResult.negativeWords}
+                          {sentimentResult?.negativeWords || 0}
                         </span>
                       </div>
                       <div className="flex justify-between">
@@ -504,7 +484,7 @@ const AnalyzePage = () => {
                           Total Sentiment Words:
                         </span>
                         <span className="font-medium">
-                          {sentimentResult.sentimentWordsFound}
+                          {sentimentResult?.sentimentWordsFound || 0}
                         </span>
                       </div>
                       <div className="flex justify-between">
@@ -512,11 +492,10 @@ const AnalyzePage = () => {
                           Sentiment Density:
                         </span>
                         <span className="font-medium">
-                          {(
-                            (sentimentResult.sentimentWordsFound /
-                              sentimentResult.wordCount) *
-                            100
-                          ).toFixed(1)}
+                          {sentimentResult?.sentimentWordsFound && sentimentResult?.wordCount
+                            ? ((sentimentResult.sentimentWordsFound / sentimentResult.wordCount) * 100).toFixed(1)
+                            : 0
+                          }
                           %
                         </span>
                       </div>
@@ -526,10 +505,10 @@ const AnalyzePage = () => {
               </div>
             </div>
 
-            {/* Sentiment Breakdown Visualization */}
+            {/* Sentiment Distribution Visualization */}
             <div className={`mt-8 p-6 rounded-xl border-2 ${
-              theme === 'dark' 
-                ? 'bg-gray-900 border-gray-600' 
+              theme === 'dark'
+                ? 'bg-gray-900 border-gray-600'
                 : 'bg-gray-50 border-gray-200'
             }`}>
               <h4 className={`font-semibold mb-6 ${
@@ -544,12 +523,12 @@ const AnalyzePage = () => {
                       Positive Sentiment
                     </span>
                     <span className="text-sm font-medium">
-                      {sentimentResult.positiveWords > 0
+                      {sentimentResult?.positiveWords > 0
                         ? Math.round(
                             (sentimentResult.positiveWords /
-                              (sentimentResult.positiveWords +
-                                sentimentResult.negativeWords)) *
-                              100
+                              ((sentimentResult.positiveWords || 0) +
+                              (sentimentResult.negativeWords || 0))) *
+                            100
                           )
                         : 0}
                       %
@@ -562,10 +541,10 @@ const AnalyzePage = () => {
                       className="bg-gradient-to-r from-green-400 to-green-600 h-3 rounded-full transition-all duration-1000"
                       style={{
                         width: `${
-                          sentimentResult.positiveWords > 0
+                          sentimentResult?.positiveWords > 0
                             ? (sentimentResult.positiveWords /
-                                (sentimentResult.positiveWords +
-                                  sentimentResult.negativeWords)) *
+                                ((sentimentResult.positiveWords || 0) +
+                                (sentimentResult.negativeWords || 0))) *
                               100
                             : 0
                         }%`,
@@ -580,12 +559,12 @@ const AnalyzePage = () => {
                       Negative Sentiment
                     </span>
                     <span className="text-sm font-medium">
-                      {sentimentResult.negativeWords > 0
+                      {sentimentResult?.negativeWords > 0
                         ? Math.round(
                             (sentimentResult.negativeWords /
-                              (sentimentResult.positiveWords +
-                                sentimentResult.negativeWords)) *
-                              100
+                              ((sentimentResult.positiveWords || 0) +
+                              (sentimentResult.negativeWords || 0))) *
+                            100
                           )
                         : 0}
                       %
@@ -598,10 +577,10 @@ const AnalyzePage = () => {
                       className="bg-gradient-to-r from-red-400 to-red-600 h-3 rounded-full transition-all duration-1000"
                       style={{
                         width: `${
-                          sentimentResult.negativeWords > 0
+                          sentimentResult?.negativeWords > 0
                             ? (sentimentResult.negativeWords /
-                                (sentimentResult.positiveWords +
-                                  sentimentResult.negativeWords)) *
+                                ((sentimentResult.positiveWords || 0) +
+                                (sentimentResult.negativeWords || 0))) *
                               100
                             : 0
                         }%`,
@@ -614,8 +593,8 @@ const AnalyzePage = () => {
 
             {/* Analysis Summary */}
             <div className={`mt-8 p-6 rounded-xl border-2 ${
-              theme === 'dark' 
-                ? 'bg-indigo-900/30 border-indigo-700' 
+              theme === 'dark'
+                ? 'bg-indigo-900/30 border-indigo-700'
                 : 'bg-indigo-50 border-indigo-200'
             }`}>
               <h4 className={`font-semibold mb-4 ${
@@ -626,51 +605,51 @@ const AnalyzePage = () => {
               <p className={`text-sm leading-relaxed ${
                 theme === 'dark' ? 'text-indigo-300' : 'text-indigo-700'
               }`}>
-                The document <strong>"{uploadedFile?.name}"</strong> exhibits a
+                The document <strong>&quot;{uploadedFile?.name}&quot;</strong> exhibits a
                 <strong
                   className={`${
-                    sentimentResult.sentiment === "positive"
+                    sentimentResult?.sentiment === "positive"
                       ? "text-green-500"
-                      : sentimentResult.sentiment === "negative"
-                      ? "text-red-500"
-                      : theme === 'dark' ? "text-gray-400" : "text-gray-600"
+                      : sentimentResult?.sentiment === "negative"
+                        ? "text-red-500"
+                        : theme === 'dark' ? "text-gray-400" : "text-gray-600"
                   }`}
                 >
                   {" "}
-                  {sentimentResult.sentiment}
+                  {sentimentResult?.sentiment || "neutral"}
                 </strong>{" "}
                 overall sentiment with a confidence level of
-                <strong> {sentimentResult.confidence}%</strong>. The analysis
-                processed
+                <strong> {typeof sentimentResult?.confidence !== "undefined" ? sentimentResult.confidence : "N/A"}%</strong>.
+                The analysis processed
                 <strong>
                   {" "}
-                  {sentimentResult.wordCount?.toLocaleString()} words
+                  {sentimentResult?.wordCount?.toLocaleString() || 0} words
                 </strong>{" "}
                 across
-                <strong> {sentimentResult.sentenceCount} sentences</strong>,
-                identifying
-                <strong> {sentimentResult.positiveWords} positive</strong> and
-                <strong> {sentimentResult.negativeWords} negative</strong>{" "}
-                sentiment indicators. The sentiment density is
+                <strong> {sentimentResult?.sentenceCount || 0} sentences</strong>, identifying
+                <strong> {sentimentResult?.positiveWords || 0} positive</strong> and
+                <strong> {sentimentResult?.negativeWords || 0} negative</strong> sentiment indicators.
+                The sentiment density is
                 <strong>
                   {" "}
-                  {(
-                    (sentimentResult.sentimentWordsFound /
-                      sentimentResult.wordCount) *
-                    100
-                  ).toFixed(1)}
-                  %
+                  {sentimentResult?.sentimentWordsFound && sentimentResult?.wordCount
+                    ? ((sentimentResult.sentimentWordsFound / sentimentResult.wordCount) * 100).toFixed(1)
+                    : 0
+                  }%
                 </strong>
                 , with an average of
                 <strong>
                   {" "}
-                  {sentimentResult.averageWordsPerSentence} words per sentence
+                  {typeof sentimentResult?.averageWordsPerSentence !== "undefined"
+                    ? sentimentResult.averageWordsPerSentence
+                    : "N/A"} words per sentence
                 </strong>
                 .
               </p>
             </div>
           </div>
         )}
+
       </div>
     </div>
   );
