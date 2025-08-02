@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import PasswordInput from "../components/PasswordInput";
 import { ThemeContext } from "../context/ThemeContext";
 import AnimatedBackground from "../components/AnimatedBackground";
 
@@ -99,14 +100,12 @@ function SignupPage() {
             required
             className="p-3 border border-gray-300 dark:border-gray-600 rounded text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm"
           />
-          <input
-            type="password"
+          <PasswordInput
             name="password"
-            placeholder="Password"
             value={form.password}
             onChange={handleChange}
-            required
-            className="p-3 border border-gray-300 dark:border-gray-600 rounded text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm"
+            placeholder="Password"
+            className="p-3 border border-gray-300 rounded text-gray-900 placeholder-gray-400"
           />
          
           {success && <p className="text-green-600">{success}</p>}
