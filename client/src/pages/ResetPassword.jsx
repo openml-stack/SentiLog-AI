@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PasswordInput from '../components/PasswordInput';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -30,32 +31,26 @@ export default function ResetPassword() {
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
       setError(err.response?.data?.message || 'Something went wrong');
-      if (import.meta.env.MODE !== "production") {
-        console.error("Network error during password reset:", err);
-      }
     }
   };
 
   return (
     <div className="auth-page-bg flex items-center justify-center min-h-screen px-4">
-      <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-xl border border-gray-200">
+      <div className="max-w-md w-full p-8 bg-white dark:bg-gray-950 rounded-lg shadow-xl border border-gray-200 dark:border-gray-800">
         <h2 className="text-3xl font-bold mb-6 text-center text-gray-900">Reset Password</h2>
         <form onSubmit={handleReset} className="flex flex-col gap-5">
-          <input
-            type="password"
+          <PasswordInput
             placeholder="New Password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            required
-            className="p-3 border border-gray-300 rounded"
+            name="newPassword"
+            className="mb-2"
           />
-          <input
-            type="password"
+          <PasswordInput
             placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-            className="p-3 border border-gray-300 rounded"
+            name="confirmPassword"
           />
           {message && <p className="text-green-600">{message}</p>}
           {error && <p className="text-red-600">{error}</p>}

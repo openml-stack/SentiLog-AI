@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import PasswordInput from "../components/PasswordInput";
 
 function SignupPage() {
   const navigate = useNavigate();
@@ -62,12 +63,12 @@ function SignupPage() {
   };
 
   return (
-    <div className="auth-page-bg flex items-center justify-center min-h-screen px-4">
-      <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-xl border border-gray-200">
-        <h2 className="text-3xl font-bold mb-6 text-center text-gray-900">
+    <div className="flex items-center justify-center min-h-screen px-4 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="max-w-md w-full p-8 bg-white dark:bg-gray-950 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-800">
+        <h2 className="text-3xl font-extrabold mb-8 text-center text-gray-900 dark:text-white tracking-tight">
           Create your account
         </h2>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <input
             type="text"
             name="firstname"
@@ -75,7 +76,7 @@ function SignupPage() {
             value={form.firstname}
             onChange={handleChange}
             required
-            className="p-3 border border-gray-300 rounded text-gray-900 placeholder-gray-400"
+            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-150"
           />
           <input
             type="text"
@@ -84,7 +85,7 @@ function SignupPage() {
             value={form.lastname}
             onChange={handleChange}
             required
-            className="p-3 border border-gray-300 rounded text-gray-900 placeholder-gray-400"
+            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-150"
           />
           <input
             type="email"
@@ -93,31 +94,27 @@ function SignupPage() {
             value={form.email}
             onChange={handleChange}
             required
-            className="p-3 border border-gray-300 rounded text-gray-900 placeholder-gray-400"
+            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-150"
           />
-          <input
-            type="password"
+          <PasswordInput
             name="password"
-            placeholder="Password"
             value={form.password}
             onChange={handleChange}
-            required
-            className="p-3 border border-gray-300 rounded"
-
+            placeholder="Password"
+            className="w-full"
           />
-         
-          {success && <p className="text-green-600">{success}</p>}
-          {error && <p className="text-red-600">{error}</p>}
+          {success && <p className="text-green-500 text-center font-medium">{success}</p>}
+          {error && <p className="text-red-500 text-center font-medium">{error}</p>}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition"
+            className="w-full bg-blue-600 dark:bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 dark:hover:bg-blue-800 transition-all duration-150 shadow-md"
           >
             Signup
           </button>
         </form>
-        <p className="mt-4 text-center text-gray-700">
+        <p className="mt-6 text-center text-gray-700 dark:text-gray-300">
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-600 hover:underline">
+          <Link to="/login" className="text-blue-600 dark:text-blue-400 hover:underline font-semibold">
             Login
           </Link>
         </p>
