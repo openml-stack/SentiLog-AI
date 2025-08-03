@@ -5,7 +5,6 @@ const NewsEntrySchema = new mongoose.Schema({
   title: String,
   text: String,
   sentiment: String,
-  emotion: String,
   date: Date,
 });
 

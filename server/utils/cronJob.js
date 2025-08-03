@@ -8,7 +8,7 @@ const CRON_TIMINGS = {
   EVERY_DAY_6AM: "0 6 * * *",
 };
 
-cron.schedule(CRON_TIMINGS.EVERY_MINUTE, () => {
+cron.schedule(CRON_TIMINGS.EVERY_DAY_6AM, () => {
   console.log("🕒 Running scheduled news fetch...");
   fetchAndPostNews();
 });

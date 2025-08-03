@@ -33,7 +33,7 @@ const JournalPage = () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     toast.success("Journal added successfully!");
     try {
-      const res = await api.post("/api/analyze", { text });
+      const res = await api.post("/api/journal/create", { text });
       setResult(res.data);
     } catch (err) {
       setError("Failed to analyze sentiment");
@@ -278,32 +278,14 @@ const JournalPage = () => {
                             result.sentiment?.slice(1)}
                         </div>
 
-                        {/* Emotion Result */}
-                        {result.emotion && (
-                          <div className="inline-flex items-center px-6 py-3 rounded-full font-semibold bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-lg transform hover:scale-105 transition-all duration-300">
-                            <svg
-                              className="w-4 h-4 mr-2"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            Emotion:{" "}
-                            {result.emotion?.charAt(0).toUpperCase() +
-                              result.emotion?.slice(1)}
-                          </div>
-                        )}
+                      
                       </div>
 
                       {/* Original SentimentCard */}
                       <div className="mt-6 flex items-center justify-center">
                         <SentimentCard
                           sentiment={result.sentiment}
-                          emotion={result.emotion}
+                          
                         />
                       </div>
                     </div>

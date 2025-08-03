@@ -110,6 +110,16 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Floating animation for background circles */
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px) scale(1); 
+  }
+  50% { 
+    transform: translateY(-20px) scale(1.05); 
+  }
+}
+
 /* Respect system theme if no manual toggle */
 @media (prefers-color-scheme: dark) {
   :root:not(.light):not(.dark) {
