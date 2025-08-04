@@ -13,7 +13,7 @@ import LoginPage from "./pages/LoginPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword"; 
 import Loader from "./components/Preloader/Loader";
-
+import UserProfile from "./pages/UserProfile"
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { ContactPage } from "./pages/ContactPage";
@@ -46,6 +46,7 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/user-profile" element={<UserProfile />}/>
         </Routes>
         <Footer />
       </Router>

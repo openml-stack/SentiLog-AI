@@ -1,14 +1,15 @@
-const { Router } = require("express");
-// your logic here
+
+const { Router } = require('express');
+const { signup, signin, forgotPassword, resetPassword,userProfile,updateUserProfile } = require('../controllers/authController'); // your logic here
+const {upload}=require("../middleware/multer")
 
 const authRouter = Router();
-
-const {
-  signup,
-  signin,
-  forgotPassword,
-  resetPassword,
-} = require("../controllers/authController");
+authRouter.post('/signup',upload.single("profilePhoto") ,signup);
+authRouter.post('/signin', signin);
+authRouter.post('/forgot-password', forgotPassword);
+authRouter.post('/reset-password', resetPassword);
+authRouter.post("/user-profile",userProfile)
+authRouter.post("/user-profile-update",upload.single("profilePhoto"),updateUserProfile)
 
 /**
  * @swagger
@@ -19,7 +20,7 @@ const {
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             required: [firstname, lastname, email, password]
@@ -28,11 +29,12 @@ const {
  *               lastname: { type: string }
  *               email: { type: string, format: email }
  *               password: { type: string, format: password }
+ *               profilePhoto:{type: string,format: binary}
  *     responses:
  *       201:
  *         description: User created
  */
-authRouter.post("/signup", signup);
+
 
 /**
  * @swagger
@@ -54,7 +56,7 @@ authRouter.post("/signup", signup);
  *       200:
  *         description: Successful login
  */
-authRouter.post("/signin", signin);
+
 
 /**
  * @swagger
@@ -75,7 +77,7 @@ authRouter.post("/signin", signin);
  *       200:
  *         description: Reset link sent
  */
-authRouter.post("/forgot-password", forgotPassword);
+
 
 /**
  * @swagger
@@ -97,6 +99,7 @@ authRouter.post("/forgot-password", forgotPassword);
  *       200:
  *         description: Password reset successful
  */
-authRouter.post("/reset-password", resetPassword);
+
+
 
 module.exports = authRouter;
