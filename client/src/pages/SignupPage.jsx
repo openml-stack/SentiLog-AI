@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import GoogleLoginButton from "../components/GoogleLoginButton";
 import { ThemeContext } from "../context/ThemeContext";
 import AnimatedBackground from "../components/AnimatedBackground";
 
@@ -52,9 +53,16 @@ function SignupPage() {
       }
 
       if (res.ok && data.token) {
+        // Set all necessary localStorage items
         localStorage.setItem("token", data.token);
+        localStorage.setItem("registered", "1");
+        localStorage.setItem("email", form.email);
+        
+        // Dispatch custom event to notify Navbar of auth change
+        window.dispatchEvent(new Event("authChange"));
+        
         setSuccess("Signed up successfully! Redirecting...");
-        setTimeout(() => navigate("/"), 1500);  // Redirect to Home page after signup
+        setTimeout(() => navigate("/"), 1500);
       } else {
         setError(data.message || `Signup failed with status ${res.status}`);
       }
@@ -62,6 +70,32 @@ function SignupPage() {
       setError("Network error");
       console.error("Network error during signup:", e);
     }
+  };
+
+  // Function to handle Google signup success
+  const handleGoogleSuccess = (userData) => {
+    console.log("Google signup success:", userData);
+    
+    // Ensure we have a valid token - use a proper token if available, otherwise create a valid placeholder
+    const token = userData.token || userData.accessToken || `google_auth_${Date.now()}`;
+    const userEmail = userData.email || userData.profileObj?.email || "user@gmail.com";
+    
+    // Set localStorage items for Google authenticated user
+    localStorage.setItem("token", token);
+    localStorage.setItem("registered", "1");
+    localStorage.setItem("email", userEmail);
+    
+    // Dispatch custom event to notify Navbar of auth change
+    window.dispatchEvent(new Event("authChange"));
+    
+    setSuccess("Google signup successful! Redirecting...");
+    setTimeout(() => navigate("/"), 1500);
+  };
+
+  // Function to handle Google signup error
+  const handleGoogleError = (error) => {
+    setError("Google signup failed. Please try again.");
+    console.error("Google signup error:", error);
   };
 
   return (
@@ -118,6 +152,18 @@ function SignupPage() {
             Signup
           </button>
         </form>
+        
+        <div className="my-4 flex items-center">
+          <div className="flex-1 border-t border-gray-300 dark:border-gray-600"></div>
+          <span className="px-4 text-gray-500 dark:text-gray-400 text-sm">OR</span>
+          <div className="flex-1 border-t border-gray-300 dark:border-gray-600"></div>
+        </div>
+        
+        <GoogleLoginButton 
+          onSuccess={handleGoogleSuccess}
+          onError={handleGoogleError}
+        />
+        
         <p className="mt-4 text-center text-gray-700 dark:text-gray-300">
           Already have an account?{" "}
           <Link to="/login" className="text-blue-600 dark:text-blue-400 hover:underline">

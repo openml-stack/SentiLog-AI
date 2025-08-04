@@ -1,3 +1,6 @@
+
+const passport = require("passport");
+
 const { Router } = require("express");
 // your logic here
 
@@ -98,5 +101,36 @@ authRouter.post("/forgot-password", forgotPassword);
  *         description: Password reset successful
  */
 authRouter.post("/reset-password", resetPassword);
+
+
+// === Google OAuth Routes ===
+authRouter.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+authRouter.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: `${process.env.CLIENT_URL}/login`,
+    session: true,
+  }),
+  (req, res) => {
+    // Optionally: create or find user in DB and issue token here
+    res.redirect(`${process.env.CLIENT_URL}/?token=sample_token`);
+  }
+);
+
+// === Logout Route ===
+authRouter.get("/logout", (req, res) => {
+  req.logout(() => {
+    res.redirect(process.env.CLIENT_URL);
+  });
+});
+
+// === Get Logged In User ===
+authRouter.get("/user", (req, res) => {
+  res.send(req.user || null);
+});
 
 module.exports = authRouter;

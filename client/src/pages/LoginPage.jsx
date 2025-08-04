@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ThemeContext } from "../context/ThemeContext";
+import GoogleLoginButton from "../components/GoogleLoginButton";
 import AnimatedBackground from "../components/AnimatedBackground";
 
 function LoginPage() {
@@ -22,8 +23,6 @@ function LoginPage() {
     if (import.meta.env.MODE !== "production") {
       console.log("VITE_API_URL is:", import.meta.env.VITE_API_URL);
     }
-
-
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/signin`, {
         method: "POST",
@@ -38,15 +37,17 @@ function LoginPage() {
         console.warn("Response body not JSON or empty.");
       }
 
+      if (res.ok && data.token) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("email", email);
+        localStorage.setItem("registered", "1");
+        window.dispatchEvent(new Event("authChange"));
       // Only log response status/data in non-production
       if (import.meta.env.MODE !== "production") {
         console.log("Received response status:", res.status);
         console.log("Received response data:", data);
       }
-
-      if (res.ok && data.token) {
-        localStorage.setItem("token", data.token);
-        navigate("/");
+       
       } else {
         setError(data.message || `Login failed with status ${res.status}`);
       }
@@ -66,6 +67,7 @@ function LoginPage() {
         <h2 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-gray-100">
           Login to SentiLog
         </h2>
+
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <input
             type="email"
@@ -110,6 +112,15 @@ function LoginPage() {
         </button>
 
         </form>
+        {/* Divider */}
+        <div className="flex items-center my-4">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <span className="mx-2 text-gray-500">or</span>
+          <div className="flex-grow border-t border-gray-300"></div>
+        </div>
+
+        {/* ✅ Google Login Button Component */}
+        <GoogleLoginButton />
         <div style={{ textAlign: 'right', marginBottom: '10px' }}>
           <Link to="/forgot-password" className="text-blue-600 dark:text-blue-400 hover:underline">
             Forgot Password?
