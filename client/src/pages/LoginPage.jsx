@@ -1,18 +1,28 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import GoogleLoginButton from "../components/GoogleLoginButton"; // ✅ custom button
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { ThemeContext } from "../context/ThemeContext";
+import GoogleLoginButton from "../components/GoogleLoginButton";
+import AnimatedBackground from "../components/AnimatedBackground";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true); // Disable button
 
+
+    // Removed: Logging API URL in production is not safe
+    if (import.meta.env.MODE !== "production") {
+      console.log("VITE_API_URL is:", import.meta.env.VITE_API_URL);
+    }
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/signin`, {
         method: "POST",
@@ -32,20 +42,29 @@ function LoginPage() {
         localStorage.setItem("email", email);
         localStorage.setItem("registered", "1");
         window.dispatchEvent(new Event("authChange"));
-        navigate("/");
+      // Only log response status/data in non-production
+      if (import.meta.env.MODE !== "production") {
+        console.log("Received response status:", res.status);
+        console.log("Received response data:", data);
+      }
+       
       } else {
         setError(data.message || `Login failed with status ${res.status}`);
       }
     } catch (e) {
       setError("Network error");
       console.error("Network error during login:", e);
+    } finally {
+      setLoading(false); // Re-enable button
     }
   };
 
+
   return (
-    <div className="auth-page-bg flex items-center justify-center min-h-screen px-4">
-      <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-xl border border-gray-200">
-        <h2 className="text-3xl font-bold mb-6 text-center text-gray-900">
+    <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
+      <AnimatedBackground theme={theme} />
+      <div className="max-w-md w-full p-8 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 relative z-10">
+        <h2 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-gray-100">
           Login to SentiLog
         </h2>
 
@@ -56,7 +75,7 @@ function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="p-3 border border-gray-300 rounded"
+            className="p-3 border border-gray-300 dark:border-gray-600 rounded text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm"
           />
           <input
             type="password"
@@ -64,15 +83,34 @@ function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="p-3 border border-gray-300 rounded"
+            className="p-3 border border-gray-300 dark:border-gray-600 rounded text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm"
           />
           {error && <p className="text-red-600">{error}</p>}
           <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition"
-          >
-            Login
-          </button>
+
+          type="submit"
+          disabled={loading}
+          className={`w-full py-3 rounded text-white transition font-semibold
+            ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}
+          `}
+        >
+          {loading ? (
+            <span className="flex items-center justify-center gap-2">
+              <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4l3.5-3.5L12 0v4a8 8 0 01-8 8z"
+                />
+              </svg>
+              Logging in...
+            </span>
+          ) : (
+            "Login"
+          )}
+        </button>
+
         </form>
         {/* Divider */}
         <div className="flex items-center my-4">
@@ -84,7 +122,9 @@ function LoginPage() {
         {/* ✅ Google Login Button Component */}
         <GoogleLoginButton />
         <div style={{ textAlign: 'right', marginBottom: '10px' }}>
-          <Link to="/forgot-password">Forgot Password?</Link>
+          <Link to="/forgot-password" className="text-blue-600 dark:text-blue-400 hover:underline">
+            Forgot Password?
+          </Link>
         </div>
       </div>
     </div>

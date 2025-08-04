@@ -18,19 +18,18 @@ const axios = require("axios");
  * @returns {Object} 500 - Server error if ML service fails or database error
  */
 
-exports.createEntry = async (req, res, next) => {
+exports.createEntry = async (req, res) => {
   try {
     // Extract news article data from request body
     const { url, title, text, date } = req.body;
 
-    // Call ML service (running on port 5001) to analyze sentiment and emotion
+    // Call ML service (running on port 8060) to analyze sentiment and emotion
     // This sends the article text to a Python/ML microservice for analysis
-    // const mlRes = await axios.post('http://localhost:5001/predict', { text });
+    const mlRes = await axios.post(`${process.env.ML_API_URL}/vader/analyze`, { text });
 
     // Extract sentiment (positive/negative/neutral) and emotion data from ML response
-    // const { sentiment, emotion } = mlRes.data;
-    const sentiment = text.includes("bad") ? "negative" : "positive";
-    const emotion = text.includes("sad") ? "sadness" : "joy";
+    const { sentiment } = mlRes.data;
+    
 
     // Create new news entry in database with original data + ML analysis results
     const entry = await NewsEntry.create({
@@ -38,15 +37,14 @@ exports.createEntry = async (req, res, next) => {
       title,
       text,
       sentiment,
-      emotion,
       date,
     });
 
     // Return the created entry with 201 status (Created)
     res.status(201).json(entry);
   } catch (err) {
-    // Pass any errors (ML service down, database issues, etc.) to error handler middleware
-    next(err);
+    console.error('Error creating news entry:', err.message);
+    res.status(500).json({ error: 'Failed to create news entry' });
   }
 };
 
@@ -61,7 +59,7 @@ exports.createEntry = async (req, res, next) => {
  * @returns {Object} 500 - Server error if database query fails
  */
 
-exports.getEntries = async (req, res, next) => {
+exports.getEntries = async (req, res) => {
   try {
     // Fetch all news entries from database, sorted by date (newest first)
     // This returns entries with all fields: url, title, sentiment, emotion, date
@@ -70,8 +68,8 @@ exports.getEntries = async (req, res, next) => {
     // Return the entries array
     res.json(entries);
   } catch (err) {
-    // Pass any errors (ML service down, database issues, etc.) to error handler middleware
-    next(err);
+     console.error('Error fetching news entries:', err.message);
+    res.status(500).json({ error: 'Failed to fetch news entries' });
   }
 };
 
@@ -96,8 +94,8 @@ exports.getEntry = async (req, res, next) => {
     // Return the entries array
     res.json(entry);
   } catch (err) {
-    // Pass any errors (ML service down, database issues, etc.) to error handler middleware
-    next(err);
+    console.error('Error fetching news entry:', err.message);
+    res.status(500).json({ error: 'Failed to fetch news entry' });
   }
 };
 
@@ -126,7 +124,7 @@ exports.deleteEntry = async (req, res, next) => {
     // Return success message confirming deletion
     res.json({ message: "Deleted" });
   } catch (err) {
-    // Pass errors (invalid ObjectId format, database issues) to error handler
-    next(err);
+    console.error('Error deleting news entry:', err.message);
+    res.status(500).json({ error: 'Failed to delete news entry' });
   }
 };

@@ -59,6 +59,9 @@ html, body, #root {
   --link-hover: #3b82f6;
 }
 
+.bg-theme {
+  background-color: var(--bg);
+}
 
 /* Typography */
 a {
@@ -105,6 +108,16 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Floating animation for background circles */
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px) scale(1); 
+  }
+  50% { 
+    transform: translateY(-20px) scale(1.05); 
+  }
 }
 
 /* Respect system theme if no manual toggle */

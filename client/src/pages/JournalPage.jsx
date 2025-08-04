@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import TextInput from "../components/TextInput";
@@ -6,11 +6,24 @@ import SentimentCard from "../components/SentimentCard";
 import api from "../axios";
 import QuillEditor from "../components/ReactQuill";
 import toast, { Toaster } from "react-hot-toast";
+import { ThemeContext } from "../context/ThemeContext";
+
 const JournalPage = () => {
+  const { theme } = useContext(ThemeContext);
   const [text, setText] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    import('aos').then(AOS => {
+      AOS.init({
+        duration: 600,
+        once: false,
+      });
+      AOS.refreshHard();
+    });
+  }, [theme]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +33,7 @@ const JournalPage = () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     toast.success("Journal added successfully!");
     try {
-      const res = await api.post("/api/analyze", { text });
+      const res = await api.post("/api/journal/create", { text });
       setResult(res.data);
     } catch (err) {
       setError("Failed to analyze sentiment");
@@ -31,14 +44,32 @@ const JournalPage = () => {
 
   return (
     <>
-      <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-screen flex flex-col relative overflow-hidden">
-        <Navbar />
+      <div className={`min-h-screen flex flex-col relative overflow-hidden transition-colors duration-300 ${
+        theme === 'dark' 
+          ? 'bg-gradient-to-br from-gray-900 via-slate-900 to-black' 
+          : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50'
+      }`}>
+        
+        
         {/* Enhanced Background Pattern */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-200 to-purple-200 rounded-full opacity-20 blur-3xl"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-pink-200 to-yellow-200 rounded-full opacity-20 blur-3xl"></div>
-          <div className="absolute top-1/4 left-1/4 w-60 h-60 bg-gradient-to-br from-indigo-200 to-cyan-200 rounded-full opacity-10 blur-2xl"></div>
+          <div className={`absolute -top-40 -right-40 w-80 h-80 rounded-full opacity-20 blur-3xl ${
+            theme === 'dark'
+              ? 'bg-gradient-to-br from-blue-600 to-purple-600'
+              : 'bg-gradient-to-br from-blue-200 to-purple-200'
+          }`}></div>
+          <div className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-20 blur-3xl ${
+            theme === 'dark'
+              ? 'bg-gradient-to-tr from-pink-600 to-yellow-600'
+              : 'bg-gradient-to-tr from-pink-200 to-yellow-200'
+          }`}></div>
+          <div className={`absolute top-1/4 left-1/4 w-60 h-60 rounded-full opacity-10 blur-2xl ${
+            theme === 'dark'
+              ? 'bg-gradient-to-br from-indigo-600 to-cyan-600'
+              : 'bg-gradient-to-br from-indigo-200 to-cyan-200'
+          }`}></div>
         </div>
+
         <main className="flex-1">
           {/* Hero Section */}
           <section data-aos="fade-up" className="py-12 px-4">
@@ -46,7 +77,9 @@ const JournalPage = () => {
               <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient-move">
                 Journal & Reflect
               </h1>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              <p className={`text-xl max-w-3xl mx-auto ${
+                theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+              }`}>
                 Express your thoughts and feelings. Our AI will analyze the
                 sentiment and emotions in your writing to help you understand
                 yourself better.
@@ -54,20 +87,25 @@ const JournalPage = () => {
             </div>
           </section>
 
-          {/* Main Journal Section - Demo Style */}
+          {/* Main Journal Section */}
           <section
             data-aos="fade-up"
-            className="min-h-screen flex items-center justify-center py-12 px-4 relative "
+            className="min-h-screen flex items-center justify-center py-12 px-4 relative"
           >
             {/* Decorative Elements */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none ">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="absolute top-32 right-20 w-4 h-4 bg-blue-400 rounded-full opacity-60"></div>
               <div className="absolute bottom-40 left-16 w-6 h-6 bg-purple-400 rounded-full opacity-40"></div>
               <div className="absolute bottom-20 right-32 w-5 h-5 bg-pink-400 rounded-full opacity-50"></div>
             </div>
 
             <div className="w-full max-w-3xl relative z-10">
-              <div className="bg-gradient-to-br from-blue-100/60 via-purple-50/60 to-pink-100/60 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 shadow-2xl border border-white/30 dark:from-white/5 dark:via-white/10 dark:to-white/5 dark:bg-gradient-to-br ">
+              <div className={`backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 shadow-2xl border transition-colors duration-300 ${
+                theme === 'dark'
+                  ? 'bg-gradient-to-br from-gray-800/60 via-gray-700/60 to-gray-800/60 border-gray-600/30'
+                  : 'bg-gradient-to-br from-blue-100/60 via-purple-50/60 to-pink-100/60 border-white/30'
+              }`}>
+                
                 {/* Header with Loading Icon */}
                 <div data-aos="fade-left" className="text-left mb-8">
                   <div className="flex items-center mb-6">
@@ -91,10 +129,14 @@ const JournalPage = () => {
                       )}
                     </div>
                     <div>
-                      <h1 className="text-3xl md:text-3xl font-bold text-gray-800 mb-1 dark:text-gray-600">
+                      <h1 className={`text-3xl md:text-3xl font-bold mb-1 ${
+                        theme === 'dark' ? 'text-gray-100' : 'text-gray-800'
+                      }`}>
                         How are you feeling today?
                       </h1>
-                      <p className="text-gray-600 text-lg dark:text-gray-400">
+                      <p className={`text-lg ${
+                        theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                      }`}>
                         Share your thoughts and let AI understand your emotions
                       </p>
                     </div>
@@ -147,14 +189,31 @@ const JournalPage = () => {
                     </button>
                   </div>
                 </form>
-                <Toaster position="top-right" reverseOrder={false} />
+                
+                <Toaster 
+                  position="top-right" 
+                  reverseOrder={false}
+                  toastOptions={{
+                    style: {
+                      background: theme === 'dark' ? '#374151' : '#ffffff',
+                      color: theme === 'dark' ? '#f9fafb' : '#111827',
+                    },
+                  }}
+                />
+
                 {/* Results Placeholder/Area */}
                 <div className="mt-8 min-h-[80px] flex items-center justify-center">
                   {loading && (
                     <div className="text-center">
-                      <div className="inline-flex items-center px-6 py-3 bg-blue-100/80 rounded-full backdrop-blur-sm">
+                      <div className={`inline-flex items-center px-6 py-3 rounded-full backdrop-blur-sm ${
+                        theme === 'dark'
+                          ? 'bg-blue-900/60 border border-blue-700/50'
+                          : 'bg-blue-100/80'
+                      }`}>
                         <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mr-3"></div>
-                        <span className="text-blue-700 font-medium">
+                        <span className={`font-medium ${
+                          theme === 'dark' ? 'text-blue-300' : 'text-blue-700'
+                        }`}>
                           Analyzing sentiment and emotion...
                         </span>
                       </div>
@@ -162,7 +221,11 @@ const JournalPage = () => {
                   )}
 
                   {error && (
-                    <div className="p-4 bg-red-100/80 border border-red-200 rounded-2xl backdrop-blur-sm">
+                    <div className={`p-4 border rounded-2xl backdrop-blur-sm ${
+                      theme === 'dark'
+                        ? 'bg-red-900/60 border-red-700/50'
+                        : 'bg-red-100/80 border-red-200'
+                    }`}>
                       <div className="flex items-center">
                         <svg
                           className="w-5 h-5 text-red-500 mr-3"
@@ -175,7 +238,9 @@ const JournalPage = () => {
                             clipRule="evenodd"
                           />
                         </svg>
-                        <span className="text-red-800 font-medium">
+                        <span className={`font-medium ${
+                          theme === 'dark' ? 'text-red-300' : 'text-red-800'
+                        }`}>
                           {error}
                         </span>
                       </div>
@@ -213,38 +278,22 @@ const JournalPage = () => {
                             result.sentiment?.slice(1)}
                         </div>
 
-                        {/* Emotion Result */}
-                        {result.emotion && (
-                          <div className="inline-flex items-center px-6 py-3 rounded-full font-semibold bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-lg transform hover:scale-105 transition-all duration-300">
-                            <svg
-                              className="w-4 h-4 mr-2"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            Emotion:{" "}
-                            {result.emotion?.charAt(0).toUpperCase() +
-                              result.emotion?.slice(1)}
-                          </div>
-                        )}
+                      
                       </div>
 
                       {/* Original SentimentCard */}
                       <div className="mt-6 flex items-center justify-center">
                         <SentimentCard
                           sentiment={result.sentiment}
-                          emotion={result.emotion}
+                          
                         />
                       </div>
                     </div>
                   ) : (
                     !loading && (
-                      <p className="text-gray-500 italic text-lg">
+                      <p className={`italic text-lg ${
+                        theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+                      }`}>
                         Your journal's emotional insights will appear here
                       </p>
                     )
@@ -257,16 +306,26 @@ const JournalPage = () => {
           {/* Tips Section */}
           <section data-aos="fade-up" className="py-16 px-4">
             <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">
+              <h2 className={`text-3xl font-bold mb-12 text-center ${
+                theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+              }`}>
                 Journaling Tips
               </h2>
               <div className="grid md:grid-cols-3 gap-8">
                 {/* Tip 1 */}
                 <div
                   data-aos="fade-left"
-                  className="bg-white rounded-3xl p-8 shadow-xl border border-blue-100 hover:shadow-2xl transition duration-300"
+                  className={`rounded-3xl p-8 shadow-xl border hover:shadow-2xl transition duration-300 ${
+                    theme === 'dark'
+                      ? 'bg-gray-800 border-gray-700'
+                      : 'bg-white border-blue-100'
+                  }`}
                 >
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center mb-6 shadow-inner">
+                  <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-6 shadow-inner ${
+                    theme === 'dark'
+                      ? 'bg-gradient-to-br from-blue-800 to-purple-800'
+                      : 'bg-gradient-to-br from-blue-100 to-purple-100'
+                  }`}>
                     <svg
                       className="w-6 h-6 text-blue-600"
                       fill="none"
@@ -281,10 +340,12 @@ const JournalPage = () => {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  <h3 className={`text-xl font-semibold mb-2 ${
+                    theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                  }`}>
                     Be Honest
                   </h3>
-                  <p className="text-gray-600">
+                  <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
                     Write authentically about your feelings without judgment.
                     There's no right or wrong way to feel.
                   </p>
@@ -293,9 +354,17 @@ const JournalPage = () => {
                 {/* Tip 2 */}
                 <div
                   data-aos="fade-up"
-                  className="bg-white rounded-3xl p-8 shadow-xl border border-green-100 hover:shadow-2xl transition duration-300"
+                  className={`rounded-3xl p-8 shadow-xl border hover:shadow-2xl transition duration-300 ${
+                    theme === 'dark'
+                      ? 'bg-gray-800 border-gray-700'
+                      : 'bg-white border-green-100'
+                  }`}
                 >
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-100 to-teal-100 flex items-center justify-center mb-6 shadow-inner">
+                  <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-6 shadow-inner ${
+                    theme === 'dark'
+                      ? 'bg-gradient-to-br from-green-800 to-teal-800'
+                      : 'bg-gradient-to-br from-green-100 to-teal-100'
+                  }`}>
                     <svg
                       className="w-6 h-6 text-green-600"
                       fill="none"
@@ -310,10 +379,12 @@ const JournalPage = () => {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  <h3 className={`text-xl font-semibold mb-2 ${
+                    theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                  }`}>
                     Stay Consistent
                   </h3>
-                  <p className="text-gray-600">
+                  <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
                     Regular journaling helps you track emotional patterns and
                     personal growth over time.
                   </p>
@@ -322,9 +393,17 @@ const JournalPage = () => {
                 {/* Tip 3 */}
                 <div
                   data-aos="fade-right"
-                  className="bg-white rounded-3xl p-8 shadow-xl border border-purple-100 hover:shadow-2xl transition duration-300"
+                  className={`rounded-3xl p-8 shadow-xl border hover:shadow-2xl transition duration-300 ${
+                    theme === 'dark'
+                      ? 'bg-gray-800 border-gray-700'
+                      : 'bg-white border-purple-100'
+                  }`}
                 >
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center mb-6 shadow-inner">
+                  <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-6 shadow-inner ${
+                    theme === 'dark'
+                      ? 'bg-gradient-to-br from-purple-800 to-pink-800'
+                      : 'bg-gradient-to-br from-purple-100 to-pink-100'
+                  }`}>
                     <svg
                       className="w-6 h-6 text-purple-600"
                       fill="none"
@@ -339,10 +418,12 @@ const JournalPage = () => {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  <h3 className={`text-xl font-semibold mb-2 ${
+                    theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                  }`}>
                     Reflect Deeply
                   </h3>
-                  <p className="text-gray-600">
+                  <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
                     Use our sentiment analysis to gain insights into your
                     emotional well-being and patterns.
                   </p>
@@ -351,7 +432,6 @@ const JournalPage = () => {
             </div>
           </section>
         </main>
-        <Footer />
       </div>
     </>
   );
