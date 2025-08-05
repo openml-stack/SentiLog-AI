@@ -17,35 +17,54 @@ function SignupPage() {
   const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
-  const { name, value, files } = e.target;
+    const { name, value, files } = e.target;
 
-  setError("");
-  setSuccess("");
+    setError("");
+    setSuccess("");
 
-  if (name === "profilePhoto") {
-    const file = files?.[0];
+    if (name === "profilePhoto") {
+      const file = files?.[0];
 
-    if (!file) return;
+      if (!file) return;
 
-    const validTypes = ["image/jpeg", "image/png"];
-    const maxSize = 2 * 1024 * 1024;
-    if (!validTypes.includes(file.type)) {
-      setError("Only JPEG or PNG files are allowed.");
-      setForm((prev) => ({ ...prev, profilePhoto: null }));
-      return;
+      const validTypes = ["image/jpeg", "image/png"];
+      const maxSize = 2 * 1024 * 1024;
+      if (!validTypes.includes(file.type)) {
+        setError("Only JPEG or PNG files are allowed.");
+        setForm((prev) => ({ ...prev, profilePhoto: null }));
+        return;
+      }
+      if (file.size > maxSize) {
+        setError("File size must be less than 2MB.");
+        setForm((prev) => ({ ...prev, profilePhoto: null }));
+        return;
+      }
+
+      setForm((prev) => ({ ...prev, profilePhoto: file }));
+    } else {
+      setForm((prev) => ({ ...prev, [name]: value }));
     }
-    if (file.size > maxSize) {
-      setError("File size must be less than 2MB.");
-      setForm((prev) => ({ ...prev, profilePhoto: null }));
-      return;
-    }
+  };
 
-    setForm((prev) => ({ ...prev, profilePhoto: file }));
-  } else {
-    setForm((prev) => ({ ...prev, [name]: value }));
+  // Function to validate email
+  const validateMail = (mail) =>{
+    mail = mail.trim();
+    const emailPattern = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+    const validDomains = ["gmail.com", "yahoo.com", "outlook.com", "hotmail.com", "aol.com", "icloud.com", "zoho.com", "gmx.com"];
+
+
+      if (!emailPattern.test(mail)) {
+        return false;
+      }
+
+      const domain = mail.split('@')[1].toLowerCase();
+      if (!validDomains.includes(domain)) {
+        return false;
+      }   
+      
+      return true;
+
   }
-};
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,6 +74,11 @@ function SignupPage() {
     // Removed: Logging API URL in production is not safe
     if (import.meta.env.MODE !== "production") {
       console.log("VITE_API_URL is:", import.meta.env.VITE_API_URL);
+    }
+
+    // Adding proper validation for email
+    if(!validateMail(form.email)){
+      window.alert("Please enter a valid email !!");
     }
 
     try {
