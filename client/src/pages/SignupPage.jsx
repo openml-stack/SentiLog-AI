@@ -11,15 +11,41 @@ function SignupPage() {
     lastname: "",
     email: "",
     password: "",
+    profilePhoto:null
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    setError("");
-    setSuccess("");
-  };
+  const { name, value, files } = e.target;
+
+  setError("");
+  setSuccess("");
+
+  if (name === "profilePhoto") {
+    const file = files?.[0];
+
+    if (!file) return;
+
+    const validTypes = ["image/jpeg", "image/png"];
+    const maxSize = 2 * 1024 * 1024;
+    if (!validTypes.includes(file.type)) {
+      setError("Only JPEG or PNG files are allowed.");
+      setForm((prev) => ({ ...prev, profilePhoto: null }));
+      return;
+    }
+    if (file.size > maxSize) {
+      setError("File size must be less than 2MB.");
+      setForm((prev) => ({ ...prev, profilePhoto: null }));
+      return;
+    }
+
+    setForm((prev) => ({ ...prev, profilePhoto: file }));
+  } else {
+    setForm((prev) => ({ ...prev, [name]: value }));
+  }
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,10 +58,24 @@ function SignupPage() {
     }
 
     try {
+    const formData = new FormData();
+    formData.append("firstname", form.firstname);
+    formData.append("lastname", form.lastname);
+    formData.append("email", form.email);
+    formData.append("password", form.password);
+
+    if (form.profilePhoto) {
+      formData.append("profilePhoto", form.profilePhoto); 
+    }
+
+     console.log(" FormData being sent:");
+      for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+  }
+
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/signup`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: formData,
       });
 
       let data = {};
@@ -71,7 +111,32 @@ function SignupPage() {
         <h2 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-gray-100">
           Create your account
         </h2>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+        <form onSubmit={handleSubmit} encType="multipart/form-data" className="flex flex-col gap-5">
+          <div className="flex justify-center">
+  <label htmlFor="profilePhoto" className="relative cursor-pointer group">
+    <div className="w-24 h-24 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden border-2 border-indigo-500 shadow-md group-hover:opacity-80 transition-all">
+      {form.profilePhoto ? (
+        <img
+          src={URL.createObjectURL(form.profilePhoto)}
+          alt="Profile Preview"
+          className="object-cover w-full h-full"
+        />
+      ) : (
+        <span className="text-xs text-gray-500 dark:text-gray-300 text-center px-2">
+          Upload Photo
+        </span>
+      )}
+    </div>
+    <input
+      type="file"
+      id="profilePhoto"
+      name="profilePhoto"
+      accept="image/*"
+      onChange={handleChange}
+      className="hidden"
+    />
+  </label>
+</div>
           <input
             type="text"
             name="firstname"

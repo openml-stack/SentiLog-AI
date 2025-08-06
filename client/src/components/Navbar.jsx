@@ -177,6 +177,14 @@ const Navbar = () => {
               >
                 Reset Password
               </NavLink>
+
+              <NavLink
+              to="/user-profile"
+              className='px-4 py-2 text-white rounded-xl bg-sky-400 hover:text-white transition hover:bg-sky-700' 
+              >
+                User Profile
+              </NavLink>
+
               <button
                 onClick={logout}
                 className="px-4 py-2 text-red-600 border border-red-600 rounded hover:bg-red-50 transition"
