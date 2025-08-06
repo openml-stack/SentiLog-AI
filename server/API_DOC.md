@@ -1,123 +1,156 @@
 # 📘 SentiLog-AI API Documentation
 
-## 🔗 Base URL
-
-http://localhost:8080
-
-## 📊 API Endpoints
-
-### 🧠 Sentiment Analysis
-
-#### `POST /api/analyze`
-- **Description**: Analyzes the sentiment of a given sentence using a rule-based model.
-- **Request Body**:
-```json
-{
-  "text": "I love open source!"
-}### 🧠 Sentiment Analysis
-
-#### `POST /api/analyze`
-- **Description**: Analyzes the sentiment of a given sentence using a rule-based model.
-- **Request Body**:
-```json
-{
-  "text": "I love open source!"
-}### 🧠 Sentiment Analysis
-
-#### `POST /api/analyze`
-- **Description**: Analyzes the sentiment of a given sentence using a rule-based model.
-- **Request Body**:
-```json
-{
-  "text": "I love open source!"
-}
-### 🧠 Sentiment Analysis
-
-#### `POST /api/analyze`
-- **Description**: Analyzes the sentiment of a given sentence using a rule-based model.
-- **Request Body**:
-```json
-{
-  "text": "I love open source!"
-}
-
-•Response:
-{
-  "score": 0.8,
-  "label": "positive"
-}
-
-> ⚠️ **Important**: When writing ` ```json ` and ` ``` ` in Nano, type them exactly. No spaces.
-
-Let me know once you complete this block, and I’ll give you the next one (`/api/news`). You can also copy-paste if your Terminal supports it — just let me know what you prefer.
-
+This file contains REST API documentation for both the **Express Server** (Node.js) and the **ML API** (Flask).
 
 ---
 
-### 📰 News Endpoints
+## 🌐 Server API
 
-#### `GET /api/news`
-- **Description**: Retrieves the latest sentiment-annotated news articles.
-- **Response**:
+### 📌 POST `/api/news/analyze`
+
+**Description:** Analyze the sentiment and political bias of a news article.
+
+**Request Body:**
+```json
+{
+  "title": "News headline",
+  "content": "Full news article content"
+}
+```
+
+**Response:**
+```json
+{
+  "bias": "Left",
+  "sentiment": "Negative"
+}
+```
+
+---
+
+### 📌 POST `/api/journal/analyze`
+
+**Description:** Analyze the emotional tone of a journal entry.
+
+**Request Body:**
+```json
+{
+  "entry": "I felt anxious after reading today's headlines."
+}
+```
+
+**Response:**
+```json
+{
+  "emotion": "Anxious",
+  "score": -0.6
+}
+```
+
+---
+
+### 📌 GET `/api/news`
+
+**Description:** Fetch all stored news articles.
+
+**Response:**
 ```json
 [
   {
     "title": "Market is booming",
-    "sentiment": "positive",
+    "sentiment": "Positive",
     "source": "Reuters"
   }
 ]
+```
+
 ---
 
-### 📓 Journal Endpoints
+### 📌 POST `/api/journal`
 
-#### `POST /api/journal`
-- **Description**: Submit a personal journal entry for sentiment analysis.
-- **Request Body**:
+**Description:** Save a new journal entry.
+
+**Request Body:**
 ```json
 {
   "text": "I had a productive day."
 }
-{
-  "sentiment": "positive"
-}
-[
-  {
-    "text": "I had a productive day.",
-    "sentiment": "positive",
-    "timestamp": "2025-08-03T18:30:00Z"
-  }
-]
+```
 
----
-
-### 🧠 Analyze Endpoint
-
-#### `POST /api/analyze`
-- **Description**: Analyze custom text for sentiment using ML-based sentiment analysis.
-- **Request Body**:
+**Response:**
 ```json
 {
-  "text": "I feel amazing about this new project!"
+  "sentiment": "Positive"
 }
-{
-  "sentiment": "positive",
-  "confidence": 0.95
-}
+```
+
 ---
 
-### 📩 Contact Endpoint
+### 📌 POST `/api/contact`
 
-#### `POST /api/contact`
-- **Description**: Submits a contact message (e.g., user feedback or queries).
-- **Request Body**:
+**Description:** Submit a contact message.
+
+**Request Body:**
 ```json
 {
   "name": "John Doe",
   "email": "john@example.com",
   "message": "I love your project!"
 }
+```
+
+**Response:**
+```json
 {
   "success": true,
   "message": "Contact message sent successfully."
 }
+```
+
+---
+
+## 🧠 ML API
+
+### 📌 POST `/predict`
+
+**Description:** Analyze custom text using ML model and return sentiment + emotion.
+
+**Request Body:**
+```json
+{
+  "text": "I am feeling hopeful today!"
+}
+```
+
+**Response:**
+```json
+{
+  "sentiment": "Positive",
+  "emotion": "Happy"
+}
+```
+
+---
+
+## ✅ Status Codes
+
+| Code | Description              |
+|------|--------------------------|
+| 200  | Success                  |
+| 400  | Bad Request              |
+| 404  | Not Found                |
+| 500  | Internal Server Error    |
+
+---
+
+## 🔗 Swagger UI
+
+Access Swagger docs after starting server:
+
+```
+http://localhost:8080/api-docs
+```
+
+---
+
+> This document will grow as new endpoints are added.
