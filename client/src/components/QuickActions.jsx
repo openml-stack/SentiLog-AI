@@ -1,8 +1,10 @@
 import React, { useState, useEffect,useContext } from "react";
 import SentimentCard from "./SentimentCard";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../axios";
 import { ThemeContext } from "../context/ThemeContext";
+import toast, { Toaster } from "react-hot-toast";
+
 const themeColors = {
   light: {
     '--bg': '#ffffff',
@@ -89,6 +91,13 @@ const QuickActions = () => {
   const [error, setError] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const { theme } = useContext(ThemeContext);
+  const navigate = useNavigate();
+
+  // Check authentication
+  const isAuthenticated = () => {
+    return localStorage.getItem('token') !== null;
+  };
+
   useEffect(() => {
     const root = document.documentElement;
     const theme = 'dark';
@@ -112,6 +121,22 @@ const QuickActions = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleMoodEntry = (e) => {
+    if (!isAuthenticated()) {
+      e.preventDefault(); // Prevent navigation
+      toast.error("Please login to write your journal or log mood", {
+        duration: 4000,
+        position: 'top-center',
+      });
+      
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+      return;
+    }
+    // If authenticated, allow normal Link navigation
   };
 
   return (
@@ -148,20 +173,17 @@ const QuickActions = () => {
             />
             <div className="flex gap-2 mt-4">
               <button
-                 className="px-6 py-2
- text-white rounded-xl font-semibold shadow-lg hover:scale-105 focus:ring-4 focus:ring-emerald-500/30 transition-all duration-200"
+                className="px-6 py-2 text-white rounded-xl font-semibold shadow-lg hover:scale-105 focus:ring-4 focus:ring-purple-500/30 transition-all duration-200 disabled:opacity-60 disabled:hover:scale-100"
                 style={{
                   background: 'linear-gradient(135deg, var(--gradient-from), var(--gradient-to))',
                   boxShadow: '0 10px 20px rgba(139, 92, 246, 0.3)',
                 }}
-                
                 onClick={handleAnalyze}
                 disabled={loading || !text.trim()}
               >
                 {loading ? (
-                  <span className="flex items-center gap-3">
-                    <span className="animate-spin
- inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
+                  <span className="flex items-center gap-2">
+                    <span className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
                     Analyzing...
                   </span>
                 ) : (
@@ -170,13 +192,12 @@ const QuickActions = () => {
               </button>
               <Link
                 to="/journal"
-                className="px-6 py-2 text-white rounded-xl font-semibold shadow-lg hover:scale-105 hover:text-white focus:ring-4 focus:ring-emerald-500/30 transition-all duration-200"
+                onClick={handleMoodEntry}
+                className="px-6 py-2 text-white rounded-xl font-semibold shadow-lg hover:scale-105 focus:ring-4 focus:ring-emerald-500/30 transition-all duration-200 inline-block text-center"
                 style={{
-                  background:'linear-gradient(135deg, var(--gradient-from), var(--gradient-to))',
+                  backgroundColor: 'var(--success-bg)',
                   boxShadow: '0 10px 20px rgba(5, 95, 70, 0.3)',
                 }}
-                onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--success-hover)'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = 'var(--success-bg)'}
               >
                 Log a Mood Entry
               </Link>
@@ -203,6 +224,17 @@ const QuickActions = () => {
             </div>
           </div>
         </div>
+        
+        <Toaster 
+          position="top-center" 
+          reverseOrder={false}
+          toastOptions={{
+            style: {
+              background: theme === 'dark' ? '#374151' : '#ffffff',
+              color: theme === 'dark' ? '#f9fafb' : '#111827',
+            },
+          }}
+        />
       </section>
     </div>
   );

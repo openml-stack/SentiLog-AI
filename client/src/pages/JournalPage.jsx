@@ -7,13 +7,20 @@ import api from "../axios";
 import QuillEditor from "../components/ReactQuill";
 import toast, { Toaster } from "react-hot-toast";
 import { ThemeContext } from "../context/ThemeContext";
+import { useNavigate } from "react-router-dom";
 
 const JournalPage = () => {
   const { theme } = useContext(ThemeContext);
+  const navigate = useNavigate();
   const [text, setText] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // Check authentication
+  const isAuthenticated = () => {
+    return localStorage.getItem('token') !== null;
+  };
 
   useEffect(() => {
     import('aos').then(AOS => {
@@ -27,16 +34,44 @@ const JournalPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Check authentication before proceeding
+    if (!isAuthenticated()) {
+      toast.error("Please login to write your journal or log mood", {
+        duration: 4000,
+        position: 'top-center',
+      });
+      
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setResult(null);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    toast.success("Journal added successfully!");
+    
     try {
-      const res = await api.post("/api/journal/create", { text });
+      const token = localStorage.getItem('token');
+      const res = await api.post("/api/journal", { text }, {
+        headers: {
+          'token': token
+        }
+      });
+      
       setResult(res.data);
+      toast.success("Journal added successfully!");
     } catch (err) {
-      setError("Failed to analyze sentiment");
+      if (err.response?.status === 401) {
+        toast.error("Please login to write your journal or log mood");
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
+      } else {
+        setError("Failed to analyze sentiment");
+        toast.error("Failed to save journal entry");
+      }
     } finally {
       setLoading(false);
     }
@@ -84,6 +119,17 @@ const JournalPage = () => {
                 sentiment and emotions in your writing to help you understand
                 yourself better.
               </p>
+              {!isAuthenticated() && (
+                <div className={`mt-4 p-4 rounded-lg border ${
+                  theme === 'dark' 
+                    ? 'bg-yellow-900/20 border-yellow-600/50 text-yellow-300'
+                    : 'bg-yellow-50 border-yellow-200 text-yellow-800'
+                }`}>
+                  <p className="font-medium">
+                    🔒 Please login to start writing your journal entries
+                  </p>
+                </div>
+              )}
             </div>
           </section>
 
@@ -182,7 +228,7 @@ const JournalPage = () => {
                                 d="M13 10V3L4 14h7v7l9-11h-7z"
                               />
                             </svg>
-                            Add Journal
+                            {isAuthenticated() ? 'Add Journal' : 'Login Required'}
                           </>
                         )}
                       </span>
@@ -191,7 +237,7 @@ const JournalPage = () => {
                 </form>
                 
                 <Toaster 
-                  position="top-right" 
+                  position="top-center" 
                   reverseOrder={false}
                   toastOptions={{
                     style: {

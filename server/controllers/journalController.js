@@ -6,10 +6,11 @@ const axios = require('axios');
  * 
  * @route POST /api/journal
  * @desc Analyzes user's journal text using ML service and stores entry with sentiment/emotion data
- * @access Public (add authentication if needed)
+ * @access Private (requires authentication)
  * 
  * @param {Object} req.body - Request body containing journal data
  * @param {string} req.body.text - User's journal entry text for analysis
+ * @param {string} req.userid - User ID from JWT token
  * 
  * @returns {Object} 201 - Created journal entry with sentiment and emotion analysis
  * @returns {Object} 500 - Server error if ML service fails or database error
@@ -18,7 +19,12 @@ const axios = require('axios');
 exports.createEntry = async (req, res) => {
   try {
     const { text } = req.body;
+  const userId = req.userid;
     const mlRes = await axios.post(`${process.env.ML_API_URL}/vader/analyze`, { text });
+    const { sentiment, emotion } = mlRes.data;
+    const entry = await JournalEntry.create({ userId, text, sentiment, emotion});
+
+
     const { sentiment } = mlRes.data;
     const entry = await JournalEntry.create({ text, sentiment });
     res.status(201).json(entry);
@@ -29,18 +35,21 @@ exports.createEntry = async (req, res) => {
 };
 
 /**
- * Retrieves all journal entries sorted by creation date (newest first)
+ * Retrieves all journal entries for the authenticated user sorted by creation date (newest first)
  * 
  * @route GET /api/journal
- * @desc Fetches all stored journal entries with their sentiment/emotion analysis
- * @access Public (add authentication if needed)
+ * @desc Fetches user's journal entries with their sentiment/emotion analysis
+ * @access Private (requires authentication)
  * 
- * @returns {Array} 200 - Array of journal entries sorted by creation date (descending)
+ * @param {string} req.userid - User ID from JWT token
+ * 
+ * @returns {Array} 200 - Array of user's journal entries sorted by creation date (descending)
  * @returns {Object} 500 - Server error if database query fails
  */
 exports.getEntries = async (req, res) => {
   try {
-    const entries = await JournalEntry.find().sort({ createdAt: -1 });
+    const userId = req.userid;
+    const entries = await JournalEntry.find({ userId }).sort({ createdAt: -1 });
     res.json(entries);
   } catch (err) {
     console.error('Error fetching journal entries:', err.message);
@@ -49,13 +58,14 @@ exports.getEntries = async (req, res) => {
 };
 
 /**
- * Retrieves a single journal entry by ID
+ * Retrieves a single journal entry by ID for the authenticated user
  * 
  * @route GET /api/journal/:id
  * @desc Fetches a specific journal entry with sentiment/emotion analysis
- * @access Public (add authentication if needed)
+ * @access Private (requires authentication)
  * 
  * @param {string} req.params.id - MongoDB ObjectId of the journal entry
+ * @param {string} req.userid - User ID from JWT token
  * 
  * @returns {Object} 200 - Single journal entry object with all fields
  * @returns {Object} 404 - Entry not found error
@@ -64,7 +74,8 @@ exports.getEntries = async (req, res) => {
 
 exports.getEntry = async (req, res) => {
   try {
-    const entry = await JournalEntry.findById(req.params.id);
+    const userId = req.userid;
+    const entry = await JournalEntry.findOne({ _id: req.params.id, userId });
     if (!entry) return res.status(404).json({ error: 'Not found' });
     res.json(entry);
   } catch (err) {
@@ -74,13 +85,14 @@ exports.getEntry = async (req, res) => {
 };
 
 /**
- * Deletes a journal entry by ID
+ * Deletes a journal entry by ID for the authenticated user
  * 
  * @route DELETE /api/journal/:id
  * @desc Removes a specific journal entry from the database
- * @access Public (add authentication if needed)
+ * @access Private (requires authentication)
  * 
  * @param {string} req.params.id - MongoDB ObjectId of the journal entry to delete
+ * @param {string} req.userid - User ID from JWT token
  * 
  * @returns {Object} 200 - Success message confirming deletion
  * @returns {Object} 404 - Entry not found error
@@ -89,11 +101,12 @@ exports.getEntry = async (req, res) => {
 
 exports.deleteEntry = async (req, res) => {
   try {
-    const entry = await JournalEntry.findByIdAndDelete(req.params.id);
+    const userId = req.userid;
+    const entry = await JournalEntry.findOneAndDelete({ _id: req.params.id, userId });
     if (!entry) return res.status(404).json({ error: 'Not found' });
     res.json({ message: 'Deleted' });
   } catch (err) {
     console.error('Error deleting journal entry:', err.message);
     res.status(500).json({ error: 'Failed to delete journal entry' });
   }
-}; 
+};
