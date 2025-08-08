@@ -23,16 +23,7 @@ const Logo = ({ theme, currentColors }) => (
       backgroundClip: "text",
     }}
   >
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-     
-    {/* <img src="/companylogo.png"></img>  */}
-     <img src="/SentiLog.png"></img> 
-     
-    </svg>
-        {/* <img src={"/companylogo.png"} style={{ width: "32px", height: "32px", borderRadius:8 }} */}
-        <img src="/SentiLog.png" style={{ width: "32px", height: "32px", borderRadius:8 }} 
-></img>
-
+    <img src="/SentiLog.png" style={{ width: "32px", height: "32px", borderRadius: 8 }} alt="Logo" />
     SentiLog <span className="animate-pulse">AI</span>
   </span>
 );
@@ -182,7 +173,11 @@ const Navbar = () => {
         borderBottomColor: `var(--nav-border, ${currentColors["--nav-border"]})`,
       }}
     >
-      <Logo theme={theme} currentColors={currentColors} />
+      {/* Logo wrapped in Link*/}
+      <NavLink to="/" className = "flex items-center" onClick={() => window.scrollTo(0,0)}>
+        <Logo theme={theme} currentColors={currentColors} />
+      </NavLink>
+      
 
       <div className="hidden md:flex items-center gap-8">
         <div className="flex gap-6">
