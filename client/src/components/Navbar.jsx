@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect,useRef } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { ThemeContext } from "../context/ThemeContext";
 import ThemeToggle from "./ThemeToggle";
@@ -16,7 +16,7 @@ const navLinks = [
 
 const Logo = ({ theme, currentColors }) => (
   <span
-    className="flex items-center gap-2 text-2xl font-extrabold tracking-tight select-none transition-all duration-300"
+    className="flex items-center gap-2 text-xl sm:text-2xl font-extrabold tracking-tight select-none transition-all duration-300 flex-nowrap whitespace-nowrap"
     style={{
       background: `linear-gradient(to right, var(--gradient-from, ${currentColors['--gradient-from'] || '#6366f1'}), var(--gradient-to, ${currentColors['--gradient-to'] || '#d946ef'}))`,
       WebkitBackgroundClip: "text",
@@ -24,8 +24,19 @@ const Logo = ({ theme, currentColors }) => (
       backgroundClip: "text",
     }}
   >
-    <img src="/SentiLog.png" style={{ width: "32px", height: "32px", borderRadius: 8 }} alt="Logo" />
-    SentiLog <span className="animate-pulse">AI</span>
+    <img
+      src="/SentiLogAI.png"
+      alt="Logo"
+      className="flex-shrink-0"
+      style={{
+        width: "32px",
+        height: "32px",
+        borderRadius: "6px",
+        objectFit: "cover",
+        verticalAlign: "middle"
+      }}
+    />
+    <span className="xs:hidden xs:inline ">SentiLog AI </span>
   </span>
 );
 
@@ -44,7 +55,7 @@ const Navbar = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef(null);
-  
+
   console.log(user);
   const isAuthPage = ["/login", "/signup"].includes(location.pathname);
 
@@ -124,7 +135,6 @@ const Navbar = () => {
     };
   }, []);
 
-
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("registered");
@@ -132,7 +142,8 @@ const Navbar = () => {
     setRegistered(false);
     navigate("/");
   };
-  const handleDeleteAccount = async () => {// for
+
+  const handleDeleteAccount = async () => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/delete-account`, {
         method: "DELETE",
@@ -159,20 +170,18 @@ const Navbar = () => {
     }
   };
 
-
   return (
     <nav
-      className="sticky top-0 z-50 backdrop-blur-xl shadow-lg flex items-center justify-between px-4 py-3 md:px-10 border-b transition-all duration-300"
+      className="sticky top-0 z-50 backdrop-blur-xl shadow-lg flex items-center justify-between px-3 sm:px-4 py-3 md:px-10 border-b transition-all duration-300"
       style={{
         backgroundColor: `var(--nav-bg, ${currentColors["--nav-bg"]})`,
         borderBottomColor: `var(--nav-border, ${currentColors["--nav-border"]})`,
       }}
     >
       {/* Logo wrapped in Link*/}
-      <NavLink to="/" className = "flex items-center" onClick={() => window.scrollTo(0,0)}>
+      <NavLink to="/" className="flex items-center min-w-0 flex-shrink-0 mr-6" onClick={() => window.scrollTo(0, 0)}>
         <Logo theme={theme} currentColors={currentColors} />
       </NavLink>
-      
 
       <div className="hidden md:flex items-center gap-8">
         <div className="flex gap-6">
@@ -217,8 +226,7 @@ const Navbar = () => {
                 onClick={() => setProfileOpen((prev) => !prev)}
                 className="flex items-center gap-2 px-3 py-2 border rounded border-gray-400 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium text-gray-800 dark:text-white bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"
               >
-                <div className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-200 text-white font-bold uppercase shadow-md overflow-hidden">
-                  {/* This entire block is the corrected logic for Step 3 */}
+                <div className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-white font-bold uppercase shadow-md overflow-hidden flex-shrink-0">
                   {!loading && user?.profilephoto ? (
                     <img
                       src={user.profilephoto}
@@ -226,11 +234,10 @@ const Navbar = () => {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    // Fallback to initials if no photo or still loading
-                    <span>{user?.firstname?.[0]}</span>
+                    <span className="text-xs">{user?.firstname?.[0]}</span>
                   )}
                 </div>
-                <span>My Profile ▾</span>
+                <span className="whitespace-nowrap">My Profile ▾</span>
               </button>
 
               {profileOpen && (
@@ -264,7 +271,7 @@ const Navbar = () => {
       </div>
 
       <button
-        className="md:hidden text-2xl px-4 py-2 rounded-full bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 text-gray-800 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out focus:outline-none"
+        className="md:hidden text-2xl px-3 py-2 rounded-full bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 text-gray-800 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out focus:outline-none flex-shrink-0"
         onClick={() => setOpen((o) => !o)}
         aria-label="Toggle menu"
       >
