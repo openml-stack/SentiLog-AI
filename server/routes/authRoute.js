@@ -1,11 +1,65 @@
-
 const { Router } = require('express');
-const { signup, signin, forgotPassword, resetPassword,userProfile,updateUserProfile,deleteAccount,  githubCallback } = require('../controllers/authController'); // your logic here
-const {upload}=require("../middleware/multer")
+const { 
+  signup, 
+  signin, 
+  forgotPassword, 
+  resetPassword, 
+  userProfile, 
+  updateUserProfile, 
+  deleteAccount, 
+  githubCallback, 
+  googleCallback 
+} = require('../controllers/authController');
+const { upload } = require("../middleware/multer");
 const jwtmiddleware = require("../middleware/jwt");
 const authRouter = Router();
 
-// ======= GitHub OAuth =======
+// ======= Google OAuth Routes =======
+
+// // Initiate Google OAuth
+// authRouter.get("/google", (req, res) => {
+//   console.log("Google OAuth initiation requested");
+//   const state = Math.random().toString(36).substring(2, 15);
+
+//   if (req.session) {
+//     req.session.oauthState = state;
+//   }
+
+//   const googleAuthUrl =
+//     `https://accounts.google.com/o/oauth2/auth?` +
+//     `client_id=${process.env.GOOGLE_CLIENT_ID}&` +
+//     `redirect_uri=${encodeURIComponent(process.env.GOOGLE_CALLBACK_URL)}&` +
+//     `scope=openid%20profile%20email&` +
+//     `response_type=code&` +
+//     `state=${state}`;
+
+//   console.log("Redirecting to Google:", googleAuthUrl);
+//   res.redirect(googleAuthUrl);
+// });
+
+// In your authRoutes.js
+authRouter.get("/google", (req, res) => {
+  const googleAuthUrl =
+    `https://accounts.google.com/o/oauth2/auth?` +
+    `client_id=${process.env.GOOGLE_CLIENT_ID}&` +
+    `redirect_uri=${encodeURIComponent(process.env.GOOGLE_CALLBACK_URL)}&` +
+    `scope=openid%20profile%20email&` +
+    `response_type=code&` +
+    `state=${Math.random().toString(36)}`;
+  
+  res.redirect(googleAuthUrl);
+});
+
+authRouter.get("/google/callback", googleCallback);
+
+
+// Google OAuth callback
+authRouter.get("/google/callback", (req, res) => {
+  console.log("Google OAuth callback received");
+  googleCallback(req, res);
+});
+
+// ======= GitHub OAuth Routes =======
 
 // Initiate GitHub OAuth
 authRouter.get("/github", (req, res) => {
@@ -32,6 +86,58 @@ authRouter.get("/github", (req, res) => {
 authRouter.get("/callback", (req, res) => {
   console.log("GET /callback route hit with query:", req.query);
   githubCallback(req, res);
+});
+
+// ======= Unified OAuth Callback Handler =======
+authRouter.post("/oauth/callback", async (req, res) => {
+  try {
+    const { code, state, provider } = req.body;
+
+    if (!code) {
+      return res.status(400).json({ success: false, message: "No authorization code provided" });
+    }
+
+    const mockReq = { query: { code, state }, session: req.session };
+    let redirectUrl = "";
+    const mockRes = {
+      redirect: (url) => { redirectUrl = url; },
+      status: (code) => ({ json: (data) => res.status(code).json(data) }),
+      json: (data) => res.json(data)
+    };
+
+    // Call appropriate OAuth handler
+    if (provider === 'google') {
+      await googleCallback(mockReq, mockRes);
+    } else {
+      await githubCallback(mockReq, mockRes);
+    }
+
+    if (redirectUrl) {
+      const url = new URL(redirectUrl);
+      const token = url.searchParams.get("token");
+      const userB64 = url.searchParams.get("user");
+      const error = url.searchParams.get("error");
+
+      if (token) {
+        const response = { success: true, token, message: "Authentication successful" };
+        if (userB64) {
+          try {
+            response.user = JSON.parse(Buffer.from(userB64, 'base64').toString('utf8'));
+          } catch (e) {
+            console.warn("Failed to parse user data:", e);
+          }
+        }
+        return res.json(response);
+      } else if (error) {
+        return res.status(400).json({ success: false, message: error });
+      }
+    }
+
+    return res.status(500).json({ success: false, message: "Authentication failed" });
+  } catch (error) {
+    console.error("OAuth callback error:", error);
+    return res.status(500).json({ success: false, message: "Internal server error" });
+  }
 });
 
 // POST GitHub callback (for frontend use)
@@ -70,10 +176,19 @@ const handlePostCallback = async (req, res) => {
     if (redirectUrl) {
       const url = new URL(redirectUrl);
       const token = url.searchParams.get("token");
+      const userB64 = url.searchParams.get("user");
       const error = url.searchParams.get("error");
 
       if (token) {
-        return res.json({ token, message: "Authentication successful" });
+        const response = { token, message: "Authentication successful" };
+        if (userB64) {
+          try {
+            response.user = JSON.parse(Buffer.from(userB64, 'base64').toString('utf8'));
+          } catch (e) {
+            console.warn("Failed to parse user data:", e);
+          }
+        }
+        return res.json(response);
       } else if (error) {
         return res.status(400).json({ message: error });
       }
@@ -95,131 +210,21 @@ authRouter.get("/test", (req, res) => {
       GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID ? "Set" : "Not set",
       GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET ? "Set" : "Not set",
       GITHUB_CALLBACK_URL: process.env.GITHUB_CALLBACK_URL || "Not set",
+      GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID ? "Set" : "Not set",
+      GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET ? "Set" : "Not set",
+      GOOGLE_CALLBACK_URL: process.env.GOOGLE_CALLBACK_URL || "Not set",
       CLIENT_URL: process.env.CLIENT_URL || "Not set",
     },
   });
 });
 
 // ======= Regular Auth Routes =======
-
 authRouter.post("/signup", upload.single("profilePhoto"), signup);
 authRouter.post("/signin", signin);
 authRouter.post("/forgot-password", forgotPassword);
 authRouter.post("/reset-password", resetPassword);
 authRouter.post("/user-profile", userProfile);
 authRouter.post("/user-profile-update", upload.single("profilePhoto"), updateUserProfile);
-
-module.exports = authRouter;
-
-
-/**
- * @swagger
- * /auth/signup:
- *   post:
- *     summary: Register a new user
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             required: [firstname, lastname, email, password]
- *             properties:
- *               firstname: { type: string }
- *               lastname: { type: string }
- *               email: { type: string, format: email }
- *               password: { type: string, format: password }
- *               profilePhoto:
- *               type: string
- *               format: binary
- *     responses:
- *       201:
- *         description: User created
- */
-
-
-/**
- * @swagger
- * /auth/signin:
- *   post:
- *     summary: Login user
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required: [email, password]
- *             properties:
- *               email: { type: string }
- *               password: { type: string }
- *     responses:
- *       200:
- *         description: Successful login
- */
-
-
-/**
- * @swagger
- * /auth/forgot-password:
- *   post:
- *     summary: Send password reset email
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required: [email]
- *             properties:
- *               email: { type: string }
- *     responses:
- *       200:
- *         description: Reset link sent
- */
-
-
-/**
- * @swagger
- * /auth/reset-password:
- *   post:
- *     summary: Reset user password
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required: [token, newPassword]
- *             properties:
- *               token: { type: string }
- *               newPassword: { type: string }
- *     responses:
- *       200:
- *         description: Password reset successful
- */
-
-
-
-
-/**
- * @swagger
- * /auth/delete-account:
- *   delete:
- *     summary: Delete the currently logged-in user's account
- *     tags: [Auth]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Account deleted successfully
- */
 authRouter.delete("/delete-account", jwtmiddleware, deleteAccount);
 
-
 module.exports = authRouter;
-

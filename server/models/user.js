@@ -23,15 +23,22 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: function() {
-        // Password is required only if user doesn't have GitHub ID (regular signup)
-        return !this.githubId;
+        // Password is required only if user doesn't have GitHub or Google ID
+        return !this.githubId && !this.googleId;
       },
     },
-    // GitHub OAuth fields
+    // GitHub OAuth fields (unchanged)
     githubId: {
       type: String,
       unique: true,
-      sparse: true, // Allows multiple null values but unique non-null values
+      sparse: true,
+      index: true,
+    },
+    // Google OAuth fields (added)
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
       index: true,
     },
     avatar: {
@@ -43,17 +50,23 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    // Account type tracking
+    // Account type tracking (updated to include Google)
     accountType: {
       type: String,
-      enum: ['local', 'github', 'hybrid'], // hybrid for users who signed up locally then connected GitHub
+      enum: ['local', 'github', 'google', 'hybrid'],
+      default: 'local',
+    },
+    // Registration source (added)
+    registrationSource: {
+      type: String,
+      enum: ['local', 'github', 'google'],
       default: 'local',
     },
     // Password reset fields
     resetPasswordToken: String,
     resetPasswordExpires: Date,
     
-    // GitHub profile data (optional, for additional features)
+    // GitHub profile data (unchanged)
     githubProfile: {
       username: String,
       publicRepos: Number,
@@ -64,19 +77,26 @@ const userSchema = new Schema(
       company: String,
       blog: String,
     },
+    // Google profile data (added)
+    googleProfile: {
+      name: String,
+      picture: String,
+      verifiedEmail: Boolean,
+      locale: String,
+    },
     // Last login tracking
     lastLoginAt: {
       type: Date,
       default: Date.now,
     },
-    // Login method tracking
+    // Login method tracking (updated to include Google)
     lastLoginMethod: {
       type: String,
-      enum: ['local', 'github'],
+      enum: ['local', 'github', 'google'],
       default: 'local',
     },
-    profilephoto:{
-      type:String,
+    profilephoto: {
+      type: String,
     }
   },
   {
@@ -87,15 +107,23 @@ const userSchema = new Schema(
 // Indexes for better performance
 userSchema.index({ email: 1 });
 userSchema.index({ githubId: 1 });
+userSchema.index({ googleId: 1 }); // Added Google index
 userSchema.index({ createdAt: -1 });
 
-// Pre-save middleware to set account type
+// Pre-save middleware to set account type (updated for Google)
 userSchema.pre('save', function(next) {
   if (this.isNew) {
-    if (this.githubId && !this.password) {
+    const hasGithub = !!this.githubId;
+    const hasGoogle = !!this.googleId;
+    const hasPassword = !!this.password;
+    
+    if (hasGithub && !hasGoogle && !hasPassword) {
       this.accountType = 'github';
-      this.isEmailVerified = true; // GitHub emails are verified
-    } else if (this.githubId && this.password) {
+      this.isEmailVerified = true;
+    } else if (hasGoogle && !hasGithub && !hasPassword) {
+      this.accountType = 'google';
+      this.isEmailVerified = true;
+    } else if ((hasGithub || hasGoogle) && hasPassword) {
       this.accountType = 'hybrid';
     } else {
       this.accountType = 'local';
@@ -104,27 +132,38 @@ userSchema.pre('save', function(next) {
   next();
 });
 
-// Instance method to get full name
+// Instance method to get full name (unchanged)
 userSchema.methods.getFullName = function() {
   return `${this.firstname} ${this.lastname}`.trim();
 };
 
-// Instance method to get display avatar
+// Instance method to get display avatar (updated for Google)
 userSchema.methods.getDisplayAvatar = function() {
+  if (this.profilephoto) {
+    return this.profilephoto;
+  }
   if (this.avatar) {
     return this.avatar;
   }
-  // Fallback to Gravatar or initials-based avatar
+  // Use Google or GitHub avatar if available
+  if (this.googleProfile?.picture) {
+    return this.googleProfile.picture;
+  }
+  if (this.githubProfile?.avatarUrl) {
+    return this.githubProfile.avatarUrl;
+  }
+  
+  // Fallback to initials-based avatar
   const initials = `${this.firstname.charAt(0)}${this.lastname.charAt(0)}`.toUpperCase();
   return `https://ui-avatars.com/api/?name=${initials}&background=3B82F6&color=fff&size=150`;
 };
 
-// Instance method to check if user can login with password
+// Instance method to check if user can login with password (fixed syntax error)
 userSchema.methods.canLoginWithPassword = function() {
   return this.accountType === 'local' || this.accountType === 'hybrid';
 };
 
-// Static method to find user by email or GitHub ID
+// Static method to find user by email or GitHub ID (unchanged)
 userSchema.statics.findByEmailOrGitHub = function(email, githubId) {
   const query = { $or: [] };
   
@@ -139,7 +178,22 @@ userSchema.statics.findByEmailOrGitHub = function(email, githubId) {
   return this.findOne(query);
 };
 
-// Virtual for user profile summary
+// New static method for Google OAuth
+userSchema.statics.findByEmailOrGoogle = function(email, googleId) {
+  const query = { $or: [] };
+  
+  if (email) {
+    query.$or.push({ email: email });
+  }
+  
+  if (googleId) {
+    query.$or.push({ googleId: googleId });
+  }
+  
+  return this.findOne(query);
+};
+
+// Virtual for user profile summary (updated)
 userSchema.virtual('profileSummary').get(function() {
   return {
     id: this._id,
@@ -150,6 +204,7 @@ userSchema.virtual('profileSummary').get(function() {
     isEmailVerified: this.isEmailVerified,
     joinedAt: this.createdAt,
     lastLoginAt: this.lastLoginAt,
+    registrationSource: this.registrationSource,
   };
 });
 

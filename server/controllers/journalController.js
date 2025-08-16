@@ -25,8 +25,8 @@ exports.createEntry = async (req, res) => {
     const entry = await JournalEntry.create({ userId, text, sentiment, emotion});
 
 
-    const { sentiment } = mlRes.data;
-    const entry = await JournalEntry.create({ text, sentiment });
+    // const { sentiment } = mlRes.data;
+    // const entry = await JournalEntry.create({ text, sentiment });
     res.status(201).json(entry);
   } catch (err) {
     console.error('Error creating journal entry:', err.message);
