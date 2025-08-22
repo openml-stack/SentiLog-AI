@@ -1,11 +1,9 @@
-import React from "react";
-import Navbar from "../components/Navbar";
 import HeroSection from "../components/HeroSection";
 import FeatureCards from "../components/FeatureCards";
 import QuickActions from "../components/QuickActions";
 import SentimentChartPreview from "../components/SentimentChartPreview";
 import HowItWorks from "../components/HowItWorks";
-import Footer from "../components/Footer";
+import BacktoTopButton from "../components/BackToTop"
 
 const HomePage = () => (
   <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen flex flex-col">
@@ -15,6 +13,7 @@ const HomePage = () => (
       <QuickActions />
       <SentimentChartPreview />
       <HowItWorks />
+      <BacktoTopButton />
     </main>
   </div>
 );
