@@ -1,45 +1,27 @@
 import React from 'react';
+import { BookOpen, ArrowUp } from 'lucide-react';
 
 const TotalEntries = () => {
-  // This would typically come from your data
   const totalCount = 124;
   const weekCount = 7;
   
   return (
-    <div className="card">
-      <div className="card-header">
-        <div className="card-title">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-green">
-            <path d="M21 15V6"></path>
-            <path d="M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"></path>
-            <path d="M12 12H3"></path>
-            <path d="M16 6H3"></path>
-            <path d="M12 18H3"></path>
-          </svg>
-          Total Entries
-        </div>
+    <div className="flex flex-col h-full justify-between">
+      <div className="flex items-center gap-2 mb-4 text-sm font-semibold text-indigo-500 dark:text-indigo-400">
+        <BookOpen className="w-5 h-5" />
+        Total Entries
       </div>
-      <div className="card-content">
-        <div className="entries-container">
-          <div className="entries-count">
-            <div className="total-count">{totalCount}</div>
-            <div className="week-entries">+{weekCount} this week</div>
+      <div className="flex items-end justify-between mt-auto">
+        <div className="flex flex-col">
+          <div className="text-5xl font-extrabold text-gray-800 dark:text-white">
+            {totalCount}
           </div>
-          <div className="entries-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="url(#entries-gradient)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-              <rect width="18" height="18" x="3" y="3" rx="2"></rect>
-              <path d="M7 7h10"></path>
-              <path d="M7 12h10"></path>
-              <path d="M7 17h10"></path>
-              <defs>
-                <linearGradient id="entries-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#10b981" />
-                  <stop offset="100%" stopColor="#3b82f6" />
-                </linearGradient>
-              </defs>
-            </svg>
+          <div className="flex items-center text-sm font-medium text-emerald-500 mt-1">
+            <ArrowUp className="w-4 h-4" />
+            <span className="ml-0.5">+{weekCount} this week</span>
           </div>
         </div>
+        <BookOpen className="w-12 h-12 text-gray-300/50 dark:text-gray-700/50" />
       </div>
     </div>
   );
