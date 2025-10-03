@@ -15,8 +15,7 @@ const NewsListingPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedArticle, setSelectedArticle] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    // Removed articleContentLoading state as we no longer make a second async call
-    // const [articleContentLoading, setArticleContentLoading] = useState(false); 
+    const [articleContentLoading, setArticleContentLoading] = useState(false); 
 
     // AOS initialization with theme support
     useEffect(() => {
@@ -42,7 +41,6 @@ const NewsListingPage = () => {
 
     /**
      * Fetches the main list of news articles from the backend API.
-     * FIX 1: Using the confirmed /api/news endpoint.
      */
     const fetchNews = async () => {
         try {
@@ -74,31 +72,72 @@ const NewsListingPage = () => {
     };
 
     /**
-     * Opens the modal using the article's existing data from the initial list.
-     * FIX 2: Removed the secondary API call to prevent the 404 error.
+     * FIX: Initial content now defaults to the article's description if available, 
+     * making sure the modal is never empty.
      */
-    const openArticleModal = (article) => {
-        // Assume article has all the metadata needed for the modal header.
+    const openArticleModal = async (article) => {
+        // 1. Define initial content/fallback: use description for immediate display
+        const initialContent = article.description 
+            ? `<p class="lead">${article.description}</p><p>Attempting to load full content. If this fails, please click "Go to Original Article" below.</p>`
+            : `<p>Article summary unavailable. Please click the "Go to Original Article" button below.</p>`;
+
+        // 2. Set basic article metadata and initial content
         setSelectedArticle({
             ...article,
-            // Provide placeholder/fallback for full content since we aren't fetching it here.
-            content: article.description
-                ? `<h2>Summary:</h2><p>${article.description}</p><p>To read the full article, please click the "Go to Original Article" button below.</p>`
-                : `<p>Summary unavailable. To read the full article, please click the "Go to Original Article" button below.</p>`,
-            author: article.author || 'N/A', // Assuming article might have an author field
-            readTime: 'Quick Summary',
+            content: initialContent, // 👈 Start with the summary/description
+            author: article.author || article.source || 'Unknown Author', 
+            readTime: article.readTime || '5 min read', 
             tags: article.tags || [article.category],
+            confidence: article.confidence ?? 0, 
         }); 
         setIsModalOpen(true);
+        
+        // 3. Attempt to fetch full content only if the article has an 'id'
+        if (article.id) {
+            setArticleContentLoading(true);
+            try {
+                // API Call 2: Fetch specific article content using ID (assuming backend route /api/news/:id)
+                const response = await api.get(`/api/news/${article.id}`); 
+                const fullArticle = response.data;
+
+                // Update the state with the full content, preserving existing metadata
+                setSelectedArticle(prev => ({
+                    ...prev,
+                    // Use fullArticle.content if available (and is longer than the initial summary), 
+                    // otherwise stick with the initial summary or the best available content.
+                    content: fullArticle.content && fullArticle.content.length > (article.description?.length || 0)
+                        ? fullArticle.content
+                        : article.description 
+                            ? `<p>${article.description}</p><p>Full content link: <a href="${article.url}" target="_blank">View original article</a></p>`
+                            : initialContent, 
+                    author: fullArticle.author || article.author || article.source || 'Unknown Author', 
+                    readTime: fullArticle.readTime || prev.readTime,
+                    tags: fullArticle.tags || article.tags || [article.category],
+                    confidence: fullArticle.confidence ?? article.confidence ?? 0, 
+                }));
+                
+            } catch (err) {
+                console.error('Error fetching full article content:', err);
+                toast.error('Failed to load full article content. Displaying summary.');
+                // On API error, stick with the content initialized in step 2 (the summary)
+            } finally {
+                setArticleContentLoading(false);
+            }
+        } 
     };
 
     const closeArticleModal = () => {
         setIsModalOpen(false);
-        setTimeout(() => setSelectedArticle(null), 300); 
+        // Clear selectedArticle after the transition for clean unmounting
+        setTimeout(() => {
+            setSelectedArticle(null);
+            // Ensure loading state is reset when closing
+            setArticleContentLoading(false); 
+        }, 300); 
     };
 
     // =================================================================
-    // UI LOGIC & HELPERS (Unchanged)
+    // UI LOGIC & HELPERS
     // =================================================================
 
     const filterNews = () => {
@@ -142,6 +181,16 @@ const NewsListingPage = () => {
     };
 
     const getSentimentBadge = (sentiment, confidence) => {
+        let percentageDisplay = 'N/A';
+        
+        // Check if confidence is a valid finite number and is greater than a very small threshold
+        if (isFinite(confidence) && confidence >= 0.005) { 
+            percentageDisplay = `${Math.round(confidence * 100)}%`;
+        } else if (isFinite(confidence) && confidence === 0) {
+             // If API explicitly sends 0, show 0%
+             percentageDisplay = '0%'; 
+        }
+        
         const baseClasses = "inline-flex items-center px-3 py-1 rounded-full text-xs font-medium gap-1.5 transition-all duration-200";
         let colorClasses = "";
         
@@ -165,23 +214,30 @@ const NewsListingPage = () => {
         return (
             <span className={`${baseClasses} ${colorClasses}`}>
                 {getSentimentIcon(sentiment)}
-                {sentiment} ({Math.round(confidence * 100)}%)
+                {sentiment} ({percentageDisplay})
             </span>
         );
     };
 
     const formatDate = (dateString) => {
-        // Handle invalid dates gracefully (e.g., if API returns null)
-        if (!dateString || isNaN(new Date(dateString))) {
-            return 'Date N/A';
+        try {
+            // Use the date string, falling back to current date if invalid/missing
+            const date = new Date(dateString || Date.now()); 
+            
+            // Check if the date object is valid
+            if (isNaN(date.getTime())) {
+                return 'Date Unavailable';
+            }
+
+            return date.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        } catch (e) {
+            return 'Date Unavailable';
         }
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
     };
 
     const refreshNews = () => {
@@ -411,7 +467,8 @@ const NewsListingPage = () => {
                                         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
                                             <div className="flex-1">
                                                 <div className="flex flex-wrap items-center gap-3 mb-4">
-                                                    {getSentimentBadge(article.sentiment, article.confidence)}
+                                                    {/* Pass the article.confidence, which will be handled in the badge function */}
+                                                    {getSentimentBadge(article.sentiment, article.confidence)} 
                                                     <span className={`text-xs uppercase tracking-wide font-medium px-2 py-1 rounded-full ${
                                                         theme === 'dark'
                                                             ? 'bg-gray-700/60 text-gray-300'
@@ -446,7 +503,7 @@ const NewsListingPage = () => {
                                                         onClick={() => openArticleModal(article)}
                                                         className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all duration-200 transform hover:scale-105"
                                                     >
-                                                        View Summary
+                                                        View Full Article
                                                         <ExternalLink className="w-4 h-4" />
                                                     </button>
                                                 </div>
@@ -517,15 +574,15 @@ const NewsListingPage = () => {
                                 <div className="flex flex-wrap items-center gap-6 mb-6 text-sm">
                                     <div className={`flex items-center gap-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
                                         <User className="w-4 h-4" />
-                                        <span>By **{selectedArticle.author ?? selectedArticle.source}**</span> 
+                                        <span>By **{selectedArticle.author}**</span> 
                                     </div>
                                     <div className={`flex items-center gap-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
                                         <Clock className="w-4 h-4" />
-                                        <span>{selectedArticle.readTime ?? 'N/A'}</span>
+                                        <span>{selectedArticle.readTime}</span> 
                                     </div>
                                     <div className={`flex items-center gap-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
                                         <Calendar className="w-4 h-4" />
-                                        <span>{formatDate(selectedArticle.publishedAt)}</span>
+                                        <span>{formatDate(selectedArticle.publishedAt)}</span> 
                                     </div>
                                 </div>
 
@@ -544,11 +601,21 @@ const NewsListingPage = () => {
                                     ))}
                                 </div>
                                 
-                                {/* Display Summary / Fallback Content */}
-                                <div 
-                                    className={`prose max-w-none ${theme === 'dark' ? 'prose-invert text-gray-200' : 'text-gray-800'}`}
-                                    dangerouslySetInnerHTML={{ __html: selectedArticle.content }}
-                                />
+                                {/* Full Content / Loading State */}
+                                {articleContentLoading ? (
+                                    <div className="flex flex-col items-center justify-center min-h-[200px] py-12">
+                                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mb-3"></div>
+                                        <p className={`font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+                                            Loading full article content...
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div 
+                                        className={`prose max-w-none ${theme === 'dark' ? 'prose-invert text-gray-200' : 'text-gray-800'}`}
+                                        // This displays the content (which is the description/summary by default)
+                                        dangerouslySetInnerHTML={{ __html: selectedArticle.content }}
+                                    />
+                                )}
 
                                 <div className="mt-8 pt-6 border-t border-gray-200">
                                     <p className={`text-sm mb-4 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
