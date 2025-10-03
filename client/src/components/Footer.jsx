@@ -1,15 +1,22 @@
-import { Github, Heart, Linkedin, Mail, Shield, TrendingUp, Zap } from "lucide-react";
+import {
+  Github,
+  Heart,
+  Linkedin,
+  Mail,
+  Shield,
+  TrendingUp,
+  Zap,
+} from "lucide-react";
 import { useContext, useEffect } from "react";
 // import { SiX } from "react-icons/si";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../context/ThemeContext";
 
-
 const Footer = () => {
   const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
-    import('aos').then(AOS => {
+    import("aos").then((AOS) => {
       AOS.init({
         duration: 800,
         once: true,
@@ -20,10 +27,16 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-950 border-t border-slate-200 dark:border-slate-800">
       <div className="max-w-7xl mx-auto px-6 pt-16 pb-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12" data-aos="fade-up">
-
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12"
+          data-aos="fade-up"
+        >
           {/* Brand Section */}
-          <div className="lg:col-span-2" data-aos="fade-up" data-aos-delay="100">
+          <div
+            className="lg:col-span-2"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
             <div className="flex items-center space-x-3 mb-6">
               <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl">
                 <Zap className="h-6 w-6 text-white" />
@@ -33,19 +46,32 @@ const Footer = () => {
               </h3>
             </div>
             <p className="text-slate-600 dark:text-slate-400 text-lg leading-relaxed mb-6 max-w-md">
-              Transform your data into actionable insights with the power of advanced sentiment analysis and AI-driven analytics.
+              Transform your data into actionable insights with the power of
+              advanced sentiment analysis and AI-driven analytics.
             </p>
             <div className="flex space-x-4">
-              <a href="https://github.com/openml-stack/SentiLog-AI" target="_blank" rel="noopener noreferrer"
-                className="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+              <a
+                href="https://github.com/openml-stack/SentiLog-AI"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors"
+              >
                 <Github className="h-5 w-5 text-slate-700 dark:text-slate-300" />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
-                className="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors"
+              >
                 <Linkedin className="h-5 w-5 text-slate-700 dark:text-slate-300" />
               </a>
-              <a href="mailto:vivekprakash.st@gmail.com" target="_blank" rel="noopener noreferrer"
-                className="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+              <a
+                href="mailto:vivekprakash.st@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors"
+              >
                 <Mail className="h-5 w-5 text-slate-700 dark:text-slate-300" />
               </a>
             </div>
@@ -58,11 +84,46 @@ const Footer = () => {
               Product
             </h4>
             <ul className="space-y-4">
-              <li><Link to="/" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Home</Link></li>
-              <li><Link to="/analyze" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Analyze</Link></li>
-              <li><Link to="/journal" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Journal</Link></li>
-              <li><Link to="/news" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">News</Link></li>
-              <li><Link to="/dashboard" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Dashboard</Link></li>
+              <li>
+                <Link
+                  to="/"
+                  className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/analyze"
+                  className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                >
+                  Analyze
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/journal"
+                  className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                >
+                  Journal
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/news"
+                  className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                >
+                  News
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/dashboard"
+                  className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                >
+                  Dashboard
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -73,19 +134,59 @@ const Footer = () => {
               Support
             </h4>
             <ul className="space-y-4">
-              <li><Link to="/" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Help Center</Link></li>
-              <li><Link to="/Contact" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Contact Us</Link></li>
-              <li><Link to="/about" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">About Us</Link></li>
-              <li><Link to="/" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">System Status</Link></li>
-              <li><Link to="/privacy-policy" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Privacy Policy</Link></li>
+              <li>
+                <Link
+                  to="/help"
+                  className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                >
+                  Help Center
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/Contact"
+                  className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                >
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/about"
+                  className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                >
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/"
+                  className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                >
+                  System Status
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/privacy-policy"
+                  className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                >
+                  Privacy Policy
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-16 pt-5 border-t border-slate-200 dark:border-slate-800" data-aos="fade-up" data-aos-delay="400" data-aos-offset="0"
+        <div
+          className="mt-16 pt-5 border-t border-slate-200 dark:border-slate-800"
+          data-aos="fade-up"
+          data-aos-delay="400"
+          data-aos-offset="0"
           data-aos-duration="800"
-          data-aos-anchor-placement="top-bottom">
+          data-aos-anchor-placement="top-bottom"
+        >
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-2 text-slate-600 dark:text-slate-400">
               <span>© {new Date().getFullYear()} SentiLog AI</span>

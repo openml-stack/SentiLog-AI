@@ -648,4 +648,5 @@ const NewsListingPage = () => {
     );
 };
 
+
 export default NewsListingPage;
