@@ -1,78 +1,89 @@
 import React from 'react';
+import { Edit3, CheckCircle, Smile, Zap } from 'lucide-react';
+
+const ActivityItem = ({ icon: Icon, iconColor, time, title, date, details, sentimentIcon: SentimentIcon, sentiment }) => (
+  <div className="flex gap-4 group">
+    {/* Icon and Timeline Separator */}
+    <div className="flex flex-col items-center w-12">
+      <div className={`w-9 h-9 ${iconColor} rounded-full flex items-center justify-center mb-1 ring-4 ring-white/50 dark:ring-slate-900/50 shadow-md transition-all duration-300 group-hover:scale-110`}>
+        <Icon className="w-5 h-5 text-white" />
+      </div>
+      <div className="flex-1 w-px bg-gray-300/50 dark:bg-slate-700/50"></div>
+      <span className="text-xs text-gray-500 dark:text-slate-400 mt-2">{time}</span>
+    </div>
+    
+    {/* Content */}
+    <div className="flex-1 border-b border-gray-300/50 dark:border-slate-700/50 pb-6 pt-1">
+      <div className="flex items-center justify-between mb-2">
+        <h4 className="text-base font-semibold text-gray-800 dark:text-white">{title}</h4>
+        <span className="text-xs text-indigo-500 dark:text-indigo-400 font-medium">{date}</span>
+      </div>
+      
+      {/* Details/Description */}
+      <div className="text-sm text-gray-700 dark:text-slate-300 mb-3">
+        {details}
+      </div>
+
+      {/* Sentiment/Analysis Tags */}
+      {sentiment && (
+        <div className="flex gap-2 items-center text-sm font-medium bg-indigo-500/10 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 px-3 py-1 rounded-full w-fit">
+          <SentimentIcon className="w-4 h-4" />
+          <span>{sentiment}</span>
+        </div>
+      )}
+    </div>
+  </div>
+);
+
 
 const RecentActivity = () => {
+  const activities = [
+    {
+      id: 1,
+      icon: Edit3,
+      iconColor: 'bg-blue-500',
+      time: '10:30',
+      title: 'Journal Entry',
+      date: 'Today',
+      details: 'Had a productive meeting with the design team. We finalized the UI for the new feature...',
+      sentimentIcon: Smile,
+      sentiment: 'Positive'
+    },
+    {
+      id: 2,
+      icon: CheckCircle,
+      iconColor: 'bg-purple-500',
+      time: '9:15',
+      title: 'Analysis Complete',
+      date: 'Today',
+      details: (
+        <ul className="space-y-1">
+          <li className="flex items-center gap-2 text-xs text-gray-700 dark:text-slate-300">
+            <Zap className="w-3 h-3 text-purple-500" />
+            Detected improved focus in morning hours
+          </li>
+          <li className="flex items-center gap-2 text-xs text-gray-700 dark:text-slate-300">
+            <Zap className="w-3 h-3 text-purple-500" />
+            Positive correlation with exercise days
+          </li>
+          <li className="flex items-center gap-2 text-xs text-gray-700 dark:text-slate-300">
+            <Zap className="w-3 h-3 text-purple-500" />
+            Recommendation: Continue morning routine
+          </li>
+        </ul>
+      ),
+      sentimentIcon: null,
+      sentiment: null
+    }
+  ];
+
   return (
-    <div className="bg-white text-black dark:bg-slate-900/50 dark:text-white backdrop-blur-lg border border-gray-300 dark:border-white/5 rounded-lg p-4 shadow-md">
-      <h3 className="text-sm font-medium mb-4">Recent Activity</h3>
+    <div>
+      <h3 className="text-lg font-bold mb-6 text-gray-800 dark:text-white">Recent Activity</h3>
       <div className="flex flex-col gap-4">
-        
-        {/* First Activity */}
-        <div className="flex gap-4">
-          <div className="flex flex-col items-center w-12">
-            <div className="w-8 h-8 bg-gray-200 dark:bg-slate-800/40 rounded-full flex items-center justify-center mb-2">
-              <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-              </svg>
-            </div>
-            <span className="text-xs text-gray-500 dark:text-slate-400">10:30</span>
-          </div>
-          <div className="flex-1 border-b border-gray-300 dark:border-slate-800/40 pb-4">
-            <div className="flex items-center justify-between mb-2">
-              <h4 className="text-sm font-medium">Journal Entry</h4>
-              <span className="text-xs text-gray-500 dark:text-slate-400">Today</span>
-            </div>
-            <p className="text-sm text-gray-700 dark:text-slate-300 mb-2 line-clamp-2">
-              Had a productive meeting with the design team. We finalized the UI for the new feature...
-            </p>
-            <div className="flex gap-2 mb-2">
-              <svg className="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span className="text-sm text-gray-700 dark:text-slate-300">Positive</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Second Activity */}
-        <div className="flex gap-4">
-          <div className="flex flex-col items-center w-12">
-            <div className="w-8 h-8 bg-gray-200 dark:bg-slate-800/40 rounded-full flex items-center justify-center mb-2">
-              <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-              </svg>
-            </div>
-            <span className="text-xs text-gray-500 dark:text-slate-400">9:15</span>
-          </div>
-          <div className="flex-1 border-b border-gray-300 dark:border-slate-800/40 pb-4">
-            <div className="flex items-center justify-between mb-2">
-              <h4 className="text-sm font-medium">Analysis Complete</h4>
-              <span className="text-xs text-gray-500 dark:text-slate-400">Today</span>
-            </div>
-            <div className="mt-2">
-              <ul className="space-y-1">
-                <li className="flex items-center gap-2 text-xs text-gray-700 dark:text-slate-300">
-                  <svg className="w-3 h-3 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                  Detected improved focus in morning hours
-                </li>
-                <li className="flex items-center gap-2 text-xs text-gray-700 dark:text-slate-300">
-                  <svg className="w-3 h-3 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                  Positive correlation with exercise days
-                </li>
-                <li className="flex items-center gap-2 text-xs text-gray-700 dark:text-slate-300">
-                  <svg className="w-3 h-3 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                  Recommendation: Continue morning routine
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
+        {activities.map(activity => (
+          <ActivityItem key={activity.id} {...activity} />
+        ))}
       </div>
     </div>
   );

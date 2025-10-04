@@ -1,107 +1,84 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Plus, BarChart2, Lightbulb, Settings } from 'lucide-react';
+import { motion } from 'framer-motion';
 
-// Custom hook to navigate to /journal
-function useNavigateToJournal() {
+// Custom hook to navigate to a specific path
+function useNavigateToPath() {
   const navigate = useNavigate();
-  return () => {
-    navigate('/journal'); 
+  // Return a function that accepts the target path
+  return (path) => {
+    navigate(path); 
   };
 }
 
 const ActionButtons = () => {
-  const handleClick = useNavigateToJournal();
+  // Use the custom hook to get the navigation handler
+  const navigateTo = useNavigateToPath();
+
+  // Define specific handlers for clarity
+  const handleNewEntry = () => navigateTo('/journal');
+  const handleRunAnalysis = () => navigateTo('/analyze'); // Assuming path is /analysis
+  const handleViewInsights = () => navigateTo('/news-listing'); // Assuming path is /insights
+  const handleSettings = () => navigateTo('/about'); // Assuming path is /settings
+
+  const primaryButtonClass = `
+    flex items-center justify-center gap-3 bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-semibold 
+    py-3 px-4 rounded-xl shadow-lg hover:shadow-xl hover:opacity-95 transition 
+    transform hover:-translate-y-0.5
+  `;
+
+  const secondaryButtonClass = `
+    flex items-center justify-start gap-3 w-full bg-white/20 dark:bg-slate-800/20 text-black dark:text-slate-200 
+    font-medium py-3 px-4 rounded-xl border border-gray-300/30 dark:border-white/10 backdrop-blur-sm
+    hover:bg-white/50 dark:hover:bg-slate-700/50 hover:shadow-md transition duration-300
+  `;
 
   return (
-    <div className="
-      bg-white text-black border border-gray-300
-      dark:bg-slate-900/50 dark:text-white dark:border-white/5
-      backdrop-blur-lg rounded-lg p-4 shadow-md
-    ">
-      <h3 className="text-sm font-medium mb-4">Quick Actions</h3>
-      <div className="flex flex-col gap-3">
+    <div>
+      <h3 className="text-lg font-bold mb-5 text-gray-800 dark:text-white">Quick Actions</h3>
+      <div className="flex flex-col gap-4">
 
-        {/* New Journal Entry Button with navigation */}
-        <button
-          onClick={handleClick}
-          className="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-medium py-2.5 px-4 rounded-md hover:opacity-90 transition transform hover:-translate-y-0.5"
+        {/* New Journal Entry Button (Primary) - Uses handleNewEntry */}
+        <motion.button
+          onClick={handleNewEntry}
+          className={primaryButtonClass}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-            />
-          </svg>
+          <Plus className="w-5 h-5" />
           New Journal Entry
-        </button>
+        </motion.button>
 
-        <button className="flex items-center justify-center gap-2 bg-transparent border border-gray-300 dark:border-white/10 text-black dark:text-slate-200 font-medium py-2.5 px-4 rounded-md hover:bg-gray-100 dark:hover:bg-white/5 transition">
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-            />
-          </svg>
+        {/* Run New Analysis - Uses handleRunAnalysis */}
+        <motion.button 
+          onClick={handleRunAnalysis}
+          className={secondaryButtonClass}
+          whileHover={{ x: 5 }}
+        >
+          <BarChart2 className="w-5 h-5 text-indigo-500" />
           Run New Analysis
-        </button>
+        </motion.button>
 
-        <button className="flex items-center justify-center gap-2 bg-transparent text-gray-600 dark:text-slate-400 py-2 px-4 rounded-md hover:bg-gray-100 dark:hover:bg-slate-800/30 transition">
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
+        {/* View Insights - Uses handleViewInsights */}
+        <motion.button 
+          onClick={handleViewInsights}
+          className={secondaryButtonClass}
+          whileHover={{ x: 5 }}
+        >
+          <Lightbulb className="w-5 h-5 text-yellow-500" />
           View Insights
-        </button>
+        </motion.button>
 
-        <button className="flex items-center justify-center gap-2 bg-transparent text-gray-600 dark:text-slate-400 py-2 px-4 rounded-md hover:bg-gray-100 dark:hover:bg-slate-800/30 transition">
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-.426-1.756 0-3.35 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-          </svg>
-          Settings
-        </button>
+        {/* Settings - Uses handleSettings */}
+        <motion.button 
+          onClick={handleSettings}
+          className={secondaryButtonClass}
+          whileHover={{ x: 5 }}
+        >
+          <Settings className="w-5 h-5 text-gray-500" />
+          About
+        </motion.button>
       </div>
     </div>
   );

@@ -7,8 +7,14 @@ import MoodTrend from '../components/dashboard/MoodTrend';
 import OverallMood from '../components/dashboard/OverallMood';
 import RecentActivity from '../components/dashboard/RecentActivity';
 import TotalEntries from '../components/dashboard/TotalEntries';
-import BacktoTopButton from "../components/BackToTop"
+import BacktoTopButton from "../components/BackToTop";
 
+
+const GLASS_CARD_STYLE = `
+  bg-white/50 border border-gray-300/30 text-black
+  dark:bg-slate-900/50 dark:border-gray-700/30 dark:text-gray-200
+  p-5 rounded-3xl shadow-xl backdrop-blur-lg
+`;
 
 const Dashboard = () => {
   const containerVariants = {
@@ -24,20 +30,22 @@ const Dashboard = () => {
     visible: {
       y: 0,
       opacity: 1,
-      transition: { type: 'spring', damping: 10, stiffness: 100 }
+      transition: { type: 'spring', damping: 12, stiffness: 100 }
     },
     hover: {
-      scale: 1.03,
-      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)'
+      // Subtle glow and lifted effect on hover
+      scale: 1.02,
+      boxShadow: '0 15px 30px -5px rgba(0, 0, 0, 0.2), 0 0 15px rgba(100, 100, 255, 0.1)',
+      borderColor: 'rgba(99, 102, 241, 0.5)' // Subtle indigo border highlight
     }
   };
 
   const chartVariants = {
-    hidden: { opacity: 0, x: -20 },
+    hidden: { opacity: 0, scale: 0.95 },
     visible: {
       opacity: 1,
-      x: 0,
-      transition: { duration: 0.8, ease: 'easeOut' }
+      scale: 1,
+      transition: { duration: 0.7, ease: 'easeOut' }
     }
   };
 
@@ -45,31 +53,29 @@ const Dashboard = () => {
     <div
       className="
         font-sans w-full min-h-screen
-        bg-gradient-to-br from-white to-gray-100 text-black
-        dark:from-[#0f172a] dark:to-[#1e293b] dark:text-gray-200
+        // Enhanced background for Glassmorphism effect visibility
+        bg-gradient-to-br from-indigo-50 to-purple-100 text-black
+        dark:from-[#081229] dark:to-[#171e35] dark:text-gray-200
       "
     >
       <main className="w-full px-0">
-        {/* Top Section */}
+        {/* Top Section - Stat Cards */}
         <motion.div
           initial="hidden"
           animate="visible"
           variants={containerVariants}
-          className="w-full px-4 md:px-6 py-6"
+          className="w-full px-4 md:px-8 py-8"
         >
-          <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[OverallMood, MoodTrend, LastAnalysis, TotalEntries].map(
               (Component, index) => (
                 <motion.div
                   key={index}
                   variants={cardVariants}
                   whileHover="hover"
-                  className="
-                    bg-white border border-gray-300 text-black
-                    dark:bg-gray-800 dark:border-gray-700 dark:text-white
-                    p-5 rounded-xl shadow-lg backdrop-blur-sm
-                  "
+                  className={GLASS_CARD_STYLE}
                 >
+                  {/* The icon color is defined in the component, but we ensure text contrast */}
                   <div className="text-blue-700 dark:text-blue-400">
                     <Component />
                   </div>
@@ -84,48 +90,34 @@ const Dashboard = () => {
           initial="hidden"
           animate="visible"
           variants={chartVariants}
-          className="w-full px-4 md:px-6 py-5"
+          className="w-full px-4 md:px-8 py-5"
         >
-          <div
-            className="
-              bg-white text-black border border-gray-300
-              dark:bg-gray-800 dark:text-white dark:border-gray-700
-              p-5 rounded-xl shadow-lg backdrop-blur-sm
-            "
-          >
+          <div className={GLASS_CARD_STYLE}>
             <MoodChart />
           </div>
         </motion.div>
 
-        {/* Bottom Section */}
+        {/* Bottom Section - Activity and Actions */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="w-full px-4 md:px-6 py-5 grid grid-cols-1 lg:grid-cols-3 gap-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="w-full px-4 md:px-8 py-5 grid grid-cols-1 lg:grid-cols-3 gap-6"
         >
           <div className="lg:col-span-2">
             <motion.div
-              whileHover={{ scale: 1.01 }}
-              transition={{ type: 'spring', stiffness: 400 }}
-              className="
-                bg-white border border-gray-300 text-black
-                dark:bg-gray-800 dark:border-gray-700 dark:text-white
-                p-5 rounded-xl shadow-lg backdrop-blur-sm
-              "
+              whileHover="hover"
+              variants={cardVariants}
+              className={GLASS_CARD_STYLE}
             >
               <RecentActivity />
             </motion.div>
           </div>
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 flex flex-col gap-6">
             <motion.div
-              whileHover={{ scale: 1.01 }}
-              transition={{ type: 'spring', stiffness: 400 }}
-              className="
-                bg-white border border-gray-300 text-black
-                dark:bg-gray-800 dark:border-gray-700 dark:text-white
-                p-5 rounded-xl shadow-lg backdrop-blur-sm
-              "
+              whileHover="hover"
+              variants={cardVariants}
+              className={GLASS_CARD_STYLE}
             >
               <ActionButtons />
             </motion.div>
