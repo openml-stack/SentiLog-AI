@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { ThemeContext } from '../context/ThemeContext';
-import { Filter, Calendar, TrendingUp, TrendingDown, Minus, ExternalLink, Newspaper, Search, RefreshCw, X, Clock, User } from 'lucide-react';
+import { Filter, Calendar, TrendingUp, TrendingDown, Minus, ExternalLink, Newspaper, Search, RefreshCw, X, Clock, User } from 'lucide-react'; 
 import BackToTopButton from '../components/BackToTop';
 import api from '../axios'; // Assuming this is your configured Axios instance
 import toast, { Toaster } from 'react-hot-toast';
@@ -15,8 +15,7 @@ const NewsListingPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedArticle, setSelectedArticle] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    // Removed articleContentLoading state as we no longer make a second async call
-    // const [articleContentLoading, setArticleContentLoading] = useState(false); 
+    const [articleContentLoading, setArticleContentLoading] = useState(false); 
 
     // AOS initialization with theme support
     useEffect(() => {
@@ -42,7 +41,6 @@ const NewsListingPage = () => {
 
     /**
      * Fetches the main list of news articles from the backend API.
-     * FIX 1: Using the confirmed /api/news endpoint.
      */
     const fetchNews = async () => {
         try {
@@ -74,31 +72,143 @@ const NewsListingPage = () => {
     };
 
     /**
-     * Opens the modal using the article's existing data from the initial list.
-     * FIX 2: Removed the secondary API call to prevent the 404 error.
+     * Enhanced logic to create a proper paragraph-based brief (preview) 
+     * and removes the [+][N] chars string.
      */
-    const openArticleModal = (article) => {
-        // Assume article has all the metadata needed for the modal header.
+    const openArticleModal = async (article) => {
+        
+        // Function to split and format the preview content
+        const createPreviewContent = (rawText) => {
+            if (!rawText || rawText.trim().length < 50) { 
+                return `<p class="leading-relaxed">Article content preview is short or unavailable. Please click the "Go to Original Article" button below to read the full story.</p>`;
+            }
+
+            // 1. Detect and remove the extraneous character count marker (e.g., "[+2239 chars]") from the raw text.
+            let cleanText = rawText.replace(/\[\+\d+ chars\]\s*$/, '').trim(); 
+            
+            if (cleanText.length < 50) {
+                return `<p class="leading-relaxed">Article content preview is short or unavailable. Please click the "Go to Original Article" button below to read the full story.</p>`;
+            }
+
+
+            // 2. Attempt to split by standard paragraph separators (\n\n or \n).
+            const splitContent = cleanText.split(/\r?\n\s*\r?\n|\r?\n/).map(p => p.trim()).filter(p => p.length > 50);
+
+            let previewParagraphs = [];
+            let totalCharacterCount = 0;
+            const MAX_PARAGRAPHS = 3; 
+            const MAX_CHARS = 800; // Increased max char count for a more substantial brief
+
+            // 3. Iterate to grab a maximum of MAX_PARAGRAPHS or up to MAX_CHARS
+            for (let i = 0; i < splitContent.length && i < MAX_PARAGRAPHS; i++) {
+                const paragraph = splitContent[i];
+                
+                if (totalCharacterCount > 0 && totalCharacterCount + paragraph.length > MAX_CHARS) break; 
+                
+                previewParagraphs.push(paragraph);
+                totalCharacterCount += paragraph.length;
+            }
+
+            // 4. FALLBACK: If paragraph splitting was not effective (e.g., all one long string)
+            if (previewParagraphs.length === 0) {
+                 if (cleanText.length > 300) {
+                     let rawChunk = cleanText.substring(0, MAX_CHARS).trim();
+                     let lastSentenceEnd = Math.max(
+                         rawChunk.lastIndexOf('.'), 
+                         rawChunk.lastIndexOf('!'), 
+                         rawChunk.lastIndexOf('?')
+                     );
+
+                     if (lastSentenceEnd > 100) {
+                         rawChunk = rawChunk.substring(0, lastSentenceEnd + 1).trim();
+                     }
+
+                     previewParagraphs.push(rawChunk);
+                 } else {
+                     previewParagraphs.push(cleanText.trim());
+                 }
+            }
+
+
+            // 5. Format and join the selected paragraphs into HTML.
+            let htmlContent = previewParagraphs.map(p => `<p class="leading-relaxed mb-4">${p}</p>`).join('');
+
+            // 6. Add a notification about truncation.
+            const previewLength = previewParagraphs.join(' ').length;
+            
+            if (rawText.length > previewLength + 200 || rawText.includes('chars]')) { 
+                 htmlContent += `<p class="text-sm mt-6 italic opacity-80">Full content is available on the original site.</p>`;
+            } else if (cleanText.length > 0) {
+                 htmlContent += `<p class="text-sm mt-6 italic opacity-80">Source summary displayed.</p>`;
+            }
+
+            return htmlContent;
+        };
+        // End of createPreviewContent
+        
+        // Determine the text source for initial preview
+        const initialRawText = article.text || article.description;
+        const initialContent = createPreviewContent(initialRawText);
+
+        // Use 'date' if available, otherwise fallback to 'publishedAt'
+        const publishedDate = article.date || article.publishedAt;
+
+        // 2. Set basic article metadata and initial content
         setSelectedArticle({
             ...article,
-            // Provide placeholder/fallback for full content since we aren't fetching it here.
-            content: article.description
-                ? `<h2>Summary:</h2><p>${article.description}</p><p>To read the full article, please click the "Go to Original Article" button below.</p>`
-                : `<p>Summary unavailable. To read the full article, please click the "Go to Original Article" button below.</p>`,
-            author: article.author || 'N/A', // Assuming article might have an author field
-            readTime: 'Quick Summary',
-            tags: article.tags || [article.category],
+            content: initialContent, 
+            author: article.author || article.source || 'Unknown Author', 
+            readTime: article.readTime || '5 min read', 
+            tags: article.tags || (article.category ? [article.category] : []), 
+            confidence: article.confidence ?? 0, 
+            publishedAt: publishedDate, 
         }); 
         setIsModalOpen(true);
+        
+        // 3. Attempt to fetch full content (scraping) only if the article has an 'id'
+        if (article.id) {
+            setArticleContentLoading(true);
+            try {
+                // API Call 2: Fetch specific article content using ID (assuming backend route /api/news/:id)
+                const response = await api.get(`/api/news/${article.id}`); 
+                const fullArticle = response.data;
+
+                // **CRUCIAL FIX:** Force the use of fullArticle.content if it exists.
+                const newContent = fullArticle.content 
+                    ? fullArticle.content 
+                    : initialContent; 
+
+                // Update the state with the full content, preserving existing metadata
+                setSelectedArticle(prev => ({
+                    ...prev,
+                    content: newContent, 
+                    author: fullArticle.author || prev.author, 
+                    readTime: fullArticle.readTime || prev.readTime,
+                    tags: fullArticle.tags || prev.tags,
+                    confidence: fullArticle.confidence ?? prev.confidence, 
+                }));
+                
+            } catch (err) {
+                console.error('Error fetching full article content:', err);
+                toast.error('Failed to load full article content. Displaying brief.');
+            } finally {
+                setArticleContentLoading(false);
+            }
+        } 
     };
 
     const closeArticleModal = () => {
         setIsModalOpen(false);
-        setTimeout(() => setSelectedArticle(null), 300); 
+        // Clear selectedArticle after the transition for clean unmounting
+        setTimeout(() => {
+            setSelectedArticle(null);
+            // Ensure loading state is reset when closing
+            setArticleContentLoading(false); 
+        }, 300); 
     };
 
     // =================================================================
-    // UI LOGIC & HELPERS (Unchanged)
+    // UI LOGIC & HELPERS
     // =================================================================
 
     const filterNews = () => {
@@ -142,6 +252,16 @@ const NewsListingPage = () => {
     };
 
     const getSentimentBadge = (sentiment, confidence) => {
+        let percentageDisplay = 'N/A';
+        
+        // Check if confidence is a valid finite number and is greater than a very small threshold
+        if (isFinite(confidence) && confidence >= 0.005) { 
+            percentageDisplay = `${Math.round(confidence * 100)}%`;
+        } else if (isFinite(confidence) && confidence === 0) {
+             // If API explicitly sends 0, show 0%
+             percentageDisplay = '0%'; 
+        }
+        
         const baseClasses = "inline-flex items-center px-3 py-1 rounded-full text-xs font-medium gap-1.5 transition-all duration-200";
         let colorClasses = "";
         
@@ -165,23 +285,33 @@ const NewsListingPage = () => {
         return (
             <span className={`${baseClasses} ${colorClasses}`}>
                 {getSentimentIcon(sentiment)}
-                {sentiment} ({Math.round(confidence * 100)}%)
+                {sentiment} ({percentageDisplay})
             </span>
         );
     };
 
+    /**
+     * Use article.date field (from MongoDB structure) or article.publishedAt
+     */
     const formatDate = (dateString) => {
-        // Handle invalid dates gracefully (e.g., if API returns null)
-        if (!dateString || isNaN(new Date(dateString))) {
-            return 'Date N/A';
+        try {
+            // Handle null/undefined/empty string by falling back to current date
+            const date = new Date(dateString || Date.now()); 
+            
+            // Check if the date object is valid
+            if (isNaN(date.getTime())) {
+                return 'Date Unavailable';
+            }
+
+            return date.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        } catch (e) {
+            return 'Date Unavailable';
         }
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
     };
 
     const refreshNews = () => {
@@ -404,14 +534,15 @@ const NewsListingPage = () => {
                                     className={`backdrop-blur-xl rounded-3xl shadow-xl border hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] overflow-hidden ${
                                         theme === 'dark'
                                             ? 'bg-gray-800/60 border-gray-700/50 hover:bg-gray-800/80'
-                                            : 'bg-white/60 border-white/30 hover:bg-white/80'
+                                            : 'bg-white/60 border-white/80'
                                     }`}
                                 >
                                     <div className="p-8">
                                         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
                                             <div className="flex-1">
                                                 <div className="flex flex-wrap items-center gap-3 mb-4">
-                                                    {getSentimentBadge(article.sentiment, article.confidence)}
+                                                    {/* Pass the article.confidence, which will be handled in the badge function */}
+                                                    {getSentimentBadge(article.sentiment, article.confidence)} 
                                                     <span className={`text-xs uppercase tracking-wide font-medium px-2 py-1 rounded-full ${
                                                         theme === 'dark'
                                                             ? 'bg-gray-700/60 text-gray-300'
@@ -421,15 +552,18 @@ const NewsListingPage = () => {
                                                     </span>
                                                 </div>
                                                 
-                                                <h3 className={`text-2xl font-bold mb-3 leading-tight hover:text-blue-600 transition-colors cursor-pointer ${
-                                                    theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
-                                                }`}>
+                                                <h3 
+                                                    onClick={() => openArticleModal(article)} // Added onClick to title
+                                                    className={`text-2xl font-bold mb-3 leading-tight hover:text-blue-600 transition-colors cursor-pointer ${
+                                                        theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                                                    }`}>
                                                     {article.title}
                                                 </h3>
                                                 
                                                 <p className={`text-lg leading-relaxed mb-6 ${
                                                     theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
                                                 }`}>
+                                                    {/* Display the shorter description for the list view */}
                                                     {article.description}
                                                 </p>
                                                 
@@ -439,14 +573,15 @@ const NewsListingPage = () => {
                                                     }`}>
                                                         <span className="font-medium">{article.source}</span>
                                                         <span>•</span>
-                                                        <span>{formatDate(article.publishedAt)}</span>
+                                                        {/* Use publishedAt or date, depending on which exists in the main list data */}
+                                                        <span>{formatDate(article.publishedAt || article.date)}</span>
                                                     </div>
                                                     
                                                     <button 
                                                         onClick={() => openArticleModal(article)}
                                                         className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all duration-200 transform hover:scale-105"
                                                     >
-                                                        View Summary
+                                                        View Full Article
                                                         <ExternalLink className="w-4 h-4" />
                                                     </button>
                                                 </div>
@@ -480,7 +615,7 @@ const NewsListingPage = () => {
                     onClick={closeArticleModal} 
                 >
                     <div 
-                        className={`rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden transition-all duration-300 transform ${
+                        className={`rounded-3xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden transition-all duration-300 transform ${
                             theme === 'dark' ? 'bg-gray-900 text-gray-100' : 'bg-white text-gray-900'
                         }`}
                         onClick={e => e.stopPropagation()} 
@@ -507,8 +642,8 @@ const NewsListingPage = () => {
                             </button>
                         </div>
 
-                        {/* Modal Content */}
-                        <div className="overflow-y-auto max-h-[calc(90vh-120px)]">
+                        {/* Modal Content - Added overflow-y-auto to the inner div to enable content scrolling */}
+                        <div className="overflow-y-auto h-full max-h-[calc(90vh-77px)]"> 
                             <div className="p-8">
                                 <h1 className="text-3xl font-bold mb-4 leading-tight">
                                     {selectedArticle.title}
@@ -517,15 +652,15 @@ const NewsListingPage = () => {
                                 <div className="flex flex-wrap items-center gap-6 mb-6 text-sm">
                                     <div className={`flex items-center gap-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
                                         <User className="w-4 h-4" />
-                                        <span>By **{selectedArticle.author ?? selectedArticle.source}**</span> 
+                                        <span>By **{selectedArticle.author}**</span> 
                                     </div>
                                     <div className={`flex items-center gap-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
                                         <Clock className="w-4 h-4" />
-                                        <span>{selectedArticle.readTime ?? 'N/A'}</span>
+                                        <span>{selectedArticle.readTime}</span> 
                                     </div>
                                     <div className={`flex items-center gap-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
                                         <Calendar className="w-4 h-4" />
-                                        <span>{formatDate(selectedArticle.publishedAt)}</span>
+                                        <span>{formatDate(selectedArticle.publishedAt)}</span> 
                                     </div>
                                 </div>
 
@@ -544,11 +679,20 @@ const NewsListingPage = () => {
                                     ))}
                                 </div>
                                 
-                                {/* Display Summary / Fallback Content */}
-                                <div 
-                                    className={`prose max-w-none ${theme === 'dark' ? 'prose-invert text-gray-200' : 'text-gray-800'}`}
-                                    dangerouslySetInnerHTML={{ __html: selectedArticle.content }}
-                                />
+                                {/* Full Content / Loading State */}
+                                {articleContentLoading ? (
+                                    <div className="flex flex-col items-center justify-center min-h-[200px] py-12">
+                                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mb-3"></div>
+                                        <p className={`font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+                                            Loading full article content...
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div 
+                                        className={`prose max-w-none ${theme === 'dark' ? 'prose-invert text-gray-200' : 'text-gray-800'}`}
+                                        dangerouslySetInnerHTML={{ __html: selectedArticle.content }}
+                                    />
+                                )}
 
                                 <div className="mt-8 pt-6 border-t border-gray-200">
                                     <p className={`text-sm mb-4 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
