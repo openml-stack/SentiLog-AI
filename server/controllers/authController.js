@@ -15,12 +15,54 @@ try {
   console.warn("Cloudinary not configured - image uploads will be disabled");
 }
 
+// Password validation function
+const validatePassword = (password) => {
+  const minLength = 8;
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumbers = /\d/.test(password);
+  const hasSymbols = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  
+  let errors = [];
+
+  if (password.length < minLength) {
+    errors.push(`Password must be at least ${minLength} characters long`);
+  }
+
+  if (!hasUpperCase) {
+    errors.push("Password must contain at least one uppercase letter");
+  }
+
+  if (!hasLowerCase) {
+    errors.push("Password must contain at least one lowercase letter");
+  }
+
+  if (!hasNumbers) {
+    errors.push("Password must contain at least one number");
+  }
+
+  if (!hasSymbols) {
+    errors.push("Password must contain at least one special character");
+  }
+
+  return { isValid: errors.length === 0, errors };
+};
+
 const signup = async (req, res) => {
   console.log("Signup request received:", req.body);
 
   try {
     const { firstname, lastname, email, password } = req.body;
     let profilephoto;
+    
+    // Validate password strength
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.isValid) {
+      return res.status(400).json({ 
+        message: "Password does not meet security requirements", 
+        errors: passwordValidation.errors 
+      });
+    }
     
     // Check if user already exists
     const existingUser = await userModel.findOne({ email });
@@ -189,6 +231,15 @@ const resetPassword = async (req, res) => {
   const { token, newPassword } = req.body;
 
   try {
+    // Validate new password strength
+    const passwordValidation = validatePassword(newPassword);
+    if (!passwordValidation.isValid) {
+      return res.status(400).json({ 
+        message: "Password does not meet security requirements", 
+        errors: passwordValidation.errors 
+      });
+    }
+
     const decoded = jwt.verify(token, process.env.JWT_RESET_SECRET);
     const user = await userModel.findById(decoded.userId);
 
