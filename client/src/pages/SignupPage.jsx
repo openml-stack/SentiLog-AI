@@ -19,6 +19,7 @@ function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
+  const [passwordErrors, setPasswordErrors] = useState([]);
 
   // Password validation function
   const validatePassword = (password) => {
@@ -102,8 +103,9 @@ function SignupPage() {
     } else {
       setForm((prev) => ({ ...prev, [name]: value }));
       
-      // Validate password strength in real-time
+      // Clear inline password errors when user edits password
       if (name === "password") {
+        setPasswordErrors([]);
         const validation = validatePassword(value);
         setPasswordStrength(validation.strength);
       }
@@ -119,7 +121,8 @@ function SignupPage() {
     // Validate password before submission
     const passwordValidation = validatePassword(form.password);
     if (!passwordValidation.isValid) {
-      setError(passwordValidation.errors.join(". "));
+      // show inline password errors and do NOT set the global `error` state
+      setPasswordErrors(Array.from(new Set(passwordValidation.errors)));
       setLoading(false);
       return;
     }
@@ -169,7 +172,12 @@ function SignupPage() {
         setSuccess("Signed up successfully! Redirecting...");
         setTimeout(() => navigate("/"), 1500);
       } else {
-        setError(data.message || `Signup failed with status ${res.status}`);
+        // If server returns structured validation errors, show them inline instead of repeating globally
+        if (data.errors && Array.isArray(data.errors) && data.errors.length > 0) {
+          setPasswordErrors(Array.from(new Set(data.errors)));
+        } else {
+          setError(data.message || `Signup failed with status ${res.status}`);
+        }
       }
     } catch (e) {
       setError("Network error");
@@ -352,13 +360,16 @@ function SignupPage() {
                   style={{ width: getPasswordStrengthInfo(passwordStrength).width }}
                 ></div>
               </div>
-              {passwordStrength < 5 && (
-                <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                  {validatePassword(form.password).errors.slice(0, 2).map((error, index) => (
-                    <div key={index}>• {error}</div>
-                  ))}
-                </div>
-              )}
+                  {passwordStrength < 5 && (
+                    <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                      {/* prefer client-side `passwordErrors` when available to avoid duplication */}
+                      {(passwordErrors.length ? passwordErrors : validatePassword(form.password).errors)
+                        .slice(0, 3)
+                        .map((errMsg, index) => (
+                          <div key={index}>• {errMsg}</div>
+                        ))}
+                    </div>
+                  )}
             </div>
           )}
          

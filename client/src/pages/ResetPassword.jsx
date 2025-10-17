@@ -15,6 +15,7 @@ export default function ResetPassword() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [passwordStrength, setPasswordStrength] = useState(0);
+  const [passwordErrors, setPasswordErrors] = useState([]);
 
   // Password validation function
   const validatePassword = (password) => {
@@ -78,7 +79,7 @@ export default function ResetPassword() {
     // Validate password strength
     const passwordValidation = validatePassword(newPassword);
     if (!passwordValidation.isValid) {
-      setError(passwordValidation.errors.join(". "));
+      setPasswordErrors(Array.from(new Set(passwordValidation.errors)));
       return;
     }
 
@@ -94,7 +95,13 @@ export default function ResetPassword() {
       setMessage(res.data.message);
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong');
+      // map server validation errors into inline passwordErrors to avoid duplication
+      const serverErrors = err.response?.data?.errors;
+      if (Array.isArray(serverErrors) && serverErrors.length > 0) {
+        setPasswordErrors(Array.from(new Set(serverErrors)));
+      } else {
+        setError(err.response?.data?.message || 'Something went wrong');
+      }
       if (import.meta.env.MODE !== "production") {
         console.error("Network error during password reset:", err);
       }
@@ -141,9 +148,11 @@ export default function ResetPassword() {
               </div>
               {passwordStrength < 5 && (
                 <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                  {validatePassword(newPassword).errors.slice(0, 2).map((error, index) => (
-                    <div key={index}>• {error}</div>
-                  ))}
+                      {(passwordErrors.length ? passwordErrors : validatePassword(newPassword).errors)
+                        .slice(0, 3)
+                        .map((errMsg, index) => (
+                          <div key={index}>• {errMsg}</div>
+                        ))}
                 </div>
               )}
             </div>
