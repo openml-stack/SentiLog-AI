@@ -18,7 +18,6 @@ function SignupPage() {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [passwordStrength, setPasswordStrength] = useState(0);
   const [passwordErrors, setPasswordErrors] = useState([]);
 
   // Password validation function
@@ -29,50 +28,29 @@ function SignupPage() {
     const hasNumbers = /\d/.test(password);
     const hasSymbols = /[!@#$%^&*(),.?":{}|<>]/.test(password);
     
-    let strength = 0;
     let errors = [];
 
     if (password.length < minLength) {
       errors.push(`Password must be at least ${minLength} characters long`);
-    } else {
-      strength += 1;
     }
 
     if (!hasUpperCase) {
       errors.push("Password must contain at least one uppercase letter");
-    } else {
-      strength += 1;
     }
 
     if (!hasLowerCase) {
       errors.push("Password must contain at least one lowercase letter");
-    } else {
-      strength += 1;
     }
 
     if (!hasNumbers) {
       errors.push("Password must contain at least one number");
-    } else {
-      strength += 1;
     }
 
     if (!hasSymbols) {
       errors.push("Password must contain at least one special character (!@#$%^&*(),.?\":{}|<>)");
-    } else {
-      strength += 1;
     }
 
-    return { strength, errors, isValid: errors.length === 0 };
-  };
-
-  // Get password strength color and text
-  const getPasswordStrengthInfo = (strength) => {
-    if (strength === 0) return { color: 'bg-gray-300', text: '', width: '0%' };
-    if (strength === 1) return { color: 'bg-red-500', text: 'Very Weak', width: '20%' };
-    if (strength === 2) return { color: 'bg-orange-500', text: 'Weak', width: '40%' };
-    if (strength === 3) return { color: 'bg-yellow-500', text: 'Fair', width: '60%' };
-    if (strength === 4) return { color: 'bg-blue-500', text: 'Good', width: '80%' };
-    if (strength === 5) return { color: 'bg-green-500', text: 'Strong', width: '100%' };
+    return { errors, isValid: errors.length === 0 };
   };
 
   const handleChange = (e) => {
@@ -106,8 +84,6 @@ function SignupPage() {
       // Clear inline password errors when user edits password
       if (name === "password") {
         setPasswordErrors([]);
-        const validation = validatePassword(value);
-        setPasswordStrength(validation.strength);
       }
     }
   };
@@ -341,35 +317,24 @@ function SignupPage() {
             </button>
           </div>
           
-          {/* Password Strength Meter */}
+          
+          {/* Password Requirements */}
           {form.password && (
             <div className="mt-2">
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-xs text-gray-600 dark:text-gray-400">Password Strength:</span>
-                <span className={`text-xs font-medium ${
-                  passwordStrength <= 2 ? 'text-red-500' : 
-                  passwordStrength <= 3 ? 'text-yellow-500' : 
-                  passwordStrength <= 4 ? 'text-blue-500' : 'text-green-500'
-                }`}>
-                  {getPasswordStrengthInfo(passwordStrength).text}
-                </span>
-              </div>
-              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                <div 
-                  className={`h-2 rounded-full transition-all duration-300 ${getPasswordStrengthInfo(passwordStrength).color}`}
-                  style={{ width: getPasswordStrengthInfo(passwordStrength).width }}
-                ></div>
-              </div>
-                  {passwordStrength < 5 && (
-                    <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                      {/* prefer client-side `passwordErrors` when available to avoid duplication */}
-                      {(passwordErrors.length ? passwordErrors : validatePassword(form.password).errors)
-                        .slice(0, 3)
-                        .map((errMsg, index) => (
-                          <div key={index}>• {errMsg}</div>
-                        ))}
-                    </div>
-                  )}
+              {!validatePassword(form.password).isValid && (
+                <div className="mt-2">
+                  <p className="text-xs font-semibold text-red-600 dark:text-red-400 mb-1">
+                    ⚠️ Password does not meet security requirements:
+                  </p>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">
+                    {/* prefer client-side `passwordErrors` when available to avoid duplication */}
+                    {(passwordErrors.length ? passwordErrors : validatePassword(form.password).errors)
+                      .map((errMsg, index) => (
+                        <div key={index}>• {errMsg}</div>
+                      ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
          
@@ -378,12 +343,13 @@ function SignupPage() {
           
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || (form.password && !validatePassword(form.password).isValid)}
             className={`w-full py-3 rounded text-white transition-all duration-300 shadow-lg font-semibold ${
-              loading 
-                ? 'bg-gray-400 cursor-not-allowed' 
+              loading || (form.password && !validatePassword(form.password).isValid)
+                ? 'bg-gray-400 cursor-not-allowed hover:bg-gray-400 hover:scale-100' 
                 : 'bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:scale-105'
             }`}
+            title={form.password && !validatePassword(form.password).isValid ? "Please meet all password requirements" : ""}
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
