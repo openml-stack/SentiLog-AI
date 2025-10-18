@@ -1,8 +1,8 @@
-import React, { useState, useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { ThemeContext } from "../context/ThemeContext";
-import AnimatedBackground from "../components/AnimatedBackground";
 import { Eye, EyeOff } from "lucide-react";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import AnimatedBackground from "../components/AnimatedBackground";
+import { ThemeContext } from "../context/ThemeContext";
 
 function SignupPage() {
   const navigate = useNavigate();
@@ -18,6 +18,40 @@ function SignupPage() {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordErrors, setPasswordErrors] = useState([]);
+
+  // Password validation function
+  const validatePassword = (password) => {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasSymbols = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    
+    let errors = [];
+
+    if (password.length < minLength) {
+      errors.push(`Password must be at least ${minLength} characters long`);
+    }
+
+    if (!hasUpperCase) {
+      errors.push("Password must contain at least one uppercase letter");
+    }
+
+    if (!hasLowerCase) {
+      errors.push("Password must contain at least one lowercase letter");
+    }
+
+    if (!hasNumbers) {
+      errors.push("Password must contain at least one number");
+    }
+
+    if (!hasSymbols) {
+      errors.push("Password must contain at least one special character (!@#$%^&*(),.?\":{}|<>)");
+    }
+
+    return { errors, isValid: errors.length === 0 };
+  };
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -46,6 +80,11 @@ function SignupPage() {
       setForm((prev) => ({ ...prev, profilePhoto: file }));
     } else {
       setForm((prev) => ({ ...prev, [name]: value }));
+      
+      // Clear inline password errors when user edits password
+      if (name === "password") {
+        setPasswordErrors([]);
+      }
     }
   };
 
@@ -54,6 +93,15 @@ function SignupPage() {
     setError("");
     setSuccess("");
     setLoading(true);
+
+    // Validate password before submission
+    const passwordValidation = validatePassword(form.password);
+    if (!passwordValidation.isValid) {
+      // show inline password errors and do NOT set the global `error` state
+      setPasswordErrors(Array.from(new Set(passwordValidation.errors)));
+      setLoading(false);
+      return;
+    }
 
     if (import.meta.env.MODE !== "production") {
       console.log("VITE_API_URL is:", import.meta.env.VITE_API_URL);
@@ -100,7 +148,12 @@ function SignupPage() {
         setSuccess("Signed up successfully! Redirecting...");
         setTimeout(() => navigate("/"), 1500);
       } else {
-        setError(data.message || `Signup failed with status ${res.status}`);
+        // If server returns structured validation errors, show them inline instead of repeating globally
+        if (data.errors && Array.isArray(data.errors) && data.errors.length > 0) {
+          setPasswordErrors(Array.from(new Set(data.errors)));
+        } else {
+          setError(data.message || `Signup failed with status ${res.status}`);
+        }
       }
     } catch (e) {
       setError("Network error");
@@ -263,18 +316,40 @@ function SignupPage() {
               )}
             </button>
           </div>
+          
+          
+          {/* Password Requirements */}
+          {form.password && (
+            <div className="mt-2">
+              {!validatePassword(form.password).isValid && (
+                <div className="mt-2">
+                  <p className="text-xs font-semibold text-red-600 dark:text-red-400 mb-1">
+                    ⚠️ Password does not meet security requirements:
+                  </p>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">
+                    {/* prefer client-side `passwordErrors` when available to avoid duplication */}
+                    {(passwordErrors.length ? passwordErrors : validatePassword(form.password).errors)
+                      .map((errMsg, index) => (
+                        <div key={index}>• {errMsg}</div>
+                      ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
          
           {success && <p className="text-green-600">{success}</p>}
           {error && <p className="text-red-600">{error}</p>}
           
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || (form.password && !validatePassword(form.password).isValid)}
             className={`w-full py-3 rounded text-white transition-all duration-300 shadow-lg font-semibold ${
-              loading 
-                ? 'bg-gray-400 cursor-not-allowed' 
+              loading || (form.password && !validatePassword(form.password).isValid)
+                ? 'bg-gray-400 cursor-not-allowed hover:bg-gray-400 hover:scale-100' 
                 : 'bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:scale-105'
             }`}
+            title={form.password && !validatePassword(form.password).isValid ? "Please meet all password requirements" : ""}
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
