@@ -20,18 +20,12 @@ const navLinks = [
   { to: "/about", label: "About" ,icon: <BsInfoSquareFill/>},
 ];
 
-const Logo = ({ theme, currentColors }) => (
-  <span
-    className="flex items-center gap-2 text-2xl font-extrabold tracking-tight select-none transition-all duration-300"
-    style={{
-      background: `linear-gradient(to right, var(--gradient-from, ${currentColors['--gradient-from'] || '#6366f1'}), var(--gradient-to, ${currentColors['--gradient-to'] || '#d946ef'}))`,
-      WebkitBackgroundClip: "text",
-      WebkitTextFillColor: "transparent",
-      backgroundClip: "text",
-    }}
-  >
-    <img src="/SentiLog.png" style={{ width: "32px", height: "32px", borderRadius: 8 }} alt="Logo" />
-    SentiLog <span className="animate-pulse">AI</span>
+const Logo = () => (
+  <span className="flex items-center gap-2 select-none transition-all duration-300">
+    <img src="/SentiLog.png" className="w-8 h-8 rounded-lg shadow-sm" alt="Logo" />
+    <span className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 bg-clip-text text-transparent">
+      SentiLog <span className="animate-pulse">AI</span>
+    </span>
   </span>
 );
 
@@ -40,6 +34,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { theme } = useContext(ThemeContext);
   const [currentColors, setCurrentColors] = useState({});
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -56,46 +51,46 @@ const Navbar = () => {
 
   const themeColors = {
     light: {
-      "--bg": "#ffffff",
-      "--card-bg": "#f9fafb",
-      "--border": "#e5e7eb",
-      "--heading": "#111827",
-      "--body-text": "#374151",
-      "--button": "#6366f1",
-      "--button-hover": "#4f46e5",
-      "--gradient-from": "#6366f1",
-      "--gradient-to": "#d946ef",
+      "--bg": "#f1f5f9",
+      "--card-bg": "#ffffff",
+      "--border": "#e2e8f0",
+      "--heading": "#0f172a",
+      "--body-text": "#334155",
+      "--button": "#0284c7",
+      "--button-hover": "#0369a1",
+      "--gradient-from": "#0284c7",
+      "--gradient-to": "#2563eb",
       "--input-bg": "#ffffff",
-      "--input-border": "#d1d5db",
-      "--icon": "#000000",
-      "--link": "#3b82f6",
-      "--link-hover": "#1d4ed8",
-      "--nav-bg": "rgba(255, 255, 255, 0.7)",
-      "--nav-border": "#dbeafe",
-      "--nav-text": "#000000",
-      "--nav-text-active": "#2563eb",
-      "--nav-text-hover": "#3b82f6",
+      "--input-border": "#cbd5e1",
+      "--icon": "#0f172a",
+      "--link": "#0ea5e9",
+      "--link-hover": "#0284c7",
+      "--nav-bg": "rgba(241, 245, 249, 0.25)",
+      "--nav-border": "rgba(226, 232, 240, 1)",
+      "--nav-text": "#334155",
+      "--nav-text-active": "#0284c7",
+      "--nav-text-hover": "#0369a1",
     },
     dark: {
-      "--bg": "#0b1120",
-      "--card-bg": "#111827",
-      "--border": "#1f2937",
-      "--heading": "#f3f4f6",
-      "--body-text": "#d1d5db",
-      "--button": "#6366f1",
-      "--button-hover": "#4f46e5",
-      "--gradient-from": "#6366f1",
-      "--gradient-to": "#d946ef",
-      "--input-bg": "#1a2332",
+      "--bg": "#0f172a",
+      "--card-bg": "#1e293b",
+      "--border": "#334155",
+      "--heading": "#f8fafc",
+      "--body-text": "#94a3b8",
+      "--button": "#0ea5e9",
+      "--button-hover": "#38bdf8",
+      "--gradient-from": "#0369a1",
+      "--gradient-to": "#1e40af",
+      "--input-bg": "#1e293b",
       "--input-border": "#334155",
-      "--icon": "#000000",
-      "--link": "#60a5fa",
-      "--link-hover": "#3b82f6",
-      "--nav-bg": "rgba(17, 24, 39, 0.8)",
-      "--nav-border": "#374151",
-      "--nav-text": "#ffffff",
-      "--nav-text-active": "#60a5fa",
-      "--nav-text-hover": "#93c5fd",
+      "--icon": "#f8fafc",
+      "--link": "#38bdf8",
+      "--link-hover": "#7dd3fc",
+      "--nav-bg": "rgba(15, 23, 42, 0.25)",
+      "--nav-border": "rgba(51, 65, 85, 1)",
+      "--nav-text": "#94a3b8",
+      "--nav-text-active": "#38bdf8",
+      "--nav-text-hover": "#e2e8f0",
     },
   };
 
@@ -124,9 +119,18 @@ const Navbar = () => {
       }
     };
 
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    handleScroll();
+
     document.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener("scroll", handleScroll);
+    
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -168,15 +172,21 @@ const Navbar = () => {
 
   return (
     <nav
-      className="sticky top-0 z-50 backdrop-blur-4xl shadow-lg flex items-center justify-between px-4 py-3 md:px-10 border-b transition-all duration-300"
+      className={`sticky top-0 z-50 flex items-center justify-between px-4 py-3 md:px-10 transition-all duration-300 relative ${
+        isScrolled 
+          ? "backdrop-blur-2xl backdrop-saturate-[1.8] shadow-[0_4px_30px_rgba(0,0,0,0.1)] border-b border-white/20 dark:border-white/5" 
+          : "bg-transparent border-transparent"
+      }`}
       style={{
-        backgroundColor: `var(--nav-bg, ${currentColors["--nav-bg"]})`,
-        borderBottomColor: `var(--nav-border, ${currentColors["--nav-border"]})`,
+        backgroundColor: isScrolled ? `var(--nav-bg, ${currentColors["--nav-bg"]})` : "transparent",
       }}
     >
+      {/* Gradient Underline */}
+      <div className={`absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 transition-opacity duration-300 ${isScrolled ? "opacity-100" : "opacity-0"}`} />
+
       {/* Logo wrapped in Link*/}
-      <NavLink to="/" className = "flex items-center" onClick={() => window.scrollTo(0,0)}>
-        <Logo theme={theme} currentColors={currentColors} />
+      <NavLink to="/" className="flex items-center" onClick={() => window.scrollTo(0,0)}>
+        <Logo />
       </NavLink>
       
 
@@ -204,7 +214,7 @@ const Navbar = () => {
           {!token && !registered && (
             <NavLink
               to="/signup"
-              className="px-4 py-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded hover:opacity-90 transition"
+              className="px-4 py-2 bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 text-white hover:text-white rounded hover:opacity-90 transition"
             >
               Signup
             </NavLink>
@@ -221,7 +231,7 @@ const Navbar = () => {
             <div className="relative" ref={profileRef}>
               <button
                 onClick={() => setProfileOpen((prev) => !prev)}
-                className="flex items-center gap-2 px-3 py-2 border rounded border-gray-400 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium text-gray-800 dark:text-white bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"
+                className="flex items-center gap-2 px-3 py-2 border rounded border-gray-400 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium text-gray-800 dark:text-white bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800"
               >
                 <div className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-200 text-white font-bold uppercase shadow-md overflow-hidden">
                   {/* This entire block is the corrected logic for Step 3 */}
@@ -270,7 +280,7 @@ const Navbar = () => {
       </div>
 
       <button
-        className="md:hidden text-2xl px-4 py-2 rounded-full bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 text-gray-800 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out focus:outline-none"
+        className="md:hidden text-2xl px-4 py-2 rounded-full bg-gradient-to-r from-blue-200 via-sky-200 to-blue-200 text-gray-800 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out focus:outline-none"
         onClick={() => setOpen((o) => !o)}
         aria-label="Toggle menu"
       >
@@ -321,7 +331,7 @@ const Navbar = () => {
           {!token && !registered && (
             <NavLink
               to="/signup"
-              className="w-full text-center py-4 font-semibold text-lg bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded"
+              className="w-full text-center py-4 font-semibold text-lg bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 text-white hover:text-white rounded"
               onClick={() => setOpen(false)}
             >
               Signup

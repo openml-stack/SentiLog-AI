@@ -46,7 +46,7 @@ export const ContactPage = () => {
       <div className="max-w-5xl mx-auto flex flex-col gap-12">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
+          <h1 className="text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800">
             Contact Us
           </h1>
           <p className="text-lg md:text-xl leading-relaxed text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
@@ -91,7 +91,7 @@ export const ContactPage = () => {
               </p>
               <div className="flex justify-center">
                 <Link to="/help" className="w-full sm:w-auto">
-                  <button className="flex items-center justify-center px-6 py-3 text-lg font-semibold text-white bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 transition-all duration-300 rounded-lg shadow-lg">
+                  <button className="flex items-center justify-center px-6 py-3 text-lg font-semibold text-white bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 hover:from-blue-600 hover:via-sky-600 hover:to-blue-600 transition-all duration-300 rounded-lg shadow-lg">
                     <HelpCircle className="w-5 h-5 mr-2" />
                     Go to Help Center
                   </button>
@@ -105,7 +105,7 @@ export const ContactPage = () => {
             onSubmit={handleSubmit}
             className="w-full p-8 rounded-2xl shadow-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col gap-6"
           >
-            <div className="text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
+            <div className="text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800">
               Send Us a Message
             </div>
 
@@ -172,7 +172,7 @@ export const ContactPage = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="py-3 w-full rounded-lg font-semibold transition text-white bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 shadow-md"
+              className="py-3 w-full rounded-lg font-semibold transition text-white bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 hover:from-blue-600 hover:via-sky-600 hover:to-blue-600 shadow-md"
             >
               Submit
             </button>

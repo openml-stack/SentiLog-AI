@@ -73,16 +73,16 @@ const FeatureCards = () => {
               data-aos={feature.aos}
               to={feature.link}
               key={feature.key}
-              className={`group relative backdrop-blur-sm rounded-3xl p-8 text-center border shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer overflow-hidden ${
+              className={`group relative glass-panel rounded-3xl p-8 text-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 transform hover:-translate-y-2 cursor-pointer overflow-hidden ${
                 theme === 'dark'
-                  ? 'bg-gray-800/60 border-gray-700/50 hover:border-gray-600'
-                  : 'bg-white/80 border-gray-200/50 hover:border-gray-300'
+                  ? 'border-white/5 hover:border-white/20'
+                  : 'border-zinc-200 hover:border-zinc-300'
               }`}
               onMouseEnter={() => setHovered(feature.key)}
               onMouseLeave={() => setHovered(null)}
             >
               {/* Background Gradient Overlay */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500"></div>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-br from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800"></div>
               
               {/* Content */}
               <div className="relative z-10 flex flex-col items-center justify-center h-full">
@@ -130,8 +130,8 @@ const FeatureCards = () => {
               {/* Bottom Gradient Bar */}
               <div className={`absolute bottom-0 left-0 w-full h-1 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left ${
                 feature.key === 'news' ? 'bg-gradient-to-r from-blue-400 to-blue-600' :
-                feature.key === 'journal' ? 'bg-gradient-to-r from-purple-400 to-purple-600' :
-                'bg-gradient-to-r from-pink-400 to-pink-600'
+                feature.key === 'journal' ? 'bg-gradient-to-r from-sky-400 to-sky-600' :
+                'bg-gradient-to-r from-blue-400 to-blue-600'
               }`}></div>
             </Link>
           ))}

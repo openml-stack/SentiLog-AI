@@ -112,7 +112,7 @@ const HelpCenterPage = () => {
       <div className="max-w-4xl mx-auto flex flex-col gap-10">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
+          <h1 className="text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800">
             Help Center
           </h1>
           <p className="text-lg md:text-xl leading-relaxed text-gray-600 dark:text-gray-300">
@@ -150,7 +150,7 @@ const HelpCenterPage = () => {
                       onClick={() =>
                         setOpenFAQ(openFAQ === faqIndex ? null : faqIndex)
                       }
-                      className="w-full flex justify-between items-center px-4 py-3 font-semibold text-white text-left bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 transition-colors duration-300 text-lg"
+                      className="w-full flex justify-between items-center px-4 py-3 font-semibold text-white text-left bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 hover:from-blue-600 hover:via-sky-600 hover:to-blue-600 transition-colors duration-300 text-lg"
                     >
                       {item.question}
                       <span className="text-xl">
@@ -202,7 +202,7 @@ const HelpCenterPage = () => {
           </p>
           <div className="flex justify-center">
             <Link to="/contact" className="w-full sm:w-auto">
-              <button className="flex items-center justify-center w-full sm:w-auto px-6 py-3 text-lg font-semibold text-white bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 transition-all duration-300 shadow">
+              <button className="flex items-center justify-center w-full sm:w-auto px-6 py-3 text-lg font-semibold text-white bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 hover:from-blue-600 hover:via-sky-600 hover:to-blue-600 transition-all duration-300 shadow">
                 <MessageCircle className="w-5 h-5 mr-2" />
                 Contact Us
               </button>

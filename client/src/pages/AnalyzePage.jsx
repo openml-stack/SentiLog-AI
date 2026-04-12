@@ -176,8 +176,8 @@ const AnalyzePage = () => {
         {/* Header */}
         <div data-aos="fade-up" className="text-center mb-12">
           <h1 className={`text-4xl font-bold bg-gradient-to-r ${theme === 'dark'
-              ? 'from-blue-400 to-purple-400'
-              : 'from-blue-600 to-purple-600'
+              ? 'from-blue-400 to-sky-400'
+              : 'from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800'
             } bg-clip-text text-transparent mb-4`}>
             Advanced Document Sentiment Analysis
           </h1>
@@ -257,7 +257,7 @@ const AnalyzePage = () => {
                 />
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+                  className="bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 text-white px-8 py-3 rounded-lg font-medium hover:from-blue-600 hover:to-sky-700 transition-all duration-300 shadow-lg hover:shadow-xl"
                   disabled={isExtracting}
                 >
                   Choose File

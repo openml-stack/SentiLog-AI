@@ -138,7 +138,7 @@ export default function ResetPassword() {
             className={`w-full py-3 rounded text-white transition-all duration-300 shadow-lg ${
               newPassword && !validatePassword(newPassword).isValid
                 ? 'bg-gray-400 cursor-not-allowed hover:bg-gray-400 hover:scale-100'
-                : 'bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:scale-105'
+                : 'bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 hover:scale-105'
             }`}
             title={newPassword && !validatePassword(newPassword).isValid ? "Please meet all password requirements" : ""}
           >
