@@ -174,12 +174,9 @@ const Navbar = () => {
     <nav
       className={`sticky top-0 z-50 flex items-center justify-between px-4 py-3 md:px-10 transition-all duration-300 relative ${
         isScrolled 
-          ? "backdrop-blur-2xl backdrop-saturate-[1.8] shadow-[0_4px_30px_rgba(0,0,0,0.1)] border-b border-white/20 dark:border-white/5" 
+          ? "glass-panel rounded-none !border-x-0 !border-t-0" 
           : "bg-transparent border-transparent"
       }`}
-      style={{
-        backgroundColor: isScrolled ? `var(--nav-bg, ${currentColors["--nav-bg"]})` : "transparent",
-      }}
     >
       {/* Gradient Underline */}
       <div className={`absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 transition-opacity duration-300 ${isScrolled ? "opacity-100" : "opacity-0"}`} />

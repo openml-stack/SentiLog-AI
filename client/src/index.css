@@ -29,7 +29,7 @@ html, body, #root {
   --link: #2563eb;
   --link-hover: #1d4ed8;
 
-  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color: var(--body-text);
