@@ -24,7 +24,7 @@ const StepCard = ({ icon: Icon, title, description, step, delay }) => {
         }}
       >
         {/* Animated Border Glow */}
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-sky-500/20 via-blue-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
 
         {/* Icon Container */}
         <div className="flex justify-center mb-6">
@@ -38,7 +38,7 @@ const StepCard = ({ icon: Icon, title, description, step, delay }) => {
             <Icon size={32} className="text-white" />
 
             {/* Pulse Effect */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 opacity-0 group-hover:opacity-30 group-hover:animate-ping" />
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-sky-400 to-blue-400 opacity-0 group-hover:opacity-30 group-hover:animate-ping" />
           </div>
         </div>
 
@@ -153,12 +153,12 @@ const HowItWorks = () => {
       </div>
       {/* Decorative floating elements */}
       <div
-        className="hidden md:block absolute top-20 left-10 w-40 h-40 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 opacity-20 animate-bounce"
+        className="hidden md:block absolute top-20 left-10 w-40 h-40 rounded-full bg-gradient-to-r from-sky-400 to-blue-400 opacity-20 animate-bounce"
         style={{ animationDelay: "0s" }}
       />
 
       <div
-        className="hidden md:block absolute bottom-20 right-1/4 w-20 h-20 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 opacity-25 animate-bounce"
+        className="hidden md:block absolute bottom-20 right-1/4 w-20 h-20 rounded-full bg-gradient-to-r from-blue-400 to-sky-400 opacity-25 animate-bounce"
         style={{ animationDelay: "2s" }}
       />
     </section>

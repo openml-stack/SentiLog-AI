@@ -12,24 +12,24 @@ html, body, #root {
 
 /* === Global CSS Variables === */
 
-/* LIGHT THEME (Default) */
+/* LIGHT THEME (Default - Zinc/Blue aesthetic) */
 :root {
-  --bg: #ffffff;
-  --card-bg: #f9fafb;
-  --border: #e5e7eb;
-  --heading: #111827;
-  --body-text: #374151;
-  --button: #6366f1;
-  --button-hover: #4f46e5;
-  --gradient-from: #6366f1;
-  --gradient-to: #d946ef;
+  --bg: #fafafa;
+  --card-bg: #ffffff;
+  --border: #e4e4e7;
+  --heading: #18181b;
+  --body-text: #3f3f46;
+  --button: #2563eb;
+  --button-hover: #1d4ed8;
+  --gradient-from: #3b82f6;
+  --gradient-to: #8b5cf6;
   --input-bg: #ffffff;
-  --input-border: #d1d5db;
-  --icon: #6b7280;
-  --link: #3b82f6;
+  --input-border: #d4d4d8;
+  --icon: #71717a;
+  --link: #2563eb;
   --link-hover: #1d4ed8;
 
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color: var(--body-text);
@@ -41,20 +41,20 @@ html, body, #root {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* DARK THEME (Applied via class) */
+/* DARK THEME (Sleek Slate aesthetic) */
 .dark {
-  --bg: #0b1120;
-  --card-bg: #111827;
-  --border: #1f2937;
-  --heading: #f3f4f6;
-  --body-text: #d1d5db;
-  --button: #6366f1;
-  --button-hover: #4f46e5;
-  --gradient-from: #6366f1;
-  --gradient-to: #d946ef;
-  --input-bg: #1a2332;
-  --input-border: #334155;
-  --icon: #94a3b8;
+  --bg: #09090b;
+  --card-bg: #18181b;
+  --border: #27272a;
+  --heading: #fafafa;
+  --body-text: #a1a1aa;
+  --button: #3b82f6;
+  --button-hover: #2563eb;
+  --gradient-from: #3b82f6;
+  --gradient-to: #c084fc;
+  --input-bg: #18181b;
+  --input-border: #27272a;
+  --icon: #a1a1aa;
   --link: #60a5fa;
   --link-hover: #3b82f6;
 }
@@ -110,6 +110,30 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Utility Classes */
+@layer utilities {
+  .glass-panel {
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dark .glass-panel {
+    background-color: rgba(24, 24, 27, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  }
+
+  .text-gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(to right, var(--gradient-from), var(--gradient-to));
+  }
+}
+
 /* Floating animation for background circles */
 @keyframes float {
   0%, 100% { 
@@ -123,20 +147,69 @@ button:focus-visible {
 /* Respect system theme if no manual toggle */
 @media (prefers-color-scheme: dark) {
   :root:not(.light):not(.dark) {
-    --bg: #0b1120;
-    --card-bg: #111827;
-    --border: #1f2937;
-    --heading: #f3f4f6;
-    --body-text: #d1d5db;
-    --button: #6366f1;
-    --button-hover: #4f46e5;
-    --gradient-from: #6366f1;
-    --gradient-to: #d946ef;
-    --input-bg: #1a2332;
-    --input-border: #334155;
-    --icon: #94a3b8;
+    --bg: #09090b;
+    --card-bg: #18181b;
+    --border: #27272a;
+    --heading: #fafafa;
+    --body-text: #a1a1aa;
+    --button: #3b82f6;
+    --button-hover: #2563eb;
+    --gradient-from: #3b82f6;
+    --gradient-to: #c084fc;
+    --input-bg: #18181b;
+    --input-border: #27272a;
+    --icon: #a1a1aa;
     --link: #60a5fa;
     --link-hover: #3b82f6;
   }
 }
 
+
+.light {
+    --bg: #f1f5f9;
+    --card-bg: #ffffff;
+    --border: #e2e8f0;
+    --heading: #0f172a;
+    --body-text: #334155;
+    --button: #0284c7;
+    --button-hover: #0369a1;
+    --gradient-from: #0284c7; /* sky-600 */
+    --gradient-to: #2563eb; /* blue-600 */
+    --input-bg: #ffffff;
+    --input-border: #cbd5e1;
+    --icon: #0f172a;
+    --link: #0ea5e9;
+    --link-hover: #0284c7;
+  }
+
+  .dark {
+    --bg: #0f172a; /* slate-900 */
+    --card-bg: #1e293b; /* slate-800 */
+    --border: #334155;
+    --heading: #f8fafc;
+    --body-text: #94a3b8;
+    --button: #0ea5e9;
+    --button-hover: #38bdf8;
+    --gradient-from: #0369a1; /* sky-700 */
+    --gradient-to: #1e40af; /* blue-800 */
+    --input-bg: #1e293b;
+    --input-border: #334155;
+    --icon: #f8fafc;
+    --link: #38bdf8;
+    --link-hover: #7dd3fc;
+  }
+
+/* Theme Toggle View Transition Overrides */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+}

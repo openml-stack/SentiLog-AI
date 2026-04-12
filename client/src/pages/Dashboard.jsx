@@ -11,9 +11,8 @@ import BacktoTopButton from "../components/BackToTop";
 
 
 const GLASS_CARD_STYLE = `
-  bg-white/50 border border-gray-300/30 text-black
-  dark:bg-slate-900/50 dark:border-gray-700/30 dark:text-gray-200
-  p-5 rounded-3xl shadow-xl backdrop-blur-lg
+  glass-panel text-zinc-900 dark:text-zinc-100
+  p-6 rounded-3xl hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] transition-all duration-300
 `;
 
 const Dashboard = () => {
@@ -54,7 +53,7 @@ const Dashboard = () => {
       className="
         font-sans w-full min-h-screen
         // Enhanced background for Glassmorphism effect visibility
-        bg-gradient-to-br from-indigo-50 to-purple-100 text-black
+        bg-gradient-to-br from-indigo-50 to-sky-100 text-black
         dark:from-[#081229] dark:to-[#171e35] dark:text-gray-200
       "
     >

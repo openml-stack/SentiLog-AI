@@ -322,8 +322,8 @@ const NewsListingPage = () => {
         return (
             <div className={`min-h-screen flex items-center justify-center transition-colors duration-300 ${
                 theme === 'dark'
-                    ? 'bg-gradient-to-br from-gray-900 via-slate-900 to-black'
-                    : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50'
+                    ? 'bg-slate-900'
+                    : 'bg-slate-100'
             }`}>
                 <div className="text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
@@ -338,20 +338,20 @@ const NewsListingPage = () => {
     return (
         <div className={`min-h-screen transition-colors duration-300 ${
             theme === 'dark'
-                ? 'bg-gradient-to-br from-gray-900 via-slate-900 to-black'
-                : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50'
+                ? 'bg-slate-900'
+                : 'bg-slate-100'
         }`}>
             {/* Enhanced Background Pattern */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className={`absolute -top-40 -right-40 w-80 h-80 rounded-full opacity-20 blur-3xl ${
                     theme === 'dark'
-                        ? 'bg-gradient-to-br from-blue-600 to-purple-600'
-                        : 'bg-gradient-to-br from-blue-200 to-purple-200'
+                        ? 'bg-gradient-to-br from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800'
+                        : 'bg-gradient-to-br from-sky-200 to-blue-200'
                 }`}></div>
                 <div className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-20 blur-3xl ${
                     theme === 'dark'
-                        ? 'bg-gradient-to-tr from-pink-600 to-yellow-600'
-                        : 'bg-gradient-to-tr from-pink-200 to-yellow-200'
+                        ? 'bg-gradient-to-br from-sky-700 to-blue-800'
+                        : 'bg-gradient-to-br from-sky-200 to-blue-200'
                 }`}></div>
             </div>
 
@@ -364,11 +364,11 @@ const NewsListingPage = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     <div data-aos="fade-down" className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
                         <div className="flex items-center gap-4">
-                            <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+                            <div className="w-14 h-14 bg-gradient-to-br from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 rounded-2xl flex items-center justify-center shadow-lg">
                                 <Newspaper className="w-7 h-7 text-white" />
                             </div>
                             <div>
-                                <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                                <h1 className="text-4xl font-bold bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 bg-clip-text text-transparent">
                                     Daily News Hub
                                 </h1>
                                 <p className={`text-lg mt-1 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
@@ -394,7 +394,7 @@ const NewsListingPage = () => {
                             
                             <button
                                 onClick={refreshNews}
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full hover:shadow-lg transition-all duration-200 transform hover:scale-105"
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 text-white rounded-full hover:shadow-lg transition-all duration-200 transform hover:scale-105"
                             >
                                 <RefreshCw className="w-4 h-4" />
                                 Refresh
@@ -579,7 +579,7 @@ const NewsListingPage = () => {
                                                     
                                                     <button 
                                                         onClick={() => openArticleModal(article)}
-                                                        className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all duration-200 transform hover:scale-105"
+                                                        className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 text-white rounded-xl hover:shadow-lg transition-all duration-200 transform hover:scale-105"
                                                     >
                                                         View Full Article
                                                         <ExternalLink className="w-4 h-4" />

@@ -33,8 +33,8 @@ const About = () => {
             {/* Overview */}
             <h2
                 className={`relative z-10 text-5xl font-extrabold mb-8 text-center tracking-tight transition-colors duration-300 ${theme === "dark"
-                    ? "text-gray-100 bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500 bg-clip-text text-transparent"
-                    : "text-gray-900 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
+                    ? "text-gray-100 bg-gradient-to-r from-sky-400 via-blue-500 to-blue-500 bg-clip-text text-transparent"
+                    : "text-gray-900 bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 bg-clip-text text-transparent"
                     }`}
                 data-aos="fade-left"
             >
@@ -83,13 +83,13 @@ const About = () => {
                         title: "📰 News Bias Filtering System",
                         desc: "Analyzes current news articles in real-time to detect political bias — Left, Right, or Neutral — enabling users to view multiple perspectives and make balanced judgments.",
                         gradientLight: "from-blue-400 to-blue-600",
-                        gradientDark: "from-purple-600 to-pink-500",
+                        gradientDark: "from-sky-600 to-blue-500",
                     },
                     {
                         title: "📓 Mood Journaling",
                         desc: "Track daily moods and emotions over time. AI-powered sentiment analysis uncovers patterns, emotional trends, and possible external influences.",
-                        gradientLight: "from-pink-400 to-pink-600",
-                        gradientDark: "from-purple-500 to-blue-600",
+                        gradientLight: "from-blue-400 to-blue-600",
+                        gradientDark: "from-sky-500 to-blue-600",
                     },
                 ].map(({ title, desc, gradientLight, gradientDark }, i) => (
                     <div

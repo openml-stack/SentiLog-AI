@@ -81,24 +81,24 @@ const JournalPage = () => {
   return (
     <>
       <div className={`min-h-screen flex flex-col relative overflow-hidden transition-colors duration-300 ${theme === 'dark'
-          ? 'bg-gradient-to-br from-gray-900 via-slate-900 to-black'
-          : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50'
+          ? 'bg-slate-900'
+          : 'bg-slate-100'
         }`}>
 
 
         {/* Enhanced Background Pattern */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className={`absolute -top-40 -right-40 w-80 h-80 rounded-full opacity-20 blur-3xl ${theme === 'dark'
-              ? 'bg-gradient-to-br from-blue-600 to-purple-600'
-              : 'bg-gradient-to-br from-blue-200 to-purple-200'
+              ? 'bg-gradient-to-br from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800'
+              : 'bg-gradient-to-br from-sky-200 to-blue-200'
             }`}></div>
           <div className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-20 blur-3xl ${theme === 'dark'
-              ? 'bg-gradient-to-tr from-pink-600 to-yellow-600'
-              : 'bg-gradient-to-tr from-pink-200 to-yellow-200'
+              ? 'bg-gradient-to-br from-sky-700 to-blue-800'
+              : 'bg-gradient-to-br from-sky-200 to-blue-200'
             }`}></div>
           <div className={`absolute top-1/4 left-1/4 w-60 h-60 rounded-full opacity-10 blur-2xl ${theme === 'dark'
-              ? 'bg-gradient-to-br from-indigo-600 to-cyan-600'
-              : 'bg-gradient-to-br from-indigo-200 to-cyan-200'
+              ? 'bg-gradient-to-br from-blue-600 to-sky-600'
+              : 'bg-gradient-to-br from-blue-200 to-sky-200'
             }`}></div>
         </div>
 
@@ -106,7 +106,7 @@ const JournalPage = () => {
           {/* Hero Section */}
           <section data-aos="fade-up" className="py-12 px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient-move">
+              <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 bg-clip-text text-transparent animate-gradient-move">
                 Journal & Reflect
               </h1>
               <p className={`text-xl max-w-3xl mx-auto ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
@@ -141,15 +141,12 @@ const JournalPage = () => {
             </div>
 
             <div className="w-full max-w-3xl relative z-10">
-              <div className={`backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 shadow-2xl border transition-colors duration-300 ${theme === 'dark'
-                  ? 'bg-gradient-to-br from-gray-800/60 via-gray-700/60 to-gray-800/60 border-gray-600/30'
-                  : 'bg-gradient-to-br from-blue-100/60 via-purple-50/60 to-pink-100/60 border-white/30'
-                }`}>
+              <div className={`glass-panel rounded-[2.5rem] p-8 md:p-12 transition-colors duration-300`}>
 
                 {/* Header with Loading Icon */}
                 <div data-aos="fade-left" className="text-left mb-8">
                   <div className="flex items-center mb-6">
-                    <div className="w-14 h-8 md:w-16 md:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mr-3 shadow-lg">
+                    <div className="w-14 h-8 md:w-16 md:h-12 bg-gradient-to-br from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 rounded-2xl flex items-center justify-center mr-3 shadow-lg">
                       {loading ? (
                         <div className="w-5 h-5 md:w-6 md:h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                       ) : (
@@ -193,11 +190,11 @@ const JournalPage = () => {
                   <div className="flex justify-center">
                     <button
                       data-aos="fade-down"
-                      className="group relative px-12 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white font-bold rounded-2xl transition-all duration-500 transform hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none overflow-hidden"
+                      className="group relative px-12 py-4 bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 text-white font-bold rounded-2xl transition-all duration-500 transform hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none overflow-hidden"
                       type="submit"
                       disabled={loading || !text.trim()}
                     >
-                      <div className="absolute inset-0 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                       <span className="relative z-10 flex items-center">
                         {loading ? (
@@ -291,7 +288,7 @@ const JournalPage = () => {
                               : result.sentiment === "NEGATIVE"
                                 ? "bg-gradient-to-r from-red-400 to-red-600"
                                 : result.sentiment === "NEUTRAL"
-                                  ? "bg-gradient-to-r from-yellow-400 to-yellow-600"
+                                  ? "bg-gradient-to-r from-blue-400 to-blue-600"
                                   : "bg-gradient-to-r from-gray-400 to-gray-600"
                             }`}
                         >
@@ -351,8 +348,8 @@ const JournalPage = () => {
                     }`}
                 >
                   <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-6 shadow-inner ${theme === 'dark'
-                      ? 'bg-gradient-to-br from-blue-800 to-purple-800'
-                      : 'bg-gradient-to-br from-blue-100 to-purple-100'
+                      ? 'bg-gradient-to-br from-blue-800 to-sky-800'
+                      : 'bg-gradient-to-br from-blue-100 to-sky-100'
                     }`}>
                     <svg
                       className="w-6 h-6 text-blue-600"
@@ -387,8 +384,8 @@ const JournalPage = () => {
                     }`}
                 >
                   <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-6 shadow-inner ${theme === 'dark'
-                      ? 'bg-gradient-to-br from-green-800 to-teal-800'
-                      : 'bg-gradient-to-br from-green-100 to-teal-100'
+                      ? 'bg-gradient-to-br from-green-800 to-sky-800'
+                      : 'bg-gradient-to-br from-green-100 to-sky-100'
                     }`}>
                     <svg
                       className="w-6 h-6 text-green-600"
@@ -423,8 +420,8 @@ const JournalPage = () => {
                     }`}
                 >
                   <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-6 shadow-inner ${theme === 'dark'
-                      ? 'bg-gradient-to-br from-purple-800 to-pink-800'
-                      : 'bg-gradient-to-br from-purple-100 to-pink-100'
+                      ? 'bg-gradient-to-br from-sky-800 to-blue-800'
+                      : 'bg-gradient-to-br from-sky-100 to-blue-100'
                     }`}>
                     <svg
                       className="w-6 h-6 text-purple-600"

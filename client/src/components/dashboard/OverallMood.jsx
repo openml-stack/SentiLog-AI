@@ -57,7 +57,7 @@ const OverallMood = () => {
         </div>
         
         <div className="text-right">
-          <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-indigo-500">
+          <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800">
             {moodLabel}
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Based on all entries</p>

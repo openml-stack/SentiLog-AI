@@ -23,7 +23,7 @@ const ActionButtons = () => {
   const handleSettings = () => navigateTo('/about'); // Assuming path is /settings
 
   const primaryButtonClass = `
-    flex items-center justify-center gap-3 bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-semibold 
+    flex items-center justify-center gap-3 bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 text-white font-semibold 
     py-3 px-4 rounded-xl shadow-lg hover:shadow-xl hover:opacity-95 transition 
     transform hover:-translate-y-0.5
   `;

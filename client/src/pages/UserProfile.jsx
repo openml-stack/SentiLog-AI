@@ -114,12 +114,12 @@ function UserProfile() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-blue-100 via-indigo-100 to-pink-100 min-h-screen px-4 py-16 flex justify-center items-start relative overflow-hidden">
+    <div className="bg-slate-100 dark:bg-slate-900 min-h-screen px-4 py-16 flex justify-center items-start relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-48 -right-48 w-[30rem] h-[30rem] bg-gradient-to-br from-purple-300 to-blue-200 rounded-full opacity-25 blur-[140px]" />
-        <div className="absolute -bottom-40 -left-40 w-[28rem] h-[28rem] bg-gradient-to-tr from-pink-300 to-yellow-200 rounded-full opacity-25 blur-[120px]" />
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-br from-indigo-200 to-cyan-200 rounded-full opacity-15 blur-[100px]" />
-        <div className="absolute bottom-1/3 right-1/4 w-60 h-60 bg-gradient-to-br from-teal-200 to-blue-200 rounded-full opacity-10 blur-[90px]" />
+        <div className="absolute -top-48 -right-48 w-[30rem] h-[30rem] bg-gradient-to-br from-sky-300 to-blue-200 rounded-full opacity-25 blur-[140px]" />
+        <div className="absolute -bottom-40 -left-40 w-[28rem] h-[28rem] bg-gradient-to-tr from-blue-300 to-blue-200 rounded-full opacity-25 blur-[120px]" />
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-br from-blue-200 to-sky-200 rounded-full opacity-15 blur-[100px]" />
+        <div className="absolute bottom-1/3 right-1/4 w-60 h-60 bg-gradient-to-br from-sky-200 to-blue-200 rounded-full opacity-10 blur-[90px]" />
       </div>
 
       <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg p-8">
@@ -209,7 +209,7 @@ function UserProfile() {
           {/* Save button */}
           <button
             type="submit"
-            className="mt-8 w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg shadow hover:opacity-90 transition"
+            className="mt-8 w-full px-6 py-3 bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 text-white rounded-lg shadow hover:opacity-90 transition"
             disabled={isLoading}
           >
             {isLoading ? 'Saving...' : 'Save Changes'}

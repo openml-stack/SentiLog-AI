@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../context/ThemeContext";
+import { motion } from "framer-motion";
 
 const scrollToDemo = () => {
   const demo = document.getElementById("live-demo-section");
@@ -124,15 +125,18 @@ const HeroSection = () => {
     >
       <AnimatedBackground theme={theme} />
       <div className="relative z-20 flex flex-col items-center justify-center px-4">
-        <h1
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className={`text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 tracking-tight leading-tight transition-colors duration-300 ${
             theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
           }`}
         >
-          <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient-move bg-300%">
+          <span className="bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 bg-clip-text text-transparent animate-gradient-move bg-300%">
             SentiLog{" "}
             <span className="relative inline-block px-2">
-              <span className="text-white bg-gradient-to-r from-pink-500 to-blue-500 px-2 py-1 rounded shadow-lg">
+              <span className="text-white bg-gradient-to-br from-sky-400 to-blue-600 dark:from-sky-500 dark:to-blue-700 px-2 py-1 rounded shadow-lg">
                 AI
               </span>
             </span>
@@ -145,23 +149,32 @@ const HeroSection = () => {
           >
             AI-powered sentiment insights for your world
           </span>
-        </h1>
+        </motion.h1>
 
-        <p
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className={`text-base md:text-lg lg:text-xl mb-8 max-w-2xl mx-auto transition-colors duration-300 ${
-            theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+            theme === 'dark' ? 'text-zinc-400' : 'text-zinc-600'
           }`}
         >
           Experience real-time emotion and sentiment analysis. Discover patterns
           in news and your own mood, powered by advanced AI.
-        </p>
+        </motion.p>
 
-        <button
-          onClick={scrollToDemo}
-          className="px-8 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white text-lg font-semibold rounded-full shadow-lg hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-purple-300"
+        <motion.div
+           initial={{ opacity: 0, scale: 0.9 }}
+           animate={{ opacity: 1, scale: 1 }}
+           transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
         >
-          Try Live Demo
-        </button>
+          <button
+            onClick={scrollToDemo}
+            className="px-8 py-4 bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 text-white text-lg font-semibold rounded-full shadow-lg hover:shadow-pink-500/30 hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-purple-300"
+          >
+            Try Live Demo
+          </button>
+        </motion.div>
       </div>
     </section>
   );

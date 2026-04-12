@@ -5,7 +5,7 @@ const AnimatedBackground = ({ theme }) => (
     {/* Solid background */}
     <div 
       className={`absolute inset-0 w-full h-full transition-colors duration-300 ${
-        theme === 'dark' ? 'bg-gradient-to-br from-gray-900 via-slate-900 to-black' : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50'
+        theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'
       }`}
     />
     

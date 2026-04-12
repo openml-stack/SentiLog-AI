@@ -40,7 +40,7 @@ export default function ForgotPassword() {
           {error && <p className="text-red-600">{error}</p>}
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white py-3 rounded hover:scale-105 transition-all duration-300 shadow-lg"
+            className="w-full bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 text-white py-3 rounded hover:scale-105 transition-all duration-300 shadow-lg"
           >
             Send Reset Link
           </button>
