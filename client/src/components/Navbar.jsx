@@ -22,7 +22,7 @@ const navLinks = [
 
 const Logo = () => (
   <span className="flex items-center gap-2 select-none transition-all duration-300">
-    <img src="/SentiLog.png" className="w-8 h-8 rounded-lg shadow-sm" alt="Logo" />
+    <img src="/SentiLog.png" className="w-8 h-8 rounded-lg shadow-[0_0_10px_rgba(2,132,199,0.5)] dark:shadow-[0_0_15px_rgba(56,189,248,0.5)] transition-all duration-300" alt="Logo" />
     <span className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-sky-600 to-blue-700 dark:from-sky-700 dark:to-blue-800 bg-clip-text text-transparent">
       SentiLog <span className="animate-pulse">AI</span>
     </span>

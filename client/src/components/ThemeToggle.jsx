@@ -56,13 +56,13 @@ const ThemeToggle = () => {
           className="sr-only peer"
         />
         <div className="w-14 h-8 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-slate-700 transition duration-300 ease-in-out shadow-inner border border-gray-400/50 peer-checked:border-slate-600"></div>
-        <div className="absolute left-1.5 top-1 w-6 h-6 bg-white rounded-full transition-transform duration-300 ease-in-out peer-checked:translate-x-6 shadow-md border border-gray-200"></div>
-        <span className="absolute text-gray-700 left-2.5 top-2 text-xs peer-checked:hidden drop-shadow-sm">
-          <Sun size={16} />
-        </span>
-        <span className="absolute text-yellow-300 right-2 top-2 text-xs hidden peer-checked:block drop-shadow-sm">
-           <Moon size={16} />
-        </span>
+        <div className="absolute left-1.5 top-1 w-6 h-6 bg-white rounded-full transition-transform duration-300 ease-in-out peer-checked:translate-x-5 shadow-md border border-gray-200 flex items-center justify-center">
+          {theme === 'dark' ? (
+            <Moon size={14} className="text-black drop-shadow-sm" />
+          ) : (
+            <Sun size={14} className="text-gray-800 drop-shadow-sm" />
+          )}
+        </div>
       </label>
     </div>
   );
